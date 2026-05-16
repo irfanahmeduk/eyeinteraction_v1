@@ -31,7 +31,7 @@ export function FooterNewsletter() {
                 name="email"
                 required
                 placeholder="your@email.com"
-                className="pl-9 bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 hover:border-slate-600 focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+                className="pl-9 !bg-slate-800 !border-slate-700 !text-white placeholder:!text-slate-500 hover:!border-slate-600 focus:!border-brand-500 focus:!ring-1 focus:!ring-brand-500/40 focus:!shadow-none"
               />
             </div>
             <Button type="submit" size="sm" className="shrink-0 px-4 py-2.5 h-auto">
