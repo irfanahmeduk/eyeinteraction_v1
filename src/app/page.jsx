@@ -3,7 +3,7 @@ import { StatsSection } from "@/components/sections/StatsSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 import { ProcessSection } from "@/components/sections/ProcessSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
-import { CTASection } from "@/components/sections/CTASection";
+import { FAQSection } from "@/components/sections/FAQSection";
 
 export const metadata = {
   title: "Eye Interaction | Global Visa Endorsement Platform",
@@ -19,7 +19,7 @@ export default function HomePage() {
       <ServicesSection />
       <ProcessSection />
       <TestimonialsSection />
-      <CTASection />
+      <FAQSection />
     </>
   );
 }

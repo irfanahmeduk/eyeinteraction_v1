@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useStickyNav } from "@/hooks";
@@ -34,39 +35,32 @@ export function Navbar() {
         className={cn(
           "fixed top-0 left-0 right-0 z-50",
           "transition-all duration-300 ease-smooth",
-          // Show/hide based on scroll direction
           visible ? "translate-y-0" : "-translate-y-full",
-          // Background: transparent at top, glass when scrolled
           scrolled
-            ? "glass border-b border-slate-200/80 shadow-sm py-3"
-            : "bg-slate-50/80 backdrop-blur-sm border-b border-transparent py-5"
+            ? "glass border-b border-slate-200/80 shadow-sm py-2"
+            : "bg-white/95 backdrop-blur-sm border-b border-transparent py-3"
         )}
       >
         <nav className="container-custom flex items-center justify-between">
+
           {/* ── Logo ────────────────────────────────── */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 group"
+            className="flex items-center group"
             aria-label="Eye Interaction Home"
           >
-            {/* Replace with actual logo */}
-            <div
+            <Image
+              src="/logo.png"
+              alt="Eye Interaction"
+              height={scrolled ? 36 : 44}
+              width={scrolled ? 180 : 220}
+              priority
               className={cn(
-                "w-9 h-9 rounded-xl flex items-center justify-center",
-                "bg-gradient-blue shadow-blue-sm",
-                "transition-transform duration-300 group-hover:scale-105"
+                "object-contain object-left",
+                "transition-all duration-300",
+                "group-hover:opacity-80"
               )}
-            >
-              <span className="text-white font-bold text-sm">EI</span>
-            </div>
-            <span
-              className={cn(
-                "font-display font-bold text-lg tracking-tight text-slate-900",
-                "transition-colors duration-200"
-              )}
-            >
-              Eye Interaction
-            </span>
+            />
           </Link>
 
           {/* ── Desktop Nav ──────────────────────────── */}
@@ -191,9 +185,16 @@ export function Navbar() {
           )}
         >
           <div className="flex flex-col h-full">
+
             {/* Header */}
             <div className="flex items-center justify-between p-5 border-b border-slate-100">
-              <span className="font-display font-bold text-brand-900">Menu</span>
+              <Image
+                src="/logo.png"
+                alt="Eye Interaction"
+                height={32}
+                width={140}
+                className="object-contain object-left"
+              />
               <button
                 onClick={() => setMobileOpen(false)}
                 className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100"

@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { ArrowRight, CheckCircle2, Shield, Globe, Users } from "lucide-react";
+import { CheckCircle2, Shield, Globe, Users } from "lucide-react";
 
 export const metadata = {
   title: "About Us",
@@ -45,33 +44,16 @@ const WHY_US = [
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* ── Page header (light hero) ──────────────────────── */}
-      <div className="relative overflow-hidden border-b border-slate-200/80">
-        <div className="absolute inset-0 bg-gradient-hero" />
-        <div className="absolute inset-0 bg-gradient-hero-accent pointer-events-none" />
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-24 -right-24 w-[420px] h-[420px] rounded-full bg-brand-200/40 blur-[90px] animate-pulse-slow" />
-          <div className="absolute -bottom-20 -left-16 w-[360px] h-[360px] rounded-full bg-brand-100/50 blur-[80px] animate-pulse-slow [animation-delay:2s]" />
-        </div>
-        <div
-          className="absolute inset-0 opacity-[0.35] pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(148,163,184,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.12) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
-        />
-
-        <div className="container-custom relative z-10 pt-28 pb-16 text-center">
-          <span className="inline-flex items-center gap-2 glass-light rounded-full px-4 py-2 mb-6 text-xs font-bold uppercase tracking-widest text-brand-600">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+      {/* Page Header */}
+      <div className="bg-gradient-blue text-white pt-28 pb-14">
+        <div className="container-custom text-center">
+          <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-200 mb-3 px-3 py-1 glass-dark rounded-full">
             About Eye Interaction
           </span>
-          <h1 className="text-display-lg lg:text-display-xl font-display font-bold text-slate-900 mb-4">
-            Your Trusted{" "}
-            <span className="heading-gradient-accent">Visa Partner</span>
+          <h1 className="text-display-lg font-display font-bold mb-4">
+            Your Trusted Visa Partner
           </h1>
-          <p className="text-slate-600 text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-blue-100/80 text-lg max-w-2xl mx-auto">
             We help professionals and families navigate visa endorsement with clarity,
             expertise, and a proven track record — so you can focus on your next chapter.
           </p>
@@ -163,41 +145,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── CTA (light) ───────────────────────────────────── */}
-      <section className="section-padding pt-0 bg-slate-50">
-        <div className="container-custom">
-          <div
-            className="relative overflow-hidden rounded-4xl border border-brand-100 bg-white p-10 md:p-16 text-center shadow-card"
-            data-animate
-          >
-            <div className="absolute inset-0 bg-gradient-blue-light pointer-events-none opacity-80" />
-            <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-brand-200/30 blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-brand-100/40 blur-3xl pointer-events-none" />
-
-            <div className="relative z-10">
-              <span className="inline-block text-xs font-bold uppercase tracking-widest text-brand-600 mb-4 px-3 py-1 glass-light rounded-full">
-                Get Started
-              </span>
-              <h2 className="text-display-md font-display font-bold text-slate-900 mb-4">
-                Ready to work with us?
-              </h2>
-              <p className="text-slate-600 text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-                Start with a free eligibility check — our experts will review your profile
-                within 24 hours.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3.5 justify-center">
-                <Link href="/eligibility" className="btn btn-primary text-sm px-8 py-3.5">
-                  Check Eligibility
-                  <ArrowRight size={16} />
-                </Link>
-                <Link href="/contact" className="btn btn-outline text-sm px-8 py-3.5 bg-white">
-                  Contact Us
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
