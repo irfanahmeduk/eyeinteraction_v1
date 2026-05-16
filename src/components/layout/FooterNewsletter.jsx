@@ -1,6 +1,8 @@
 "use client";
 
 import { Mail, Send } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export function FooterNewsletter() {
   return (
@@ -22,23 +24,20 @@ export function FooterNewsletter() {
             <div className="relative flex-1 md:w-72">
               <Mail
                 size={14}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none z-10"
               />
-              <input
+              <Input
                 type="email"
                 name="email"
                 required
                 placeholder="your@email.com"
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
+                className="pl-9 !bg-slate-800 !border-slate-700 !text-white placeholder:!text-slate-500 hover:!border-slate-600 focus:!border-brand-500 focus:!ring-1 focus:!ring-brand-500/40 focus:!shadow-none"
               />
             </div>
-            <button
-              type="submit"
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition-colors shrink-0"
-            >
+            <Button type="submit" size="sm" className="shrink-0 px-4 py-2.5 h-auto">
               Subscribe
               <Send size={13} />
-            </button>
+            </Button>
           </form>
         </div>
       </div>
