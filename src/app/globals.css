@@ -42,6 +42,28 @@
   --transition-base:   250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow:   400ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* shadcn/ui (aligned with brand tokens) */
+  --background: 210 20% 98%;
+  --foreground: 215 25% 17%;
+  --card: 0 0% 100%;
+  --card-foreground: 215 25% 17%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 25% 17%;
+  --primary: 214 66% 43%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 214 40% 25%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 210 20% 96%;
+  --muted-foreground: 215 16% 47%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 215 25% 17%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 214 20% 91%;
+  --input: 214 20% 91%;
+  --ring: 214 66% 43%;
+  --radius: 0.75rem;
 }
 
 /* ─────────────────────────────────────────────────

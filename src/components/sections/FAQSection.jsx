@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ChevronDown,
   HelpCircle,
@@ -10,7 +9,12 @@ import {
   Mail,
   ArrowRight,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const FAQS = [
   {
@@ -40,81 +44,7 @@ const FAQS = [
   },
 ];
 
-function FAQItem({
-  question,
-  answer,
-  index,
-  isOpen,
-  onToggle,
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: index * 0.07 }}
-      className={cn(
-        "rounded-2xl border transition-all duration-200 overflow-hidden",
-        isOpen
-          ? "border-brand-200 bg-brand-50/60 shadow-sm"
-          : "border-slate-200/80 bg-white hover:border-slate-300"
-      )}
-    >
-      <button
-        type="button"
-        onClick={onToggle}
-        className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
-        aria-expanded={isOpen}
-      >
-        <div className="flex items-center gap-3 min-w-0">
-          <span
-            className={cn(
-              "shrink-0 w-6 h-6 rounded-md flex items-center justify-center text-xs font-bold transition-colors duration-200",
-              isOpen
-                ? "bg-brand-600 text-white"
-                : "bg-slate-100 text-slate-400"
-            )}
-          >
-            {index + 1}
-          </span>
-          <span className="font-semibold text-slate-900 text-sm md:text-base">
-            {question}
-          </span>
-        </div>
-        <span
-          className={cn(
-            "shrink-0 w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-200",
-            isOpen
-              ? "bg-brand-600 text-white rotate-180"
-              : "bg-slate-100 text-slate-400"
-          )}
-        >
-          <ChevronDown size={16} />
-        </span>
-      </button>
-
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <p className="px-5 pb-5 pt-1 text-sm text-slate-600 leading-relaxed pl-14">
-              {answer}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-}
-
 export function FAQSection() {
-  const [openIndex, setOpenIndex] = useState(0);
-
   return (
     <section className="section-padding bg-slate-50/60 border-t border-slate-100">
       <div className="container-custom">
@@ -177,21 +107,40 @@ export function FAQSection() {
             </motion.div>
           </div>
 
-          {/* ── Right: FAQ Accordion ──────────────────── */}
-          <div className="lg:col-span-3 space-y-2.5">
+          {/* ── Right: FAQ Accordion (shadcn) ─────────── */}
+          <Accordion
+            type="single"
+            collapsible
+            defaultValue="item-0"
+            className="lg:col-span-3 space-y-2.5"
+          >
             {FAQS.map((faq, index) => (
-              <FAQItem
+              <AccordionItem
                 key={faq.question}
-                question={faq.question}
-                answer={faq.answer}
-                index={index}
-                isOpen={openIndex === index}
-                onToggle={() =>
-                  setOpenIndex(openIndex === index ? -1 : index)
-                }
-              />
+                value={`item-${index}`}
+                className="border-slate-200/80 bg-white hover:border-slate-300 data-[state=open]:border-brand-200 data-[state=open]:bg-brand-50/60 data-[state=open]:shadow-sm"
+              >
+                <AccordionTrigger className="hover:no-underline py-4 [&[data-state=open]_.faq-chevron]:rotate-180 [&[data-state=open]_.faq-chevron]:bg-brand-600 [&[data-state=open]_.faq-chevron]:text-white [&[data-state=open]_.faq-num]:bg-brand-600 [&[data-state=open]_.faq-num]:text-white">
+                  <div className="flex items-center gap-3 min-w-0 text-left">
+                    <span className="faq-num shrink-0 w-6 h-6 rounded-md flex items-center justify-center text-xs font-bold bg-slate-100 text-slate-400 transition-colors">
+                      {index + 1}
+                    </span>
+                    <span className="font-semibold text-slate-900 text-sm md:text-base">
+                      {faq.question}
+                    </span>
+                  </div>
+                  <span className="faq-chevron shrink-0 w-7 h-7 rounded-lg flex items-center justify-center bg-slate-100 text-slate-400 transition-all duration-200">
+                    <ChevronDown size={16} />
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p className="text-sm text-slate-600 leading-relaxed pl-14 pr-2">
+                    {faq.answer}
+                  </p>
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
+          </Accordion>
         </div>
       </div>
     </section>

@@ -8,6 +8,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, ChevronLeft, CheckCircle2, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { FormSelect } from "@/components/forms/FormSelect";
 
 // ── Validation Schema ────────────────────────────────────────
 const eligibilitySchema = z.object({
@@ -86,13 +91,13 @@ const EMPLOYMENT_STATUSES = [
 ];
 
 // ── Sub-Components ───────────────────────────────────────────
-function FormField({ label, error, required, children }) {
+function FormField({ label, error, required, children, htmlFor }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-medium text-slate-700">
+      <Label htmlFor={htmlFor}>
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
-      </label>
+      </Label>
       {children}
       {error && (
         <p className="text-xs text-red-500 flex items-center gap-1">
@@ -103,44 +108,32 @@ function FormField({ label, error, required, children }) {
   );
 }
 
-function Input({ className, ...props }) {
-  return (
-    <input
-      className={cn("input-base", className)}
-      {...props}
-    />
-  );
-}
+const DURATION_OPTIONS = [
+  "Less than 6 months",
+  "6–12 months",
+  "1–2 years",
+  "2–5 years",
+  "Permanent residency",
+];
 
-function Select({ className, children, ...props }) {
+function CheckboxField({ id, label, checked, onChange, description }) {
   return (
-    <select className={cn("input-base", className)} {...props}>
-      {children}
-    </select>
-  );
-}
-
-function CheckboxField({ label, checked, onChange, description }) {
-  return (
-    <label className="flex items-start gap-3 p-4 rounded-xl border border-slate-200 hover:border-brand-300 hover:bg-brand-50/30 transition-colors cursor-pointer group">
-      <div
-        className={cn(
-          "w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5 transition-colors border-2",
-          checked
-            ? "bg-brand-600 border-brand-600"
-            : "border-slate-300 group-hover:border-brand-400"
-        )}
-        onClick={() => onChange(!checked)}
-      >
-        {checked && <CheckCircle2 size={12} className="text-white" />}
-      </div>
-      <div>
-        <span className="text-sm font-medium text-slate-700">{label}</span>
+    <div className="flex items-start gap-3 p-4 rounded-xl border border-slate-200 hover:border-brand-300 hover:bg-brand-50/30 transition-colors">
+      <Checkbox
+        id={id}
+        checked={checked}
+        onCheckedChange={(value) => onChange(value === true)}
+        className="mt-0.5"
+      />
+      <div className="grid gap-1 leading-snug">
+        <Label htmlFor={id} className="text-sm font-medium text-slate-700 cursor-pointer">
+          {label}
+        </Label>
         {description && (
-          <p className="text-xs text-slate-400 mt-0.5">{description}</p>
+          <p className="text-xs text-slate-400">{description}</p>
         )}
       </div>
-    </label>
+    </div>
   );
 }
 
@@ -152,6 +145,7 @@ export function EligibilityForm() {
 
   const {
     register,
+    control,
     handleSubmit,
     watch,
     setValue,
@@ -312,16 +306,22 @@ export function EligibilityForm() {
                   <Input type="tel" placeholder="+44 7700 900000" {...register("phone")} />
                 </FormField>
                 <FormField label="Nationality" error={errors.nationality?.message} required>
-                  <Select {...register("nationality")}>
-                    <option value="">Select nationality…</option>
-                    {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </Select>
+                  <FormSelect
+                    control={control}
+                    name="nationality"
+                    placeholder="Select nationality…"
+                    options={COUNTRIES}
+                    error={errors.nationality?.message}
+                  />
                 </FormField>
                 <FormField label="Current Country" error={errors.currentCountry?.message} required>
-                  <Select {...register("currentCountry")}>
-                    <option value="">Select country…</option>
-                    {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </Select>
+                  <FormSelect
+                    control={control}
+                    name="currentCountry"
+                    placeholder="Select country…"
+                    options={COUNTRIES}
+                    error={errors.currentCountry?.message}
+                  />
                 </FormField>
               </div>
             )}
@@ -330,33 +330,38 @@ export function EligibilityForm() {
             {currentStep === 2 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <FormField label="Visa Type" error={errors.visaType?.message} required>
-                  <Select {...register("visaType")}>
-                    <option value="">Select visa type…</option>
-                    {VISA_TYPES.map((v) => <option key={v} value={v}>{v}</option>)}
-                  </Select>
+                  <FormSelect
+                    control={control}
+                    name="visaType"
+                    placeholder="Select visa type…"
+                    options={VISA_TYPES}
+                    error={errors.visaType?.message}
+                  />
                 </FormField>
                 <FormField label="Target Country" error={errors.targetCountry?.message} required>
-                  <Select {...register("targetCountry")}>
-                    <option value="">Select country…</option>
-                    {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </Select>
+                  <FormSelect
+                    control={control}
+                    name="targetCountry"
+                    placeholder="Select country…"
+                    options={COUNTRIES}
+                    error={errors.targetCountry?.message}
+                  />
                 </FormField>
                 <FormField label="Intended Duration" error={errors.intendedDuration?.message} required>
-                  <Select {...register("intendedDuration")}>
-                    <option value="">Select duration…</option>
-                    <option>Less than 6 months</option>
-                    <option>6–12 months</option>
-                    <option>1–2 years</option>
-                    <option>2–5 years</option>
-                    <option>Permanent residency</option>
-                  </Select>
+                  <FormSelect
+                    control={control}
+                    name="intendedDuration"
+                    placeholder="Select duration…"
+                    options={DURATION_OPTIONS}
+                    error={errors.intendedDuration?.message}
+                  />
                 </FormField>
                 <div className="md:col-span-2">
                   <FormField label="Purpose of Visit" error={errors.purposeOfVisit?.message} required>
-                    <textarea
+                    <Textarea
                       placeholder="Briefly describe your purpose of visit…"
                       rows={3}
-                      className="input-base resize-none"
+                      className={cn(errors.purposeOfVisit && "error")}
                       {...register("purposeOfVisit")}
                     />
                   </FormField>
@@ -371,22 +376,31 @@ export function EligibilityForm() {
                   <Input placeholder="e.g. Software Engineer" {...register("occupation")} />
                 </FormField>
                 <FormField label="Employment Status" error={errors.employmentStatus?.message} required>
-                  <Select {...register("employmentStatus")}>
-                    <option value="">Select status…</option>
-                    {EMPLOYMENT_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
-                  </Select>
+                  <FormSelect
+                    control={control}
+                    name="employmentStatus"
+                    placeholder="Select status…"
+                    options={EMPLOYMENT_STATUSES}
+                    error={errors.employmentStatus?.message}
+                  />
                 </FormField>
                 <FormField label="Annual Income" error={errors.annualIncome?.message} required>
-                  <Select {...register("annualIncome")}>
-                    <option value="">Select range…</option>
-                    {INCOME_RANGES.map((r) => <option key={r} value={r}>{r}</option>)}
-                  </Select>
+                  <FormSelect
+                    control={control}
+                    name="annualIncome"
+                    placeholder="Select range…"
+                    options={INCOME_RANGES}
+                    error={errors.annualIncome?.message}
+                  />
                 </FormField>
                 <FormField label="Years of Experience" error={errors.yearsExperience?.message} required>
-                  <Select {...register("yearsExperience")}>
-                    <option value="">Select experience…</option>
-                    {EXPERIENCE_LEVELS.map((e) => <option key={e} value={e}>{e}</option>)}
-                  </Select>
+                  <FormSelect
+                    control={control}
+                    name="yearsExperience"
+                    placeholder="Select experience…"
+                    options={EXPERIENCE_LEVELS}
+                    error={errors.yearsExperience?.message}
+                  />
                 </FormField>
               </div>
             )}
@@ -398,6 +412,7 @@ export function EligibilityForm() {
                   Please indicate which documents you currently have available:
                 </p>
                 <CheckboxField
+                  id="hasPassport"
                   label="Valid Passport"
                   checked={watchedValues.hasPassport}
                   onChange={(v) => setValue("hasPassport", v)}
@@ -415,12 +430,14 @@ export function EligibilityForm() {
                   </motion.div>
                 )}
                 <CheckboxField
+                  id="hasBankStatements"
                   label="Bank Statements"
                   checked={watchedValues.hasBankStatements}
                   onChange={(v) => setValue("hasBankStatements", v)}
                   description="3–6 months of bank statements showing sufficient funds"
                 />
                 <CheckboxField
+                  id="hasEmploymentLetter"
                   label="Employment Letter"
                   checked={watchedValues.hasEmploymentLetter}
                   onChange={(v) => setValue("hasEmploymentLetter", v)}
@@ -433,6 +450,7 @@ export function EligibilityForm() {
             {currentStep === 5 && (
               <div className="space-y-4">
                 <CheckboxField
+                  id="previousVisaRefusals"
                   label="Previous Visa Refusals"
                   checked={watchedValues.previousVisaRefusals}
                   onChange={(v) => setValue("previousVisaRefusals", v)}
@@ -444,9 +462,8 @@ export function EligibilityForm() {
                     animate={{ opacity: 1, height: "auto" }}
                   >
                     <FormField label="Please provide details">
-                      <textarea
+                      <Textarea
                         rows={3}
-                        className="input-base resize-none"
                         placeholder="Which country, when, and reason if known…"
                         {...register("refusalDetails")}
                       />
@@ -456,6 +473,7 @@ export function EligibilityForm() {
 
                 <div className="pt-2 space-y-3">
                   <CheckboxField
+                    id="agreeToTerms"
                     label="I agree to the Terms of Service"
                     checked={watchedValues.agreeToTerms}
                     onChange={(v) => setValue("agreeToTerms", v)}
@@ -465,6 +483,7 @@ export function EligibilityForm() {
                   )}
 
                   <CheckboxField
+                    id="agreeToPrivacy"
                     label="I agree to the Privacy Policy"
                     checked={watchedValues.agreeToPrivacy}
                     onChange={(v) => setValue("agreeToPrivacy", v)}
@@ -474,6 +493,7 @@ export function EligibilityForm() {
                   )}
 
                   <CheckboxField
+                    id="subscribeToUpdates"
                     label="Subscribe to visa updates and news"
                     checked={watchedValues.subscribeToUpdates}
                     onChange={(v) => setValue("subscribeToUpdates", v)}
