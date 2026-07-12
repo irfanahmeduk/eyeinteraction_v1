@@ -15,24 +15,24 @@ import { FooterNewsletter } from "./FooterNewsletter";
 
 const FOOTER_LINKS = {
   services: [
-    { label: "Work Visa", href: "/services/work-visa" },
-    { label: "Skilled Worker", href: "/services/skilled-worker" },
-    { label: "Business Visa", href: "/services/business-visa" },
-    { label: "Family Reunification", href: "/services/family" },
-    { label: "Student Visa", href: "/services/student" },
+    { label: "UK Global Talent Profile Development", href: "/services/work-visa" },
+    { label: "Document Assessment", href: "/services/skilled-worker" },
+    { label: "AI Detection & Content Review", href: "/services/business-visa" },
+    { label: "Expert Mentoring Sessions", href: "/services/family" },
+    { label: "UK Global Talent Visa Guidance", href: "/services/student" },
   ],
   company: [
     { label: "About Us", href: "/about" },
     { label: "Success Stories", href: "/success-stories" },
-    { label: "Our Team", href: "/about#team" },
-    { label: "Careers", href: "/careers" },
+    { label: "FAQ", href: "/about#team" },
     { label: "Blog", href: "/blog" },
+    { label: "Contact", href: "/contact" },
   ],
   legal: [
     { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
-    { label: "Cookie Policy", href: "/cookies" },
+    { label: "Terms & Conditions", href: "/terms" },
     { label: "Disclaimer", href: "/disclaimer" },
+    { label: "Copyright", href: "/copyright" },
   ],
 };
 
@@ -44,9 +44,9 @@ const SOCIAL_LINKS = [
 ];
 
 const TRUST_BADGES = [
-  "5,000+ Successful Applicants",
-  "98% Success Rate",
-  "OISC Regulated",
+  "500+ Profiles Reviewed",
+  "Expert-Led Guidance",
+  "UK Global Talent Specialists",
 ];
 
 export function Footer() {
@@ -64,11 +64,10 @@ export function Footer() {
                 Start Today
               </p>
               <h2 className="text-3xl md:text-4xl font-display font-bold text-white leading-tight mb-3">
-                Ready to start your journey?
+              Ready to Secure Your UK Global Talent Visa?
               </h2>
               <p className="text-slate-400 text-base leading-relaxed">
-                Join thousands of successful applicants who trusted Eye Interaction
-                with their future.
+              Build a stronger application with expert profile development, document assessment, and personalized guidance from experienced UK Global Talent Visa specialists.
               </p>
 
               <div className="flex flex-wrap gap-x-5 gap-y-2 mt-5">
@@ -95,7 +94,7 @@ export function Footer() {
                 href="/contact"
                 className="flex items-center justify-center gap-1.5 px-6 py-3 rounded-lg text-sm font-semibold text-white border border-slate-600 hover:border-slate-400 hover:bg-slate-800 transition-all duration-200"
               >
-                Talk to an Expert
+                Book a Consultation
                 <ArrowUpRight size={15} />
               </Link>
             </div>
@@ -122,8 +121,7 @@ export function Footer() {
             </Link>
 
             <p className="text-slate-400 text-sm leading-relaxed mb-7 max-w-xs">
-              Global talent platform providing expert visa endorsement and
-              immigration services with industry-leading success rates.
+            Eye Interaction specializes in UK Global Talent Visa (GTV) support, offering profile development, evidence strategy, document assessment, AI detection, and one-to-one mentoring to help exceptional professionals strengthen their endorsement applications.
             </p>
 
             <ul className="space-y-3">
@@ -153,7 +151,7 @@ export function Footer() {
                 <span className="w-7 h-7 rounded-md bg-slate-800 flex items-center justify-center shrink-0 mt-0.5">
                   <MapPin size={13} />
                 </span>
-                <span>123 Tech City, London, EC1V 9LT, UK</span>
+                <span>London, United Kingdom</span>
               </li>
             </ul>
 
@@ -238,7 +236,7 @@ export function Footer() {
           <p>© {new Date().getFullYear()} Eye Interaction Ltd. All rights reserved.</p>
           <p className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-500 inline-block" />
-            Regulated by the OISC · Registration No: F12345678
+            Supporting professionals worldwide on their UK Global Talent Visa journey.
           </p>
         </div>
       </div>

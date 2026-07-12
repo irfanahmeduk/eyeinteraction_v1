@@ -7,36 +7,37 @@ import { Briefcase, Globe, Users, ArrowRight, CheckCircle } from "lucide-react";
 const SERVICES = [
   {
     icon: Briefcase,
-    title: "Work Visa Endorsement",
+    title: "UK Global Talent Profile Development",
     description:
-      "Expert support for skilled worker, intra-company transfer, and specialist visa routes.",
-    features: ["CV & profile review", "Employer sponsorship", "Priority processing"],
+      "Build a compelling UK Global Talent Visa profile from the ground up with expert guidance tailored to your achievements and career goals.",
+    features: ["Complete profile strategy", "Evidence planning & positioning", "Personal statement guidance"],
     color: "from-brand-400 to-brand-600",
-    href: "/services/work-visa",
+    href: "/eligibility",
     featured: false,
   },
   {
     icon: Globe,
-    title: "Global Talent Visa",
+    title: "Document Assessment & AI Detection",
     description:
-      "Exceptional talent endorsement for leaders in technology, arts, science and academia.",
+      "Ensure your UK Global Talent Visa documents are accurate, compliant, and AI-safe with a comprehensive expert review and authenticity analysis.",
     features: [
-      "Portfolio assessment",
-      "Expert endorsement letters",
-      "Fast-track available",
+      "Expert document assessment",
+      "AI content detection",
+      "Improvement recommendations",
     ],
     color: "from-brand-600 to-brand-800",
-    href: "/services/global-talent",
+    href: "/eligibility",
     featured: true,
   },
   {
     icon: Users,
-    title: "Family Reunification",
+    title: "1-to-1 Mentoring with Irfan Ahmed",
     description:
-      "Bringing families together with comprehensive spouse, child, and dependent visa support.",
-    features: ["Financial assessment", "Document preparation", "Appeals support"],
+      "Book a paid strategy session with Senior Mentor Irfan Ahmed for personalized guidance, application planning, and expert answers to your questions.",
+    features: ["Live consultation session", "Personalized visa roadmap", "Expert application advice"],
     color: "from-brand-700 to-brand-950",
-    href: "/services/family",
+    href: "/eligibility",
+    button: "Book a session",
     featured: false,
   },
 ];
@@ -52,12 +53,11 @@ export function ServicesSection() {
             Our Services
           </span>
           <h2 className="text-display-md font-display font-bold text-slate-900 mb-4">
-            Complete Visa{" "}
-            <span className="heading-gradient">Support Services</span>
+            Expert UK Global {' '}
+            <span className="heading-gradient">Talent Visa Services</span>
           </h2>
           <p className="text-slate-500 text-lg leading-relaxed">
-            From initial assessment to final approval — we guide you every step
-            of the way.
+          Everything you need for a successful UK Global Talent Visa application—from profile building and document assessment to one-to-one mentoring with industry experts.
           </p>
         </div>
 
@@ -113,7 +113,7 @@ export function ServicesSection() {
                 href={service.href}
                 className="flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:text-brand-700 transition-colors"
               >
-                Learn more{" "}
+                {service.button || 'Learn more '}
                 <ArrowRight
                   size={14}
                   className="group-hover:translate-x-1 transition-transform"

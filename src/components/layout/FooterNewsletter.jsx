@@ -11,10 +11,10 @@ export function FooterNewsletter() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
           <div>
             <h3 className="text-base font-semibold text-white mb-1">
-              Stay ahead with the latest visa updates
+            Stay Ahead with UK Global Talent Updates
             </h3>
             <p className="text-sm text-slate-400">
-              Get immigration news, policy changes & tips ? straight to your inbox. No spam.
+            Get expert insights, Home Office updates, endorsement guidance, and practical application tips—delivered straight to your inbox.
             </p>
           </div>
           <form
@@ -30,7 +30,7 @@ export function FooterNewsletter() {
                 type="email"
                 name="email"
                 required
-                placeholder="your@email.com"
+                placeholder="Enter your email address"
                 className="pl-9 !bg-slate-800 !border-slate-700 !text-white placeholder:!text-slate-500 hover:!border-slate-600 focus:!border-brand-500 focus:!ring-1 focus:!ring-brand-500/40 focus:!shadow-none"
               />
             </div>

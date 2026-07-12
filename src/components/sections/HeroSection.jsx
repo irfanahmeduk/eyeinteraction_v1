@@ -1,8 +1,9 @@
 "use client";
 
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Play, Star } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowRight, CheckCircle2, Play, ShieldCheck, Sparkles, Volume2, VolumeX } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const TRUST_BADGES = [
   "98% Success Rate",
@@ -25,6 +26,172 @@ const HERO_ANIMATIONS = {
   },
 };
 
+/* ─────────────────────────────────────────────────
+   THUMBNAIL FALLBACK — pure CSS/Tailwind, no image file
+   Shown when posterSrc is missing or fails to load, so the
+   hero never breaks or shows an empty box.
+───────────────────────────────────────────────── */
+function ThumbnailFallback() {
+  return (
+    <div className="absolute inset-0 w-full h-full bg-[linear-gradient(135deg,var(--color-secondary)_0%,var(--color-primary)_60%,var(--color-accent)_100%)]">
+      {/* Dot grid texture */}
+      <div
+        className="absolute inset-0 opacity-[0.18]"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+        }}
+      />
+      {/* Soft glow accents */}
+      <div className="absolute -top-16 -left-10 w-56 h-56 rounded-full bg-white/10 blur-[60px]" />
+      <div className="absolute -bottom-20 -right-16 w-72 h-72 rounded-full bg-white/10 blur-[70px]" />
+
+      {/* Center mark */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
+        <span className="flex items-center justify-center w-14 h-14 rounded-2xl bg-white/15 border border-white/25 backdrop-blur-sm">
+          <Sparkles size={22} className="text-white" />
+        </span>
+        <p className="text-white/90 text-sm font-semibold tracking-wide">
+          Client Success Story
+        </p>
+        <p className="text-white/60 text-xs max-w-[220px]">
+          From application to visa &mdash; in their own words
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────
+   VIDEO SHOWCASE — landscape (16:9), video-only focus
+   - Poster image loads instantly (no video weight on first paint)
+   - <video> element + source only mount after user clicks play
+   - preload="metadata" so the click-to-play feels instant without
+     downloading the full file upfront (keeps the page light)
+   - Muted-by-default + tap-to-unmute: autoplay-style feel, no
+     browser autoplay restrictions to fight
+───────────────────────────────────────────────── */
+function VideoShowcase({
+  posterSrc = "",
+  videoSrc = "/videos/success-story.mp4",
+  duration = "1:42",
+}) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [imgFailed, setImgFailed] = useState(false);
+  const videoRef = useRef(null);
+  const showFallback = !posterSrc || imgFailed;
+
+  const handlePlay = useCallback(() => {
+    setIsPlaying(true);
+  }, []);
+
+  const toggleMute = useCallback((e) => {
+    e.stopPropagation();
+    setIsMuted((prev) => {
+      if (videoRef.current) videoRef.current.muted = !prev;
+      return !prev;
+    });
+  }, []);
+
+  return (
+    <motion.div
+      className="relative w-full rounded-2xl overflow-hidden shadow-blue-xl border border-slate-200/80 bg-slate-900 aspect-video"
+      whileHover={{ y: -3 }}
+      transition={{ type: "spring", stiffness: 300, damping: 22 }}
+    >
+      <AnimatePresence initial={false} mode="wait">
+        {!isPlaying ? (
+          /* ── Poster state (default, cheap to load) ── */
+          <motion.button
+            key="poster"
+            type="button"
+            onClick={handlePlay}
+            aria-label="Play success story video"
+            className="group absolute inset-0 w-full h-full"
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            {showFallback ? (
+              <ThumbnailFallback />
+            ) : (
+              <img
+                src={posterSrc}
+                alt="A client at our office being guided through their visa endorsement application"
+                loading="eager"
+                fetchPriority="high"
+                onError={() => setImgFailed(true)}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            )}
+            {/* Readability gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/75 via-slate-900/5 to-slate-900/25" />
+
+            {/* Play button */}
+            <span className="absolute inset-0 flex items-center justify-center">
+              <motion.span
+                className="flex items-center justify-center w-16 h-16 rounded-full bg-white/95 shadow-blue-xl"
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              >
+                <Play size={22} fill="currentColor" className="text-brand-600 ml-1" />
+              </motion.span>
+            </span>
+
+            {/* Top-left trust badge */}
+            <span className="absolute top-3.5 left-3.5 inline-flex items-center gap-1.5 bg-black/35 backdrop-blur-sm text-white text-xs font-medium rounded-full px-3 py-1.5">
+              <ShieldCheck size={12} className="text-emerald-400" />
+              Verified client story
+            </span>
+
+            {/* Bottom meta row */}
+            <span className="absolute inset-x-0 bottom-0 flex items-center justify-between px-4 py-3.5">
+              <span className="text-white/90 text-xs font-medium">
+                From application to visa &mdash; in their words
+              </span>
+              <span className="text-white/90 text-xs font-medium tabular-nums bg-black/35 rounded-full px-2 py-0.5">
+                {duration}
+              </span>
+            </span>
+          </motion.button>
+        ) : (
+          /* ── Video state (only mounts on demand) ── */
+          <motion.div
+            key="video"
+            className="absolute inset-0 w-full h-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <video
+              ref={videoRef}
+              className="w-full h-full object-cover"
+              src={videoSrc}
+              poster={showFallback ? undefined : posterSrc}
+              autoPlay
+              muted={isMuted}
+              playsInline
+              controls
+              preload="metadata"
+              onEnded={() => setIsPlaying(false)}
+            />
+            <button
+              type="button"
+              onClick={toggleMute}
+              aria-label={isMuted ? "Unmute video" : "Mute video"}
+              className="absolute bottom-3.5 right-3.5 flex items-center justify-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-sm text-white hover:bg-black/60 transition-colors"
+            >
+              {isMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
 export function HeroSection() {
   return (
     <section
@@ -32,31 +199,14 @@ export function HeroSection() {
       aria-label="Hero"
     >
       {/* ── Background ──────────────────────────────── */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-hero"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      />
+      <div className="absolute inset-0 bg-gradient-hero" />
       <div className="absolute inset-0 bg-gradient-hero-accent pointer-events-none" />
 
-      {/* Soft accent blobs */}
-      <motion.div
-        className="absolute inset-0 overflow-hidden pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 0.2 }}
-      >
-        <div className="absolute -top-32 -right-32 w-[520px] h-[520px] rounded-full bg-brand-200/40 blur-[100px] animate-pulse-slow" />
-        <motion.div
-          className="absolute -bottom-32 -left-24 w-[440px] h-[440px] rounded-full bg-brand-100/50 blur-[90px] animate-pulse-slow [animation-delay:2s]"
-          animate={{ scale: [1, 1.05, 1] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <div className="absolute top-1/3 right-1/4 w-[280px] h-[280px] rounded-full bg-brand-300/20 blur-[70px] animate-float" />
-      </motion.div>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-32 -right-32 w-[480px] h-[480px] rounded-full bg-brand-200/40 blur-[100px]" />
+        <div className="absolute -bottom-32 -left-24 w-[420px] h-[420px] rounded-full bg-brand-100/50 blur-[90px]" />
+      </div>
 
-      {/* Subtle grid */}
       <div
         className="absolute inset-0 opacity-[0.35] pointer-events-none"
         style={{
@@ -69,7 +219,7 @@ export function HeroSection() {
       {/* ── Content ─────────────────────────────────── */}
       <div className="container-custom relative z-10 pt-28 pb-20">
         <motion.div
-          className="grid lg:grid-cols-2 gap-14 items-center"
+          className="grid lg:grid-cols-2 gap-x-12 gap-y-14 items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
@@ -80,28 +230,23 @@ export function HeroSection() {
             initial="hidden"
             animate="show"
           >
-            {/* Badge */}
             <motion.div variants={HERO_ANIMATIONS.item}>
-              <motion.div
-                className="inline-flex items-center gap-2 glass-light rounded-full px-4 py-2 mb-6"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              >
+              <div className="inline-flex items-center gap-2 glass-light rounded-full px-4 py-2 mb-6">
                 <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="text-slate-600 text-xs font-medium tracking-wide">
                   Now accepting applications for 2025
                 </span>
-              </motion.div>
+              </div>
             </motion.div>
 
-            {/* Headline */}
             <motion.h1
               variants={HERO_ANIMATIONS.item}
               className="text-display-xl lg:text-display-2xl font-display font-bold text-slate-900 leading-[1.08] mb-6"
             >
-              Your Global{" "}
+
+              Your <br/>
               <span className="relative inline-block">
-                <span className="heading-gradient-accent">Visa Endorsement</span>
+                <span className="heading-gradient-accent">Global Visa Success</span>
                 <svg
                   className="absolute -bottom-2 left-0 w-full"
                   viewBox="0 0 300 12"
@@ -116,195 +261,54 @@ export function HeroSection() {
                   />
                 </svg>
               </span>{" "}
-              Partner
+              Starts Here
             </motion.h1>
 
-            {/* Sub */}
             <motion.p
               variants={HERO_ANIMATIONS.item}
               className="text-lg text-slate-600 leading-relaxed mb-8 max-w-lg"
             >
-              Navigate immigration with confidence. Our expert team delivers
-              industry-leading endorsement success rates across 50+ countries.
+              Navigate your visa journey with confidence. From eligibility assessment to expert guidance and application support, we help professionals, founders, and global talent move forward faster.
             </motion.p>
 
-            {/* Trust Badges */}
-            <motion.div
-              variants={HERO_ANIMATIONS.item}
-              className="flex flex-wrap gap-3 mb-9"
-            >
+            <motion.div variants={HERO_ANIMATIONS.item} className="flex flex-wrap gap-3 mb-9">
               {TRUST_BADGES.map((badge) => (
-                <motion.div
+                <div
                   key={badge}
                   className="flex items-center gap-1.5 glass-light rounded-full px-3.5 py-1.5"
-                  whileHover={{ y: -2 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 >
                   <CheckCircle2 size={13} className="text-emerald-600 shrink-0" />
                   <span className="text-slate-700 text-xs font-medium">{badge}</span>
-                </motion.div>
+                </div>
               ))}
             </motion.div>
 
-            {/* CTAs */}
-            <motion.div
-              variants={HERO_ANIMATIONS.item}
-              className="flex flex-col sm:flex-row gap-3.5"
-            >
+            <motion.div variants={HERO_ANIMATIONS.item} className="flex flex-col sm:flex-row gap-3.5">
               <Link href="/eligibility" className="btn btn-primary text-sm px-7 py-3.5">
                 Check Your Eligibility
                 <ArrowRight size={16} />
               </Link>
-              <Link
-                href="/success-stories"
-                className="btn btn-outline text-sm px-7 py-3.5 gap-2 bg-white/60 hover:bg-white"
-              >
-                <motion.div
-                  className="w-7 h-7 rounded-full bg-brand-100 flex items-center justify-center"
-                  whileHover={{ scale: 1.1 }}
-                >
+              <Link href="/success-stories" className="btn btn-outline text-sm px-7 py-3.5 gap-2 bg-white/60 hover:bg-white">
+                <span className="w-7 h-7 rounded-full bg-brand-100 flex items-center justify-center">
                   <Play size={10} fill="currentColor" className="text-brand-600 ml-0.5" />
-                </motion.div>
+                </span>
                 Watch Success Stories
               </Link>
             </motion.div>
           </motion.div>
 
-          {/* Right: Card visual */}
+          {/* Right: Video showcase — landscape, sits beside the text */}
           <motion.div
-            initial={{ opacity: 0, x: 48, scale: 0.96 }}
+            initial={{ opacity: 0, x: 32, scale: 0.98 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ duration: 0.85, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="hidden lg:block"
+            transition={{ duration: 0.75, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full"
           >
-            <div className="relative">
-              <motion.div
-                className="glass-light rounded-3xl p-7 shadow-blue-xl border border-slate-200/80"
-                whileHover={{ y: -4 }}
-                transition={{ type: "spring", stiffness: 300, damping: 22 }}
-              >
-                <motion.div
-                  className="bg-white rounded-2xl p-5 mb-4 shadow-card border border-slate-100"
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7, duration: 0.5 }}
-                >
-                  <motion.div
-                    className="flex items-center justify-between mb-4"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.85 }}
-                  >
-                    <span className="text-sm font-semibold text-slate-800">
-                      Application Status
-                    </span>
-                    <span className="text-xs bg-emerald-50 text-emerald-700 font-semibold px-2.5 py-1 rounded-full border border-emerald-200">
-                      Approved ✓
-                    </span>
-                  </motion.div>
-                  <div className="space-y-2.5">
-                    {["Document Review", "Expert Assessment", "Endorsement", "Visa Granted"].map(
-                      (step, i) => (
-                        <motion.div
-                          key={step}
-                          className="flex items-center gap-3"
-                          initial={{ opacity: 0, x: -12 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.9 + i * 0.08, duration: 0.4 }}
-                        >
-                          <motion.div
-                            className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 bg-brand-600"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ delay: 1 + i * 0.08, type: "spring", stiffness: 400 }}
-                          >
-                            <CheckCircle2 size={12} className="text-white" />
-                          </motion.div>
-                          <motion.div
-                            className="flex-1 h-1.5 rounded-full bg-slate-100 overflow-hidden"
-                            initial={{ opacity: 0.5 }}
-                            animate={{ opacity: 1 }}
-                          >
-                            <motion.div
-                              className="h-full bg-gradient-blue rounded-full"
-                              initial={{ width: 0 }}
-                              animate={{ width: `${100 - i * 2}%` }}
-                              transition={{ delay: 1.1 + i * 0.1, duration: 0.6, ease: "easeOut" }}
-                            />
-                          </motion.div>
-                          <span className="text-xs text-slate-500 w-24 shrink-0 text-right">
-                            {step}
-                          </span>
-                        </motion.div>
-                      )
-                    )}
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="grid grid-cols-3 gap-3"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.2, duration: 0.5 }}
-                >
-                  {[
-                    { num: "98%", label: "Success Rate" },
-                    { num: "14d", label: "Avg. Timeline" },
-                    { num: "50+", label: "Countries" },
-                  ].map(({ num, label }, i) => (
-                    <motion.div
-                      key={label}
-                      className="bg-brand-50 rounded-xl p-3.5 text-center border border-brand-100/80"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 1.3 + i * 0.06, type: "spring", stiffness: 350 }}
-                      whileHover={{ scale: 1.03 }}
-                    >
-                      <motion.div
-                        className="text-xl font-bold text-brand-700 font-display"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1.45 + i * 0.08 }}
-                      >
-                        {num}
-                      </motion.div>
-                      <motion.div
-                        className="text-[11px] text-brand-600 font-medium mt-0.5"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1.5 + i * 0.08 }}
-                      >
-                        {label}
-                      </motion.div>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              </motion.div>
-
-              {/* Floating review card */}
-              <motion.div
-                className="absolute -bottom-6 -left-6 glass-light rounded-2xl p-4 shadow-card-hover max-w-[200px] border border-slate-200/80"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
-                transition={{
-                  opacity: { delay: 1.4, duration: 0.5 },
-                  scale: { delay: 1.4, duration: 0.5 },
-                  y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.9 },
-                }}
-              >
-                <div className="flex gap-0.5 mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={12} fill="#fbbf24" className="text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  &ldquo;Got my visa approved in 3 weeks!&rdquo;
-                </p>
-                <p className="text-xs font-semibold text-slate-800 mt-1.5">
-                  — Ahmad K., UAE → UK
-                </p>
-              </motion.div>
-            </div>
+            <VideoShowcase
+              posterSrc="/images/hero/video-poster.jpg"
+              videoSrc="/videos/success-story.mp4"
+              duration="1:42"
+            />
           </motion.div>
         </motion.div>
       </div>
@@ -313,7 +317,7 @@ export function HeroSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
+        transition={{ delay: 1.2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <span className="text-slate-400 text-xs tracking-widest uppercase">Scroll</span>
