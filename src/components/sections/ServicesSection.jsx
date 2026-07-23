@@ -27,7 +27,7 @@ const SERVICES = [
     ],
     color: "from-brand-600 to-brand-800",
     href: "/eligibility",
-    featured: true,
+    featured: false,
   },
   {
     icon: Users,
@@ -38,7 +38,7 @@ const SERVICES = [
     color: "from-brand-700 to-brand-950",
     href: "/eligibility",
     button: "Book a session",
-    featured: false,
+    featured: true,
   },
 ];
 
@@ -57,7 +57,7 @@ export function ServicesSection() {
             <span className="heading-gradient">Talent Visa Services</span>
           </h2>
           <p className="text-slate-500 text-lg leading-relaxed">
-          Everything you need for a successful UK Global Talent Visa application—from profile building and document assessment to one-to-one mentoring with industry experts.
+          Everything you need for a successful UK Global Talent Visa application, from profile building and document assessment to one-to-one mentoring with industry experts.
           </p>
         </div>
 

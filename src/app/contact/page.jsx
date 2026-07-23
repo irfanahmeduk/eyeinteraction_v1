@@ -12,35 +12,33 @@ import {
   CheckCircle2,
   Loader2,
   MessageSquare,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Instagram,
 } from "lucide-react";
+import axios from "axios";
+import { toast } from "sonner";
 
 const CONTACT_INFO = [
   {
     icon: Phone,
     label: "Call Us",
-    value: "+92 300 1234567",
-    href: "tel:+923001234567",
+    value: "+44 7380 732477",
+    href: "tel:+447380732477",
   },
   {
     icon: Mail,
     label: "Email Us",
-    value: "hello@yourcompany.com",
-    href: "mailto:hello@yourcompany.com",
+    value: "info@eyeinteraction.com",
+    href: "mailto:info@eyeinteraction.com",
   },
   {
     icon: MapPin,
-    label: "Visit Us",
-    value: "Suite 402, Business Bay, Karachi, PK",
-    href: "#",
+    label: "Registered Office",
+    value: "Office 8158, 321-323 High Road, Chadwell Heath, Essex, RM6 6AX",
+    href: "#map",
   },
   {
     icon: Clock,
     label: "Working Hours",
-    value: "Mon–Fri, 9:00 AM – 6:00 PM",
+    value: "Mon–Fri, 9:00 AM – 5:00 PM",
     href: null,
   },
 ];
@@ -58,13 +56,6 @@ const FAQS = [
     q: "Can I schedule a call instead?",
     a: "Absolutely — mention your preferred time in the message and we'll confirm.",
   },
-];
-
-const SOCIALS = [
-  { icon: Facebook, label: "Facebook", href: "#" },
-  { icon: Twitter, label: "Twitter", href: "#" },
-  { icon: Linkedin, label: "LinkedIn", href: "#" },
-  { icon: Instagram, label: "Instagram", href: "#" },
 ];
 
 export default function ContactPage() {
@@ -96,23 +87,46 @@ export default function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
-
     setStatus("loading");
-    // Simulate API call — replace with your actual endpoint
-    await new Promise((res) => setTimeout(res, 1200));
-    setStatus("success");
-    setForm({ name: "", email: "", phone: "", subject: "", message: "" });
 
-    setTimeout(() => setStatus("idle"), 4000);
+    try {
+      const payload = {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        subject: form.subject,
+        message: form.message,
+      }
+      const { data } = await axios.post("/api/contact", payload);
+
+      if (!data.success) {
+        throw new Error(data.message);
+      }
+
+      setStatus("success");
+
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+
+      toast.success(data.message);
+    } catch (error) {
+      console.error(error);
+      toast.success("Something went wrong! Please try again later");
+      setStatus("idle");
+    }
   };
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* ── Hero ─────────────────────────────────────── */}
-      <div className="bg-gradient-blue text-white pt-28 pb-20">
+      {/* ── Compact Hero ─────────────────────────────── */}
+      <div className="bg-gradient-blue text-white pt-20 pb-14">
         <div className="container-custom">
-          <nav className="flex items-center gap-1.5 text-xs text-blue-200/80 mb-6">
+          <nav className="flex items-center gap-1.5 text-xs text-blue-200/80 mb-4">
             <Link href="/" className="hover:text-white transition-colors">
               Home
             </Link>
@@ -120,66 +134,66 @@ export default function ContactPage() {
             <span className="text-white/90">Contact</span>
           </nav>
 
-          <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-200 mb-4 px-3 py-1 glass-dark rounded-full">
+          <span className="inline-block text-[11px] font-bold uppercase tracking-widest text-blue-200 mb-3 px-3 py-1 glass-dark rounded-full">
             Get In Touch
           </span>
 
-          <h1 className="text-display-lg font-display font-bold leading-tight mb-4 max-w-2xl">
+          <h1 className="text-3xl md:text-4xl font-display font-bold leading-tight mb-2 max-w-2xl">
             Let's Start a Conversation
           </h1>
-          <p className="text-blue-100/80 text-lg max-w-xl leading-relaxed">
-            Have a question or ready to begin your journey? Our specialists
-            are here to help — reach out and we'll respond within 24 hours.
+          <p className="text-blue-100/80 text-sm md:text-base max-w-xl leading-relaxed">
+            Have a question or ready to begin your journey? Reach out and
+            we'll respond within 24 hours.
           </p>
         </div>
       </div>
 
       {/* ── Main content ─────────────────────────────── */}
-      <div className="container-custom -mt-10 relative z-10 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Contact info cards — top row */}
-          <div className="lg:col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-2">
-            {CONTACT_INFO.map(({ icon: Icon, label, value, href }) => {
-              const content = (
-                <div className="card p-5 bg-white h-full flex flex-col gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-[var(--color-light)] flex items-center justify-center shrink-0">
-                    <Icon size={17} className="text-[var(--color-primary)]" />
-                  </div>
-                  <div>
-                    <p className="text-[11px] uppercase tracking-wide text-slate-400 font-semibold mb-1">
-                      {label}
-                    </p>
-                    <p className="text-sm font-semibold text-[var(--color-secondary)] leading-snug">
-                      {value}
-                    </p>
-                  </div>
+      <div className="container-custom -mt-8 relative z-10 pb-16">
+        {/* Contact info cards — compact strip */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+          {CONTACT_INFO.map(({ icon: Icon, label, value, href }) => {
+            const content = (
+              <div className="card p-4 bg-white h-full flex items-start gap-3">
+                <div className="w-9 h-9 rounded-lg bg-[var(--color-light)] flex items-center justify-center shrink-0">
+                  <Icon size={15} className="text-[var(--color-primary)]" />
                 </div>
-              );
-              return href ? (
-                <a key={label} href={href} className="block">
-                  {content}
-                </a>
-              ) : (
-                <div key={label}>{content}</div>
-              );
-            })}
-          </div>
+                <div className="min-w-0">
+                  <p className="text-[10px] uppercase tracking-wide text-slate-400 font-semibold mb-0.5">
+                    {label}
+                  </p>
+                  <p className="text-[13px] font-semibold text-[var(--color-secondary)] leading-snug break-words">
+                    {value}
+                  </p>
+                </div>
+              </div>
+            );
+            return href ? (
+              <a key={label} href={href} className="block">
+                {content}
+              </a>
+            ) : (
+              <div key={label}>{content}</div>
+            );
+          })}
+        </div>
 
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           {/* Form */}
           <div className="lg:col-span-7">
-            <div className="card p-6 md:p-8 bg-white">
-              <div className="flex items-center gap-3 mb-1">
-                <MessageSquare size={18} className="text-[var(--color-primary)]" />
-                <h2 className="font-display font-bold text-xl text-[var(--color-secondary)]">
+            <div className="card p-5 md:p-7 bg-white">
+              <div className="flex items-center gap-2.5 mb-1">
+                <MessageSquare size={17} className="text-[var(--color-primary)]" />
+                <h2 className="font-display font-bold text-lg text-[var(--color-secondary)]">
                   Send Us a Message
                 </h2>
               </div>
-              <p className="text-slate-500 text-sm mb-7">
+              <p className="text-slate-500 text-xs mb-5">
                 Fill out the form below and our team will get back to you shortly.
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-                <div className="grid sm:grid-cols-2 gap-5">
+              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                <div className="grid sm:grid-cols-2 gap-4">
                   <Field label="Full Name" required error={errors.name}>
                     <input
                       type="text"
@@ -203,14 +217,14 @@ export default function ContactPage() {
                   </Field>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-5">
+                <div className="grid sm:grid-cols-2 gap-4">
                   <Field label="Phone Number">
                     <input
                       type="tel"
                       name="phone"
                       value={form.phone}
                       onChange={handleChange}
-                      placeholder="+92 300 0000000"
+                      placeholder="+44 20 0000 0000"
                       className="input-base"
                     />
                   </Field>
@@ -233,7 +247,7 @@ export default function ContactPage() {
                     value={form.message}
                     onChange={handleChange}
                     placeholder="Tell us more about your query…"
-                    rows={5}
+                    rows={4}
                     className={`input-base resize-none ${errors.message ? "error" : ""}`}
                   />
                 </Field>
@@ -272,64 +286,45 @@ export default function ContactPage() {
           </div>
 
           {/* Sidebar */}
-          <aside className="lg:col-span-5 space-y-6">
-            {/* Map placeholder */}
-            <div className="card overflow-hidden bg-white">
-              <div className="relative w-full h-48 bg-slate-100 flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin size={22} className="text-[var(--color-primary)] mx-auto mb-2" />
-                  <p className="text-xs text-slate-400 font-medium">Map view</p>
-                </div>
+          <aside className="lg:col-span-5 space-y-5">
+            {/* Map — fixed: correct coordinates, proper JSX props */}
+            <div id="map" className="card overflow-hidden bg-white">
+              <div className="relative w-full h-44">
+                <iframe
+                  src="https://www.google.com/maps?q=Office+8158,+321-323+High+Road,+Chadwell+Heath,+Essex,+RM6+6AX,+UK&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, display: "block" }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Registered office location"
+                />
               </div>
-              <div className="p-5">
+              <div className="p-4">
                 <p className="text-sm font-semibold text-[var(--color-secondary)] mb-1">
-                  Head Office
+                  Registered Office
                 </p>
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Suite 402, Business Bay Tower, Shahrah-e-Faisal, Karachi, Pakistan
+                  Office 8158, 321-323 High Road, Chadwell Heath, Essex,
+                  United Kingdom, RM6 6AX
                 </p>
               </div>
             </div>
 
             {/* FAQ */}
-            <div className="card p-5 bg-white">
-              <h4 className="font-display font-semibold text-[var(--color-secondary)] mb-4 pb-3 border-b-[3px] border-slate-100">
+            <div className="card p-4 bg-white">
+              <h4 className="font-display font-semibold text-sm text-[var(--color-secondary)] mb-3 pb-2.5 border-b-2 border-slate-100">
                 Quick Answers
               </h4>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {FAQS.map((f) => (
                   <div key={f.q}>
-                    <p className="text-sm font-semibold text-slate-700 mb-1">{f.q}</p>
+                    <p className="text-[13px] font-semibold text-slate-700 mb-0.5">
+                      {f.q}
+                    </p>
                     <p className="text-xs text-slate-500 leading-relaxed">{f.a}</p>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Social + CTA */}
-            <div
-              className="rounded-xl p-6 text-center"
-              style={{
-                background:
-                  "linear-gradient(to right, var(--color-secondary), var(--color-primary))",
-              }}
-            >
-              <p className="text-white font-display font-semibold mb-1">
-                Prefer social media?
-              </p>
-              <p className="text-blue-100/80 text-xs mb-4">
-                Follow us or drop a message anytime.
-              </p>
-              <div className="flex justify-center gap-2">
-                {SOCIALS.map(({ icon: Icon, label, href }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    aria-label={label}
-                    className="w-9 h-9 rounded-full glass-dark flex items-center justify-center text-white hover:bg-white hover:text-[var(--color-primary)] transition-all duration-200"
-                  >
-                    <Icon size={14} />
-                  </a>
                 ))}
               </div>
             </div>

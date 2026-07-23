@@ -28,11 +28,6 @@ const FAQS = [
       "Timelines vary by route and country. Most skilled worker and talent visa endorsements are completed within 2–6 weeks once documents are ready. We give you a clear timeline at the start.",
   },
   {
-    question: "Are you OISC regulated?",
-    answer:
-      "Eye Interaction is regulated by the Office of the Immigration Services Commissioner (OISC). Every application is handled to the highest compliance standards.",
-  },
-  {
     question: "What documents will I need?",
     answer:
       "Requirements depend on your visa category. After your eligibility check, your case manager provides a tailored checklist — passport, employment proof, qualifications, and any route-specific forms.",

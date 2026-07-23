@@ -14,7 +14,7 @@ export function FooterNewsletter() {
             Stay Ahead with UK Global Talent Updates
             </h3>
             <p className="text-sm text-slate-400">
-            Get expert insights, Home Office updates, endorsement guidance, and practical application tips—delivered straight to your inbox.
+            Get expert insights, Home Office updates, endorsement guidance, and practical application tips delivered straight to your inbox.
             </p>
           </div>
           <form
@@ -31,7 +31,7 @@ export function FooterNewsletter() {
                 name="email"
                 required
                 placeholder="Enter your email address"
-                className="pl-9 !bg-slate-800 !border-slate-700 !text-white placeholder:!text-slate-500 hover:!border-slate-600 focus:!border-brand-500 focus:!ring-1 focus:!ring-brand-500/40 focus:!shadow-none"
+                className="!pl-7 !bg-slate-800 !border-slate-700 !text-white placeholder:!text-slate-500 hover:!border-slate-600 focus:!border-brand-500 focus:!ring-1 focus:!ring-brand-500/40 focus:!shadow-none"
               />
             </div>
             <Button type="submit" size="sm" className="shrink-0 px-4 py-2.5 h-auto">

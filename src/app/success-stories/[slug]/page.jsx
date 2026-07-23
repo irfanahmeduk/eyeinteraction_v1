@@ -85,7 +85,7 @@ export default async function SuccessStoryPage({ params }) {
           <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
             <div className="flex items-center gap-3">
               <div className="relative w-11 h-11 rounded-full overflow-hidden ring-2 ring-white/20 shrink-0 bg-slate-700">
-                <Image src={story.avatar} alt={story.name} fill className="object-cover object-[50%_10%]" />
+                <Image src={story.avatar} alt={story.name} fill className="object-cover" />
               </div>
               <div>
                 <p className="font-semibold text-sm text-white leading-none">{story.name}</p>
@@ -104,7 +104,7 @@ export default async function SuccessStoryPage({ params }) {
       {/* ── Cover image (overlaps hero) ─────────────── */}
       <div className="container-custom -mt-10 relative z-10">
         <div className="relative w-full h-[280px] md:h-[420px] rounded-2xl overflow-hidden shadow-blue-xl">
-          <Image src={story.coverImage} alt={story.name} fill className="object-cover" priority />
+          <Image src={story.coverImage} alt={story.name} fill className="object-cover !object-[50%_-10%] !object-top" priority />
         </div>
       </div>
 
@@ -201,7 +201,7 @@ export default async function SuccessStoryPage({ params }) {
                   <input
                     type="text"
                     placeholder="Search other success stories…"
-                    className="input-base pl-10 text-sm"
+                    className="input-base !pl-7 text-sm"
                   />
                 </div>
               </div>

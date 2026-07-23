@@ -2,14 +2,14 @@
 
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Play, ShieldCheck, Sparkles, Volume2, VolumeX } from "lucide-react";
+import { ArrowRight, CheckCircle2, Play, ShieldCheck, Sparkles, Volume2, VolumeX, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const TRUST_BADGES = [
-  "98% Success Rate",
-  "5,000+ Applicants",
-  "50+ Countries",
-  "OISC Regulated",
+  // "98% Success Rate",
+  // "5,000+ Applicants",
+  // "50+ Countries",
+  // "OISC Regulated",
 ];
 
 const HERO_ANIMATIONS = {
@@ -65,17 +65,13 @@ function ThumbnailFallback() {
 
 /* ─────────────────────────────────────────────────
    VIDEO SHOWCASE — landscape (16:9), video-only focus
-   - Poster image loads instantly (no video weight on first paint)
-   - <video> element + source only mount after user clicks play
-   - preload="metadata" so the click-to-play feels instant without
-     downloading the full file upfront (keeps the page light)
-   - Muted-by-default + tap-to-unmute: autoplay-style feel, no
-     browser autoplay restrictions to fight
 ───────────────────────────────────────────────── */
 function VideoShowcase({
   posterSrc = "",
   videoSrc = "/videos/success-story.mp4",
   duration = "1:42",
+  clientName = "Mr. Irfan Ahmed",
+  clientOutcome = "Endorsement approved in 6 months",
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -96,99 +92,137 @@ function VideoShowcase({
   }, []);
 
   return (
-    <motion.div
-      className="relative w-full rounded-2xl overflow-hidden shadow-blue-xl border border-slate-200/80 bg-slate-900 aspect-video"
-      whileHover={{ y: -3 }}
-      transition={{ type: "spring", stiffness: 300, damping: 22 }}
-    >
-      <AnimatePresence initial={false} mode="wait">
-        {!isPlaying ? (
-          /* ── Poster state (default, cheap to load) ── */
-          <motion.button
-            key="poster"
-            type="button"
-            onClick={handlePlay}
-            aria-label="Play success story video"
-            className="group absolute inset-0 w-full h-full"
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            {showFallback ? (
-              <ThumbnailFallback />
-            ) : (
-              <img
-                src={posterSrc}
-                alt="A client at our office being guided through their visa endorsement application"
-                loading="eager"
-                fetchPriority="high"
-                onError={() => setImgFailed(true)}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            )}
-            {/* Readability gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/75 via-slate-900/5 to-slate-900/25" />
-
-            {/* Play button */}
-            <span className="absolute inset-0 flex items-center justify-center">
-              <motion.span
-                className="flex items-center justify-center w-16 h-16 rounded-full bg-white/95 shadow-blue-xl"
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.96 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20 }}
-              >
-                <Play size={22} fill="currentColor" className="text-brand-600 ml-1" />
-              </motion.span>
-            </span>
-
-            {/* Top-left trust badge */}
-            <span className="absolute top-3.5 left-3.5 inline-flex items-center gap-1.5 bg-black/35 backdrop-blur-sm text-white text-xs font-medium rounded-full px-3 py-1.5">
-              <ShieldCheck size={12} className="text-emerald-400" />
-              Verified client story
-            </span>
-
-            {/* Bottom meta row */}
-            <span className="absolute inset-x-0 bottom-0 flex items-center justify-between px-4 py-3.5">
-              <span className="text-white/90 text-xs font-medium">
-                From application to visa &mdash; in their words
-              </span>
-              <span className="text-white/90 text-xs font-medium tabular-nums bg-black/35 rounded-full px-2 py-0.5">
-                {duration}
-              </span>
-            </span>
-          </motion.button>
-        ) : (
-          /* ── Video state (only mounts on demand) ── */
-          <motion.div
-            key="video"
-            className="absolute inset-0 w-full h-full"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <video
-              ref={videoRef}
-              className="w-full h-full object-cover"
-              src={videoSrc}
-              poster={showFallback ? undefined : posterSrc}
-              autoPlay
-              muted={isMuted}
-              playsInline
-              controls
-              preload="metadata"
-              onEnded={() => setIsPlaying(false)}
-            />
-            <button
+    <div className="w-full">
+      <motion.div
+        className="relative w-full rounded-2xl overflow-hidden shadow-blue-xl border border-slate-200/80 bg-slate-900 aspect-video"
+        whileHover={{ y: -3 }}
+        transition={{ type: "spring", stiffness: 300, damping: 22 }}
+      >
+        <AnimatePresence initial={false} mode="wait">
+          {!isPlaying ? (
+            /* ── Poster state ── */
+            <motion.button
+              key="poster"
               type="button"
-              onClick={toggleMute}
-              aria-label={isMuted ? "Unmute video" : "Mute video"}
-              className="absolute bottom-3.5 right-3.5 flex items-center justify-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-sm text-white hover:bg-black/60 transition-colors"
+              onClick={handlePlay}
+              aria-label="Play success story video"
+              className="group absolute inset-0 w-full h-full"
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
             >
-              {isMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+              {showFallback ? (
+                <ThumbnailFallback />
+              ) : (
+                <img
+                  src={posterSrc}
+                  alt="A client at our office being guided through their visa endorsement application"
+                  loading="eager"
+                  fetchPriority="high"
+                  onError={() => setImgFailed(true)}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              )}
+              {/* Readability gradient — strengthened so bottom caption row is always legible */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/10 to-slate-900/30" />
+
+              {/* Play button */}
+              <span className="absolute inset-0 flex items-center justify-center">
+                <motion.span
+                  className="flex items-center justify-center w-16 h-16 rounded-full bg-white/95 shadow-blue-xl"
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.96 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                >
+                  <Play size={22} fill="currentColor" className="text-brand-600 ml-1" />
+                </motion.span>
+              </span>
+
+              {/* Top-left: verified badge (now has real copy) */}
+              <span className="absolute top-3.5 left-3.5 inline-flex items-center gap-1.5 bg-black/40 backdrop-blur-sm text-white text-xs font-medium rounded-full px-3 py-1.5">
+                <ShieldCheck size={12} className="text-emerald-400" />
+                Verified client story
+              </span>
+
+              {/* Top-right: 5-star rating chip — adds social proof to the empty corner */}
+              <span className="absolute top-3.5 right-3.5 inline-flex items-center gap-1 bg-black/40 backdrop-blur-sm text-white text-xs font-medium rounded-full px-2.5 py-1.5">
+                <Star size={11} className="text-amber-400" fill="currentColor" />
+                5.0
+              </span>
+
+              {/* Bottom meta row — client name + outcome instead of empty spans */}
+              <span className="absolute inset-x-0 bottom-0 flex items-end justify-between px-4 py-3.5 text-left">
+                <span className="flex flex-col">
+                  <span className="text-white text-sm font-semibold leading-tight">
+                    {clientName}
+                  </span>
+                  <span className="text-white/75 text-xs leading-tight mt-0.5">
+                    {clientOutcome}
+                  </span>
+                </span>
+                <span className="text-white/90 text-xs font-medium tabular-nums bg-black/40 rounded-full px-2 py-1 shrink-0 ml-3">
+                  {duration}
+                </span>
+              </span>
+            </motion.button>
+          ) : (
+            /* ── Video state (only mounts on demand) ── */
+            <motion.div
+              key="video"
+              className="absolute inset-0 w-full h-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <video
+                ref={videoRef}
+                className="w-full h-full object-cover"
+                src={videoSrc}
+                poster={showFallback ? undefined : posterSrc}
+                autoPlay
+                muted={isMuted}
+                playsInline
+                controls
+                preload="metadata"
+                onEnded={() => setIsPlaying(false)}
+              />
+              <button
+                type="button"
+                onClick={toggleMute}
+                aria-label={isMuted ? "Unmute video" : "Mute video"}
+                className="absolute bottom-3.5 right-3.5 flex items-center justify-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-sm text-white hover:bg-black/60 transition-colors"
+              >
+                {isMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Caption row below the video — fills the remaining whitespace with
+          real trust signal instead of leaving it empty */}
+      <div className="flex items-center justify-between mt-3.5 px-1">
+        <div className="flex items-center gap-2.5">
+          <div className="flex -space-x-2">
+            {["#2563b8", "#5b94d0", "#173a66", "#3b7fc9"].map((c, i) => (
+              <span
+                key={i}
+                className="w-6 h-6 rounded-full border-2 border-white shadow-sm"
+                style={{ background: c }}
+              />
+            ))}
+          </div>
+          <p className="text-xs text-slate-500">
+            <span className="font-semibold text-slate-700">5,000+</span> applicants guided
+          </p>
+        </div>
+        <div className="flex items-center gap-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star key={i} size={12} className="text-amber-400" fill="currentColor" />
+          ))}
+          <span className="text-xs text-slate-500 ml-1">4.9/5</span>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -234,7 +268,7 @@ export function HeroSection() {
               <div className="inline-flex items-center gap-2 glass-light rounded-full px-4 py-2 mb-6">
                 <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="text-slate-600 text-xs font-medium tracking-wide">
-                  Now accepting applications for 2025
+                  Now accepting applications for {new Date().getFullYear()}
                 </span>
               </div>
             </motion.div>
@@ -305,9 +339,11 @@ export function HeroSection() {
             className="w-full"
           >
             <VideoShowcase
-              posterSrc="/images/hero/video-poster.jpg"
+              posterSrc="/images/hero/video-poster.png"
               videoSrc="/videos/success-story.mp4"
               duration="1:42"
+              clientName="Mr. Irfan Ahmed"
+              clientOutcome="Endorsement approved in 6 months"
             />
           </motion.div>
         </motion.div>

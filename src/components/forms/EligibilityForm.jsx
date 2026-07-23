@@ -145,7 +145,7 @@ function PhoneInput({ control, errors }) {
               <select
                 ref={field.ref}
                 name={field.name}
-                value={field.value ?? "+92"}
+                value={field.value ?? "+44"}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
                 className={cn(

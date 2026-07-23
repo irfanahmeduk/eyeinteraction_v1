@@ -6,31 +6,31 @@ import { Star, Quote, ArrowRight } from "lucide-react";
 
 const TESTIMONIALS = [
   {
-    name: "Sarah Chen",
-    role: "Software Engineer",
-    country: "China → UK",
+    name: "Ms. Aina Zafar",
+    role: "Business Analyst",
+    country: "Pakistan → UK",
     quote:
-      "Eye Interaction made my Global Talent Visa application seamless. Their team was incredibly knowledgeable and guided me through every step.",
+      "Outstanding support from Irfan and the Eye Interaction Limited team. Their expertise, professionalism, and guidance made my UK Global Talent Visa application smooth and successful. Highly recommended!",
     rating: 5,
     visa: "Global Talent Visa",
   },
   {
-    name: "Arjun Sharma",
+    name: "Mr. Fawaz Ahmed Dar",
     role: "Senior Developer",
-    country: "India → UK",
+    country: "Pakistan → UK",
     quote:
-      "I was skeptical at first, but the results speak for themselves. Visa approved in 3 weeks! The eligibility checker was spot on.",
+      "Eye Interaction provided exceptional support throughout my Global Talent Visa journey. Noor-e-Zehra was always helpful, and Mr. Irfan's mentorship on career growth and the AI industry was invaluable. Highly recommended!",
     rating: 5,
-    visa: "Skilled Worker Visa",
+    visa: "Global Talent Visa",
   },
   {
-    name: "Maria Santos",
-    role: "Business Consultant",
-    country: "Brazil → UK",
+    name: "Mr. Faizan Ahmed",
+    role: "Software Engineer",
+    country: "India → UK",
     quote:
-      "Professional, thorough, and genuinely invested in my success. They handled everything from document prep to final submission.",
+      "Everything is handled professionally and efficiently. The process is smooth, well managed, and the team is always responsive and helpful.",
     rating: 5,
-    visa: "Business Visa",
+    visa: "Global Talent Visa",
   },
 ];
 

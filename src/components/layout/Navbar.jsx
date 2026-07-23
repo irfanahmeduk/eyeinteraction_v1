@@ -9,16 +9,16 @@ import { useStickyNav } from "@/hooks";
 
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
-  {
-    label: "Services",
-    href: "/services",
-    children: [
-      { label: "Work Visa", href: "/services/work-visa" },
-      { label: "Skilled Worker", href: "/services/skilled-worker" },
-      { label: "Business Visa", href: "/services/business-visa" },
-      { label: "Family Reunification", href: "/services/family" },
-    ],
-  },
+  // {
+  //   label: "Services",
+  //   href: "/services",
+  //   children: [
+  //     { label: "Work Visa", href: "/services/work-visa" },
+  //     { label: "Skilled Worker", href: "/services/skilled-worker" },
+  //     { label: "Business Visa", href: "/services/business-visa" },
+  //     { label: "Family Reunification", href: "/services/family" },
+  //   ],
+  // },
   { label: "Success Stories", href: "/success-stories" },
   { label: "About Us", href: "/about" },
   { label: "Contact", href: "/contact" },

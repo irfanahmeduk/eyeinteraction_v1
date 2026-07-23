@@ -79,7 +79,7 @@ export default function SuccessStoriesListingPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search name or field…"
-              className="input-base pl-9 py-2 text-sm"
+              className="input-base !pl-7 py-2 text-sm"
             />
           </div>
 

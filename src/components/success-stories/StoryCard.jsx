@@ -16,10 +16,10 @@ export function StoryCard({ story }) {
     >
       <div className="relative h-44 w-full overflow-hidden bg-slate-100">
         <Image
-          src={story.image}
+          src={story.coverImage}
           alt={story.name}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-500 group-hover:scale-105 !object-[50%_-10%] !object-top"
         />
         <Badge className="absolute top-3 left-3 bg-white/90 text-[var(--color-secondary)] hover:bg-white gap-1 backdrop-blur-sm">
           <Award size={12} />

@@ -9,7 +9,7 @@ export const successStories = {
       slug: "irfan-ahmed",
       name: "Irfan Ahmed",
       role: "Global Talent Visa Recipient",
-      field: "Neuroscience & AI Integration",
+      field: "Computer Vision & AI Integration",
       outcome: "Endorsement Approved",
       duration: "8 Months",
       approvedDate: "April 2025",
@@ -72,7 +72,7 @@ export const successStories = {
           href: "https://www.linkedin.com/posts/qa-higher-education_ai-inclusion-accessibility-ugcPost-7341767290251608064-d-vd",
         },
         {
-          title: "Irfan Ahmed speaks on the future of neuroscience and AI at Ulster University Belfast",
+          title: "Irfan Ahmed speaks on the future of computer vision and AI at Ulster University Belfast",
           date: "2024",
           image: "/images/success-stories/related-ulster.jpg",
           href: "https://www.linkedin.com/posts/eyeinteraction_exciting-news-irfan-ahmed-speaks-on-the-ugcPost-7236762762612256769-BORj",
