@@ -15,32 +15,32 @@ import { FooterNewsletter } from "./FooterNewsletter";
 
 const FOOTER_LINKS = {
   services: [
-    { label: "UK Global Talent Profile Development", href: "/services/work-visa" },
-    { label: "Document Assessment", href: "/services/skilled-worker" },
-    { label: "AI Detection & Content Review", href: "/services/business-visa" },
-    { label: "Expert Mentoring Sessions", href: "/services/family" },
-    { label: "UK Global Talent Visa Guidance", href: "/services/student" },
+    { label: "UK Global Talent Profile Development", href: "#" },
+    { label: "Document Assessment", href: "#" },
+    { label: "AI Detection & Content Review", href: "#" },
+    { label: "Expert Mentoring Sessions", href: "#" },
+    { label: "UK Global Talent Visa Guidance", href: "#" },
   ],
   company: [
     { label: "About Us", href: "/about" },
     { label: "Success Stories", href: "/success-stories" },
     { label: "FAQ", href: "/about#team" },
-    { label: "Blog", href: "/blog" },
+    { label: "Blog", href: "/#" },
     { label: "Contact", href: "/contact" },
   ],
   legal: [
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms & Conditions", href: "/terms" },
-    { label: "Disclaimer", href: "/disclaimer" },
-    { label: "Copyright", href: "/copyright" },
+    { label: "Privacy Policy", href: "#" },
+    { label: "Terms & Conditions", href: "#" },
+    { label: "Disclaimer", href: "#" },
+    { label: "Copyright", href: "#" },
   ],
 };
 
 const SOCIAL_LINKS = [
-  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+  { icon: Linkedin, href: "https://uk.linkedin.com/company/eyeinteraction", label: "LinkedIn" },
+  // { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+  { icon: Facebook, href: "https://www.facebook.com/eyeinteraction/", label: "Facebook" },
+  { icon: Instagram, href: "https://www.instagram.com/eyeinteractionltd/", label: "Instagram" },
 ];
 
 const TRUST_BADGES = [
