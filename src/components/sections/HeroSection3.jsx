@@ -8,7 +8,6 @@ const TRUST_BADGES = [
   "98% Success Rate",
   "5,000+ Applicants",
   "50+ Countries",
-  "OISC Regulated",
 ];
 
 const HERO_ANIMATIONS = {

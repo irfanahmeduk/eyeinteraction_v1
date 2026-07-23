@@ -17,12 +17,6 @@ const STEPS = [
     desc: "We guide you through every document, ensuring accuracy and completeness.",
   },
   {
-    icon: Award,
-    step: "03",
-    title: "Expert Endorsement",
-    desc: "Our OISC-regulated advisors submit your application with a full endorsement letter.",
-  },
-  {
     icon: Plane,
     step: "04",
     title: "Visa Approval",

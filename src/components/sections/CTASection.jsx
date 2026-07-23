@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { ArrowRight, Shield, Clock, Headphones } from "lucide-react";
 
 const CTA_FEATURES = [
-  { icon: Shield, text: "OISC Regulated & Compliant" },
   { icon: Clock, text: "24hr Expert Response" },
   { icon: Headphones, text: "Dedicated Case Manager" },
 ];

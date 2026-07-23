@@ -3,16 +3,10 @@ import { CheckCircle2, Shield, Globe, Users } from "lucide-react";
 export const metadata = {
   title: "About Us",
   description:
-    "Learn about Eye Interaction — OISC-regulated visa endorsement experts with industry-leading success rates across 50+ countries.",
+    "Learn about Eye Interaction — Global talent visa endorsement experts with industry-leading success rates across 50+ countries.",
 };
 
 const VALUES = [
-  {
-    icon: Shield,
-    title: "Regulated & Trusted",
-    description:
-      "OISC-regulated advisors ensuring every application meets the highest compliance standards.",
-  },
   {
     icon: Globe,
     title: "Global Reach",
@@ -35,7 +29,6 @@ const MILESTONES = [
 ];
 
 const WHY_US = [
-  "OISC-regulated immigration advisors",
   "Personalised eligibility assessment",
   "End-to-end document & submission support",
   "Transparent timelines and pricing",

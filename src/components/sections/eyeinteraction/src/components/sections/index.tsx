@@ -150,7 +150,7 @@ export function ServicesSection() {
 const STEPS = [
   { icon: Search, step: "01", title: "Eligibility Check", desc: "Complete our detailed assessment form. Our experts review your profile within 24 hours." },
   { icon: FileCheck, step: "02", title: "Document Preparation", desc: "We guide you through every document, ensuring accuracy and completeness." },
-  { icon: Award, step: "03", title: "Expert Endorsement", desc: "Our OISC-regulated advisors submit your application with a full endorsement letter." },
+  { icon: Award, step: "03", title: "Expert Endorsement", desc: "Our advisors submit your application with a full endorsement letter." },
   { icon: Plane, step: "04", title: "Visa Approval", desc: "Receive your visa decision, with our support throughout any additional queries." },
 ];
 
@@ -306,7 +306,6 @@ export function TestimonialsSection() {
 // CTA
 // ─────────────────────────────────────────────────────────────
 const CTA_FEATURES = [
-  { icon: Shield, text: "OISC Regulated & Compliant" },
   { icon: Clock, text: "24hr Expert Response" },
   { icon: HeadphonesIcon, text: "Dedicated Case Manager" },
 ];
