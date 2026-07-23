@@ -200,7 +200,7 @@ function VideoShowcase({
 
       {/* Caption row below the video — fills the remaining whitespace with
           real trust signal instead of leaving it empty */}
-      <div className="flex items-center justify-between mt-3.5 px-1">
+      {/* <div className="flex items-center justify-between mt-3.5 px-1">
         <div className="flex items-center gap-2.5">
           <div className="flex -space-x-2">
             {["#2563b8", "#5b94d0", "#173a66", "#3b7fc9"].map((c, i) => (
@@ -221,7 +221,7 @@ function VideoShowcase({
           ))}
           <span className="text-xs text-slate-500 ml-1">4.9/5</span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

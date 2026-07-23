@@ -1,32 +1,31 @@
 import { EligibilityForm } from "@/components/forms/EligibilityForm";
 
 export const metadata = {
-  title: "Check Your Eligibility",
+  title: "Check UK Global Talent Visa Eligibility | Eye Interaction",
   description:
-    "Complete our comprehensive eligibility assessment and get a personalised report from our visa experts within 24 hours.",
+    "Evaluate your eligibility for the UK Global Talent Visa. Complete our quick assessment for an expert evaluation and personalized endorsement roadmap.",
 };
 
 export default function EligibilityPage() {
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Page Header */}
-      <div className="bg-gradient-blue text-white pt-28 pb-14">
-        <div className="container-custom text-center">
-          <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-200 mb-3 px-3 py-1 glass-dark rounded-full">
-            Free Assessment
+      {/* Header Band */}
+      <div className="bg-gradient-blue text-white pt-28 pb-14 border-b border-blue-950/20">
+        <div className="container-custom text-center max-w-3xl mx-auto">
+          <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-200 mb-3 px-3.5 py-1 glass-dark rounded-full">
+            UK Global Talent Visa Assessment
           </span>
-          <h1 className="text-display-lg font-display font-bold mb-4">
-            Check Your Eligibility
+          <h1 className="text-display-md md:text-display-lg font-display font-bold mb-4 leading-tight">
+            Check Your Eligibility for the UK Global Talent Visa
           </h1>
-          <p className="text-blue-100/80 text-lg max-w-xl mx-auto">
-            Complete the form below and receive a personalised eligibility report
-            from our expert team within 24 hours — completely free.
+          <p className="text-blue-100/90 text-base md:text-lg leading-relaxed">
+            Wondering whether you qualify and how close you are to endorsement? Fill out our free eligibility assessment to receive a quick expert evaluation and discover your next steps.
           </p>
         </div>
       </div>
 
-      {/* Form */}
-      <div className="container-custom py-14 -mt-4">
+      {/* Form Container */}
+      <div className="container-custom py-12 -mt-4">
         <EligibilityForm />
       </div>
     </div>
