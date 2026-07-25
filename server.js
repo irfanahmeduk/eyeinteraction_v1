@@ -1,24 +1,25 @@
-const { createServer } = require("http");
+const http = require("http");
 const next = require("next");
 
-const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev });
+const port = process.env.PORT || 3000;
+const hostname = "0.0.0.0";
+
+const app = next({
+  dev: process.env.NODE_ENV !== "production",
+});
+
 const handle = app.getRequestHandler();
 
-// cPanel Passenger process.env.PORT automatically inject karta hai
-const port = process.env.PORT || 3000;
-
-app.prepare().then(() => {
-  createServer(async (req, res) => {
-    try {
-      await handle(req, res);
-    } catch (err) {
-      console.error("Server error:", err);
-      res.statusCode = 500;
-      res.end("Internal Server Error");
-    }
-  }).listen(port, (err) => {
-    if (err) throw err;
-    console.log(`> Ready on port ${port}`);
+app
+  .prepare()
+  .then(() => {
+    http.createServer((req, res) => {
+      handle(req, res);
+    }).listen(port, hostname, () => {
+      console.log(`Next.js running on ${hostname}:${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to start Next.js:", err);
+    process.exit(1);
   });
-});
