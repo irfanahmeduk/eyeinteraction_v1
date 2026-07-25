@@ -23,6 +23,7 @@ jobs:
       - name: Sync files to cPanel
         run: |
           rsync -az --delete \
+            -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.CPANEL_PORT }}" \
             --exclude '.git' \
             --exclude '.github' \
             --exclude 'node_modules' \
