@@ -10,7 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js
+        run: npm run build
 
       - name: Setup SSH
         run: |
@@ -22,41 +35,30 @@ jobs:
             -p ${{ secrets.CPANEL_PORT }} \
             -H ${{ secrets.CPANEL_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Rsync Project
+      - name: Sync project
         run: |
           rsync -az --delete \
             -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.CPANEL_PORT }}" \
-            --exclude=".git" \
-            --exclude=".github" \
-            --exclude="node_modules" \
-            --exclude=".next" \
+            --exclude ".git" \
+            --exclude ".github" \
+            --exclude "node_modules" \
             ./ \
             ${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }}:${{ secrets.CPANEL_APP_PATH }}/
 
-      - name: Build on Server
+      - name: Install production dependencies
         run: |
           ssh \
             -i ~/.ssh/id_ed25519 \
             -p ${{ secrets.CPANEL_PORT }} \
-            ${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }} << 'EOF'
+            ${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }} << EOF
 
           source /home/alphuncv/nodevenv/eyeinteraction.com/22/bin/activate
 
           cd /home/alphuncv/eyeinteraction.com
 
-          if [ package.json -nt node_modules ]; then
-            echo "Installing dependencies..."
-            npm install
-          else
-            echo "Dependencies already installed."
-          fi
+          npm install --omit=dev
 
-          npm run build
-
-          if command -v ea-passenger-runtime-app-restart >/dev/null 2>&1; then
-              ea-passenger-runtime-app-restart /home/alphuncv/eyeinteraction.com
-          else
-              echo "Passenger restart command not found."
-          fi
+          mkdir -p tmp
+          touch tmp/restart.txt
 
           EOF
