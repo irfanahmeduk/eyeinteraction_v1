@@ -181,9 +181,9 @@ function FieldError({ message }) {
   );
 }
 
-function FormField({ label, error, required, children, description }) {
+function FormField({ label, error, required, children, description, fieldName }) {
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1.5" data-field={fieldName}>
       <label className="block text-sm font-medium text-slate-700">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
@@ -199,13 +199,18 @@ function PhoneInput({ control, errors }) {
   const hasError = !!errors["Phone Number (with country code)"]?.message;
 
   return (
-    <FormField label="Phone Number (with country code)" error={errors["Phone Number (with country code)"]?.message} required>
+    <FormField
+      label="Phone Number (with country code)"
+      error={errors["Phone Number (with country code)"]?.message}
+      required
+      fieldName="Phone Number (with country code)"
+    >
       <div
         className={cn(
           "flex items-stretch w-full overflow-hidden rounded-lg",
           "border border-slate-200 bg-white transition-all duration-150",
           "focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/20",
-          hasError && "border-red-400 focus-within:ring-red-400/20"
+          hasError && "border-red-400 focus-within:ring-2 focus-within:ring-red-400/20"
         )}
       >
         <div className="w-28 shrink-0 border-r border-slate-200 bg-slate-50 relative">
@@ -236,7 +241,10 @@ function PhoneInput({ control, errors }) {
               {...field}
               type="tel"
               placeholder="7700 900000"
-              className="flex-1 min-w-0 h-11 px-3.5 text-sm text-slate-900 outline-none placeholder:text-slate-400 bg-transparent"
+              className={cn(
+                "flex-1 min-w-0 h-11 px-3.5 text-sm text-slate-900 outline-none placeholder:text-slate-400 bg-transparent",
+                hasError && "placeholder:text-red-300"
+              )}
             />
           )}
         />
@@ -245,9 +253,9 @@ function PhoneInput({ control, errors }) {
   );
 }
 
-function CustomRadioGroup({ options, value, onChange, disabled }) {
+function CustomRadioGroup({ options, value, onChange, disabled, hasError }) {
   return (
-    <div className="flex flex-wrap gap-2.5 pt-1">
+    <div className={cn("flex flex-wrap gap-2.5 pt-1")}>
       {options.map((opt) => {
         const isSelected = value === opt;
         return (
@@ -260,13 +268,15 @@ function CustomRadioGroup({ options, value, onChange, disabled }) {
               "px-4 py-2.5 rounded-lg text-xs font-medium border transition-all text-left flex items-center gap-2",
               isSelected
                 ? "border-brand-600 bg-brand-50 text-brand-700 font-semibold shadow-xs"
+                : hasError
+                ? "border-red-300 bg-white text-slate-600 hover:border-red-400 hover:bg-red-50/40"
                 : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
             )}
           >
             <span
               className={cn(
                 "w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 transition-colors",
-                isSelected ? "border-brand-600 bg-brand-600" : "border-slate-300"
+                isSelected ? "border-brand-600 bg-brand-600" : hasError ? "border-red-300" : "border-slate-300"
               )}
             >
               {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
@@ -279,12 +289,12 @@ function CustomRadioGroup({ options, value, onChange, disabled }) {
   );
 }
 
-function YesNoRadio({ value, onChange, disabled }) {
-  return <CustomRadioGroup options={["Yes", "No"]} value={value} onChange={onChange} disabled={disabled} />;
+function YesNoRadio({ value, onChange, disabled, hasError }) {
+  return <CustomRadioGroup options={["Yes", "No"]} value={value} onChange={onChange} disabled={disabled} hasError={hasError} />;
 }
 
 // ── Step progress bar ────────────────────────────────────────
-function StepBar({ currentStep, totalSteps, onGoTo }) {
+function StepBar({ currentStep, totalSteps, onGoTo, furthestStep }) {
   const pct = Math.round((currentStep / totalSteps) * 100);
   return (
     <div className="mb-8">
@@ -306,15 +316,16 @@ function StepBar({ currentStep, totalSteps, onGoTo }) {
       <div className="relative flex justify-between">
         <div className="absolute top-4 inset-x-0 h-px bg-slate-200 pointer-events-none" />
         {STEPS.map((step) => {
-          const done = step.id < currentStep;
+          const done = step.id < furthestStep;
           const active = step.id === currentStep;
+          const clickable = step.id <= furthestStep;
           const Icon = step.icon;
           return (
             <button
               key={step.id}
               type="button"
-              onClick={() => done && onGoTo(step.id)}
-              className={cn("relative z-10 flex flex-col items-center gap-2", done ? "cursor-pointer" : "cursor-default")}
+              onClick={() => clickable && onGoTo(step.id)}
+              className={cn("relative z-10 flex flex-col items-center gap-2", clickable ? "cursor-pointer" : "cursor-default")}
             >
               <motion.div
                 animate={{ scale: active ? 1.1 : 1 }}
@@ -349,6 +360,7 @@ function StepBar({ currentStep, totalSteps, onGoTo }) {
 // ── Main Component ───────────────────────────────────────────
 export function EligibilityForm() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [furthestStep, setFurthestStep] = useState(1); // tracks how far the user has validly progressed
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -361,7 +373,7 @@ export function EligibilityForm() {
     trigger,
     formState: { errors },
   } = useForm({
-    // resolver: zodResolver(eligibilitySchema),
+    resolver: zodResolver(eligibilitySchema),
     defaultValues: {
       "Email Address": "",
       Contact: "",
@@ -407,17 +419,40 @@ export function EligibilityForm() {
     setValue("Why are you considering a Global Talent Visa? (Select all that apply)", next, { shouldValidate: true });
   };
 
+  // Scroll smoothly to the first field that failed validation on the current step
+  const scrollToFirstError = (currentFields) => {
+    const firstErrorField = currentFields.find((f) => errors[f]);
+    if (!firstErrorField) return;
+    // small delay so the error DOM has rendered
+    setTimeout(() => {
+      const el = document.querySelector(`[data-field="${CSS.escape(firstErrorField)}"]`);
+      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 50);
+  };
+
   const goNext = async () => {
     const currentFields = STEPS[currentStep - 1].fields;
     const valid = await trigger(currentFields);
     if (valid) {
-      setCurrentStep((s) => Math.min(s + 1, STEPS.length));
+      const next = Math.min(currentStep + 1, STEPS.length);
+      setCurrentStep(next);
+      setFurthestStep((f) => Math.max(f, next));
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       toast.error("Please fill in all required fields marked with *");
+      scrollToFirstError(currentFields);
     }
   };
 
-  const goPrev = () => setCurrentStep((s) => Math.max(s - 1, 1));
+  const goPrev = () => {
+    setCurrentStep((s) => Math.max(s - 1, 1));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const goTo = (stepId) => {
+    setCurrentStep(stepId);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
@@ -441,6 +476,18 @@ export function EligibilityForm() {
       toast.error(error?.response?.data?.message || "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // If validation fails on final submit, jump the user back to the earliest invalid step
+  const onError = (formErrors) => {
+    const invalidStep = STEPS.find((s) => s.fields.some((f) => formErrors[f]));
+    if (invalidStep) {
+      goTo(invalidStep.id);
+      toast.error(`Please complete the "${invalidStep.title}" step`);
+      scrollToFirstError(invalidStep.fields);
+    } else {
+      toast.error("Please fill in all required fields marked with *");
     }
   };
 
@@ -490,7 +537,7 @@ export function EligibilityForm() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <StepBar currentStep={currentStep} totalSteps={STEPS.length} onGoTo={setCurrentStep} />
+      <StepBar currentStep={currentStep} totalSteps={STEPS.length} onGoTo={goTo} furthestStep={furthestStep} />
 
       <motion.div
         layout
@@ -522,17 +569,26 @@ export function EligibilityForm() {
               {/* ── STEP 1 ── */}
               {currentStep === 1 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <FormField label="Full Name" error={errors.Contact?.message} required>
-                    <Input placeholder="Your Full Name" {...register("Contact")} />
+                  <FormField label="Full Name" error={errors.Contact?.message} required fieldName="Contact">
+                    <Input
+                      placeholder="Your Full Name"
+                      className={cn(errors.Contact && "border-red-400 focus-visible:ring-red-400/20")}
+                      {...register("Contact")}
+                    />
                   </FormField>
 
-                  <FormField label="Email Address" error={errors["Email Address"]?.message} required>
-                    <Input type="email" placeholder="name@example.com" {...register("Email Address")} />
+                  <FormField label="Email Address" error={errors["Email Address"]?.message} required fieldName="Email Address">
+                    <Input
+                      type="email"
+                      placeholder="name@example.com"
+                      className={cn(errors["Email Address"] && "border-red-400 focus-visible:ring-red-400/20")}
+                      {...register("Email Address")}
+                    />
                   </FormField>
 
                   <PhoneInput control={control} errors={errors} />
 
-                  <FormField label="Current Country of Residence" error={errors.Country?.message} required>
+                  <FormField label="Current Country of Residence" error={errors.Country?.message} required fieldName="Country">
                     <FormSelect
                       control={control}
                       name="Country"
@@ -542,7 +598,7 @@ export function EligibilityForm() {
                     />
                   </FormField>
 
-                  <FormField label="Nationality" error={errors.Nationality?.message} required>
+                  <FormField label="Nationality" error={errors.Nationality?.message} required fieldName="Nationality">
                     <FormSelect
                       control={control}
                       name="Nationality"
@@ -561,6 +617,7 @@ export function EligibilityForm() {
                     label="Why are you considering a Global Talent Visa? (Select all that apply)"
                     error={errors["Why are you considering a Global Talent Visa? (Select all that apply)"]?.message}
                     required
+                    fieldName="Why are you considering a Global Talent Visa? (Select all that apply)"
                   >
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                       {REASONS.map((reason) => {
@@ -590,12 +647,18 @@ export function EligibilityForm() {
                     label="Have you applied for any visa to this country before?"
                     error={errors["Have you applied for any visa to this country before?"]?.message}
                     required
+                    fieldName="Have you applied for any visa to this country before?"
                   >
                     <Controller
                       control={control}
                       name="Have you applied for any visa to this country before?"
                       render={({ field }) => (
-                        <YesNoRadio value={field.value} onChange={field.onChange} disabled={isSubmitting} />
+                        <YesNoRadio
+                          value={field.value}
+                          onChange={field.onChange}
+                          disabled={isSubmitting}
+                          hasError={!!errors["Have you applied for any visa to this country before?"]}
+                        />
                       )}
                     />
                   </FormField>
@@ -625,8 +688,12 @@ export function EligibilityForm() {
               {/* ── STEP 3 ── */}
               {currentStep === 3 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <FormField label="Current Job Title" error={errors["Current Job Title"]?.message} required>
-                    <Input placeholder="e.g. Senior Software Engineer / Lead Designer" {...register("Current Job Title")} />
+                  <FormField label="Current Job Title" error={errors["Current Job Title"]?.message} required fieldName="Current Job Title">
+                    <Input
+                      placeholder="e.g. Senior Software Engineer / Lead Designer"
+                      className={cn(errors["Current Job Title"] && "border-red-400 focus-visible:ring-red-400/20")}
+                      {...register("Current Job Title")}
+                    />
                   </FormField>
 
                   <FormField
@@ -634,9 +701,14 @@ export function EligibilityForm() {
                     description="e.g., Software, Design, Research, Media, FinTech"
                     error={errors["Industry/Sector (e.g., Software, Design, Research, Media, etc.)"]?.message}
                     required
+                    fieldName="Industry/Sector (e.g., Software, Design, Research, Media, etc.)"
                   >
                     <Input
                       placeholder="Your industry or sector"
+                      className={cn(
+                        errors["Industry/Sector (e.g., Software, Design, Research, Media, etc.)"] &&
+                          "border-red-400 focus-visible:ring-red-400/20"
+                      )}
                       {...register("Industry/Sector (e.g., Software, Design, Research, Media, etc.)")}
                     />
                   </FormField>
@@ -646,8 +718,13 @@ export function EligibilityForm() {
                       label="LinkedIn Profile URL or Portfolio Website"
                       error={errors.linkedin_profile?.message}
                       required
+                      fieldName="linkedin_profile"
                     >
-                      <Input placeholder="https://linkedin.com/in/yourprofile" {...register("linkedin_profile")} />
+                      <Input
+                        placeholder="https://linkedin.com/in/yourprofile"
+                        className={cn(errors.linkedin_profile && "border-red-400 focus-visible:ring-red-400/20")}
+                        {...register("linkedin_profile")}
+                      />
                     </FormField>
                   </div>
 
@@ -656,6 +733,7 @@ export function EligibilityForm() {
                       label="Years of Professional Experience"
                       error={errors["Years of Professional Experience"]?.message}
                       required
+                      fieldName="Years of Professional Experience"
                     >
                       <Controller
                         control={control}
@@ -666,6 +744,7 @@ export function EligibilityForm() {
                             value={field.value}
                             onChange={field.onChange}
                             disabled={isSubmitting}
+                            hasError={!!errors["Years of Professional Experience"]}
                           />
                         )}
                       />
@@ -677,6 +756,7 @@ export function EligibilityForm() {
                       label="What is your highest academic qualification?"
                       error={errors["What is your highest academic qualification?"]?.message}
                       required
+                      fieldName="What is your highest academic qualification?"
                     >
                       <Controller
                         control={control}
@@ -687,6 +767,7 @@ export function EligibilityForm() {
                             value={field.value}
                             onChange={field.onChange}
                             disabled={isSubmitting}
+                            hasError={!!errors["What is your highest academic qualification?"]}
                           />
                         )}
                       />
@@ -699,7 +780,7 @@ export function EligibilityForm() {
               {currentStep === 4 && (
                 <div className="space-y-6">
                   {/* Awards */}
-                  <div>
+                  <div data-field="Have you received any awards, honors, or recognitions in your field?">
                     <FormField
                       label="Have you received any awards, honors, or recognitions in your field?"
                       error={errors["Have you received any awards, honors, or recognitions in your field?"]?.message}
@@ -708,7 +789,13 @@ export function EligibilityForm() {
                       <Controller
                         control={control}
                         name="Have you received any awards, honors, or recognitions in your field?"
-                        render={({ field }) => <YesNoRadio value={field.value} onChange={field.onChange} />}
+                        render={({ field }) => (
+                          <YesNoRadio
+                            value={field.value}
+                            onChange={field.onChange}
+                            hasError={!!errors["Have you received any awards, honors, or recognitions in your field?"]}
+                          />
+                        )}
                       />
                     </FormField>
                     {w["Have you received any awards, honors, or recognitions in your field?"] === "Yes" && (
@@ -722,7 +809,7 @@ export function EligibilityForm() {
                   </div>
 
                   {/* Media */}
-                  <div>
+                  <div data-field="Have you been featured in any media, press, or published articles?">
                     <FormField
                       label="Have you been featured in any media, press, or published articles?"
                       error={errors["Have you been featured in any media, press, or published articles?"]?.message}
@@ -731,7 +818,13 @@ export function EligibilityForm() {
                       <Controller
                         control={control}
                         name="Have you been featured in any media, press, or published articles?"
-                        render={({ field }) => <YesNoRadio value={field.value} onChange={field.onChange} />}
+                        render={({ field }) => (
+                          <YesNoRadio
+                            value={field.value}
+                            onChange={field.onChange}
+                            hasError={!!errors["Have you been featured in any media, press, or published articles?"]}
+                          />
+                        )}
                       />
                     </FormField>
                     {w["Have you been featured in any media, press, or published articles?"] === "Yes" && (
@@ -745,7 +838,7 @@ export function EligibilityForm() {
                   </div>
 
                   {/* Presentations */}
-                  <div>
+                  <div data-field="Have you made any public presentations, keynote speeches, or panel contributions?">
                     <FormField
                       label="Have you made any public presentations, keynote speeches, or panel contributions?"
                       error={
@@ -758,7 +851,15 @@ export function EligibilityForm() {
                       <Controller
                         control={control}
                         name="Have you made any public presentations, keynote speeches, or panel contributions?"
-                        render={({ field }) => <YesNoRadio value={field.value} onChange={field.onChange} />}
+                        render={({ field }) => (
+                          <YesNoRadio
+                            value={field.value}
+                            onChange={field.onChange}
+                            hasError={
+                              !!errors["Have you made any public presentations, keynote speeches, or panel contributions?"]
+                            }
+                          />
+                        )}
                       />
                     </FormField>
                     {w[
@@ -774,7 +875,7 @@ export function EligibilityForm() {
                   </div>
 
                   {/* Open source */}
-                  <div>
+                  <div data-field="Are you involved in any open-source projects, startups, or innovation-driven work?">
                     <FormField
                       label="Are you involved in any open-source projects, startups, or innovation-driven work?"
                       error={
@@ -787,7 +888,15 @@ export function EligibilityForm() {
                       <Controller
                         control={control}
                         name="Are you involved in any open-source projects, startups, or innovation-driven work?"
-                        render={({ field }) => <YesNoRadio value={field.value} onChange={field.onChange} />}
+                        render={({ field }) => (
+                          <YesNoRadio
+                            value={field.value}
+                            onChange={field.onChange}
+                            hasError={
+                              !!errors["Are you involved in any open-source projects, startups, or innovation-driven work?"]
+                            }
+                          />
+                        )}
                       />
                     </FormField>
                     {w[
@@ -803,7 +912,7 @@ export function EligibilityForm() {
                   </div>
 
                   {/* International Clients */}
-                  <div>
+                  <div data-field="Do you currently have any international clients or collaborations?">
                     <FormField
                       label="Do you currently have any international clients or collaborations?"
                       error={errors["Do you currently have any international clients or collaborations?"]?.message}
@@ -812,7 +921,13 @@ export function EligibilityForm() {
                       <Controller
                         control={control}
                         name="Do you currently have any international clients or collaborations?"
-                        render={({ field }) => <YesNoRadio value={field.value} onChange={field.onChange} />}
+                        render={({ field }) => (
+                          <YesNoRadio
+                            value={field.value}
+                            onChange={field.onChange}
+                            hasError={!!errors["Do you currently have any international clients or collaborations?"]}
+                          />
+                        )}
                       />
                     </FormField>
                     {w["Do you currently have any international clients or collaborations?"] === "Yes" && (
@@ -834,6 +949,7 @@ export function EligibilityForm() {
                     label="When are you planning to apply for the Global Talent Visa?"
                     error={errors["When are you planning to apply for the Global Talent Visa?"]?.message}
                     required
+                    fieldName="When are you planning to apply for the Global Talent Visa?"
                   >
                     <Controller
                       control={control}
@@ -844,12 +960,13 @@ export function EligibilityForm() {
                           value={field.value}
                           onChange={field.onChange}
                           disabled={isSubmitting}
+                          hasError={!!errors["When are you planning to apply for the Global Talent Visa?"]}
                         />
                       )}
                     />
                   </FormField>
 
-                  <div>
+                  <div data-field="Have you already prepared any documents for a Global Talent Visa application?">
                     <FormField
                       label="Have you already prepared any documents for a Global Talent Visa application?"
                       error={
@@ -862,7 +979,15 @@ export function EligibilityForm() {
                       <Controller
                         control={control}
                         name="Have you already prepared any documents for a Global Talent Visa application?"
-                        render={({ field }) => <YesNoRadio value={field.value} onChange={field.onChange} />}
+                        render={({ field }) => (
+                          <YesNoRadio
+                            value={field.value}
+                            onChange={field.onChange}
+                            hasError={
+                              !!errors["Have you already prepared any documents for a Global Talent Visa application?"]
+                            }
+                          />
+                        )}
                       />
                     </FormField>
                     {w["Have you already prepared any documents for a Global Talent Visa application?"] === "Yes" && (
@@ -894,6 +1019,7 @@ export function EligibilityForm() {
                       ]?.message
                     }
                     required
+                    fieldName="Do you consent to us contacting you via WhatsApp or email for the next steps?"
                   >
                     <Controller
                       control={control}
@@ -904,6 +1030,9 @@ export function EligibilityForm() {
                           value={field.value}
                           onChange={field.onChange}
                           disabled={isSubmitting}
+                          hasError={
+                            !!errors["Do you consent to us contacting you via WhatsApp or email for the next steps?"]
+                          }
                         />
                       )}
                     />
@@ -934,7 +1063,7 @@ export function EligibilityForm() {
           ) : (
             <button
               type="button"
-              onClick={handleSubmit(onSubmit)}
+              onClick={handleSubmit(onSubmit, onError)}
               disabled={isSubmitting}
               className="btn btn-primary text-xs px-6 py-2.5 min-w-[11rem] justify-center disabled:opacity-60 disabled:pointer-events-none"
             >
