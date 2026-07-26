@@ -26,8 +26,19 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormSelect } from "@/components/forms/FormSelect";
+// Add this import at the top with other imports
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 // ── Validation Schema ────────────────────────────────────────
+const LINKEDIN_OR_URL_REGEX =
+  /^(https?:\/\/)?(www\.)?(linkedin\.com\/(in|company|pub)\/[a-zA-Z0-9\-_%]+\/?)$/i;
+
 const eligibilitySchema = z.object({
   "Email Address": z.string().email("Enter a valid email address"),
   Contact: z.string().min(2, "Full name is required"),
@@ -44,8 +55,14 @@ const eligibilitySchema = z.object({
   "Preferred Endorsement": z.string().optional(),
 
   "Current Job Title": z.string().min(2, "Job title is required"),
-  "Industry/Sector (e.g., Software, Design, Research, Media, etc.)": z.string().min(2, "Industry is required"),
-  linkedin_profile: z.string().min(3, "LinkedIn or portfolio URL is required"),
+  "Industry/Sector (e.g., Software, Design, Research, Media, etc.)": z.string().optional(),
+  linkedin_profile: z
+    .string()
+    .optional()
+    .refine(
+      (val) => !val || val.trim() === "" || LINKEDIN_OR_URL_REGEX.test(val.trim()),
+      { message: "Enter a valid LinkedIn profile URL (e.g. https://linkedin.com/in/yourname)" }
+    ),
   "Years of Professional Experience": z.string().min(1, "Select years of experience"),
   "What is your highest academic qualification?": z.string().min(1, "Select qualification"),
 
@@ -145,6 +162,21 @@ const ENDORSEMENT_BODIES = [
   "British Academy (Humanities & Social Sciences)",
   "Arts Council England (Arts, Culture & Fashion)",
   "Not Sure / Need Guidance"
+];
+
+// ── NEW: Industry/Sector options (same key gets used for "Other" too) ──
+const INDUSTRY_OPTIONS = [
+  "Software / IT",
+  "Design (UI/UX, Graphic, Product)",
+  "Data Science / AI / Research",
+  "Media / Journalism / Content",
+  "FinTech / Finance",
+  "Marketing / Advertising",
+  "Healthcare / MedTech",
+  "Education / EdTech",
+  "Engineering (Non-software)",
+  "Arts / Fashion / Culture",
+  "Other",
 ];
 
 const EXPERIENCE_OPTIONS = ["Less than 3 years", "3–5 years", "6–10 years", "10+ years"];
@@ -293,6 +325,66 @@ function YesNoRadio({ value, onChange, disabled, hasError }) {
   return <CustomRadioGroup options={["Yes", "No"]} value={value} onChange={onChange} disabled={disabled} hasError={hasError} />;
 }
 
+// ── Industry/Sector select with "Other" free-text, same field/key ──
+function IndustrySelect({ control, name, error }) {
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field }) => {
+        const isPreset = INDUSTRY_OPTIONS.includes(field.value);
+        const isCustomValue = !!field.value && !isPreset;
+
+        // Local state just to control whether the "Other" text input is shown.
+        // Initialized based on whether the stored value is a custom one.
+        const [showOtherInput, setShowOtherInput] = useState(isCustomValue);
+
+        const selectValue = showOtherInput ? "Other" : field.value || undefined;
+
+        return (
+          <div className="space-y-2.5">
+            <Select
+              value={selectValue}
+              onValueChange={(val) => {
+                if (val === "Other") {
+                  setShowOtherInput(true);
+                  field.onChange(""); // clear until user types custom value
+                } else {
+                  setShowOtherInput(false);
+                  field.onChange(val);
+                }
+              }}
+            >
+              <SelectTrigger className={cn(error && "error")}>
+                <SelectValue placeholder="Select industry..." />
+              </SelectTrigger>
+              <SelectContent>
+                {INDUSTRY_OPTIONS.map((option) => (
+                  <SelectItem key={option} value={option}>
+                    {option}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {showOtherInput && (
+              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}>
+                <Input
+                  autoFocus
+                  placeholder="Please specify your industry/sector"
+                  value={field.value}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  className={cn(error && "border-red-400 focus-visible:ring-red-400/20")}
+                />
+              </motion.div>
+            )}
+          </div>
+        );
+      }}
+    />
+  );
+}
+
 // ── Step progress bar ────────────────────────────────────────
 function StepBar({ currentStep, totalSteps, onGoTo, furthestStep }) {
   const pct = Math.round((currentStep / totalSteps) * 100);
@@ -360,7 +452,7 @@ function StepBar({ currentStep, totalSteps, onGoTo, furthestStep }) {
 // ── Main Component ───────────────────────────────────────────
 export function EligibilityForm() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [furthestStep, setFurthestStep] = useState(1); // tracks how far the user has validly progressed
+  const [furthestStep, setFurthestStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -371,6 +463,7 @@ export function EligibilityForm() {
     watch,
     setValue,
     trigger,
+    getValues,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(eligibilitySchema),
@@ -419,11 +512,9 @@ export function EligibilityForm() {
     setValue("Why are you considering a Global Talent Visa? (Select all that apply)", next, { shouldValidate: true });
   };
 
-  // Scroll smoothly to the first field that failed validation on the current step
   const scrollToFirstError = (currentFields) => {
     const firstErrorField = currentFields.find((f) => errors[f]);
     if (!firstErrorField) return;
-    // small delay so the error DOM has rendered
     setTimeout(() => {
       const el = document.querySelector(`[data-field="${CSS.escape(firstErrorField)}"]`);
       el?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -432,6 +523,22 @@ export function EligibilityForm() {
 
   const goNext = async () => {
     const currentFields = STEPS[currentStep - 1].fields;
+
+    const currentValues = getValues();
+    const partialSchema = eligibilitySchema.pick(
+      Object.fromEntries(currentFields.map((f) => [f, true]))
+    );
+    const result = partialSchema.safeParse(currentValues);
+
+    if (!result.success) {
+      console.log("❌ Zod validation errors:");
+      result.error.issues.forEach((issue) => {
+        console.log(`Field: "${issue.path.join(".")}" | Message: ${issue.message} | Value:`, currentValues[issue.path[0]]);
+      });
+    } else {
+      console.log("✅ Zod says these fields are valid");
+    }
+
     const valid = await trigger(currentFields);
     if (valid) {
       const next = Math.min(currentStep + 1, STEPS.length);
@@ -479,7 +586,6 @@ export function EligibilityForm() {
     }
   };
 
-  // If validation fails on final submit, jump the user back to the earliest invalid step
   const onError = (formErrors) => {
     const invalidStep = STEPS.find((s) => s.fields.some((f) => formErrors[f]));
     if (invalidStep) {
@@ -545,7 +651,6 @@ export function EligibilityForm() {
         className="card relative overflow-hidden p-0 hover:transform-none hover:shadow-[var(--shadow-card)]"
       >
         <div className="px-7 pt-8 pb-6">
-          {/* Header */}
           <div className="flex items-center gap-3 mb-6 pb-5 border-b border-slate-100">
             <div className="w-10 h-10 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center shrink-0">
               <StepIcon size={18} className="text-brand-600" />
@@ -700,24 +805,20 @@ export function EligibilityForm() {
                     label="Industry/Sector"
                     description="e.g., Software, Design, Research, Media, FinTech"
                     error={errors["Industry/Sector (e.g., Software, Design, Research, Media, etc.)"]?.message}
-                    required
+                    // required
                     fieldName="Industry/Sector (e.g., Software, Design, Research, Media, etc.)"
                   >
-                    <Input
-                      placeholder="Your industry or sector"
-                      className={cn(
-                        errors["Industry/Sector (e.g., Software, Design, Research, Media, etc.)"] &&
-                          "border-red-400 focus-visible:ring-red-400/20"
-                      )}
-                      {...register("Industry/Sector (e.g., Software, Design, Research, Media, etc.)")}
+                    <IndustrySelect
+                      control={control}
+                      name="Industry/Sector (e.g., Software, Design, Research, Media, etc.)"
+                      error={errors["Industry/Sector (e.g., Software, Design, Research, Media, etc.)"]?.message}
                     />
                   </FormField>
 
                   <div className="md:col-span-2">
                     <FormField
-                      label="LinkedIn Profile URL or Portfolio Website"
+                      label="LinkedIn Profile URL (Optional)"
                       error={errors.linkedin_profile?.message}
-                      required
                       fieldName="linkedin_profile"
                     >
                       <Input
@@ -779,7 +880,6 @@ export function EligibilityForm() {
               {/* ── STEP 4 ── */}
               {currentStep === 4 && (
                 <div className="space-y-6">
-                  {/* Awards */}
                   <div data-field="Have you received any awards, honors, or recognitions in your field?">
                     <FormField
                       label="Have you received any awards, honors, or recognitions in your field?"
@@ -808,7 +908,6 @@ export function EligibilityForm() {
                     )}
                   </div>
 
-                  {/* Media */}
                   <div data-field="Have you been featured in any media, press, or published articles?">
                     <FormField
                       label="Have you been featured in any media, press, or published articles?"
@@ -837,7 +936,6 @@ export function EligibilityForm() {
                     )}
                   </div>
 
-                  {/* Presentations */}
                   <div data-field="Have you made any public presentations, keynote speeches, or panel contributions?">
                     <FormField
                       label="Have you made any public presentations, keynote speeches, or panel contributions?"
@@ -874,7 +972,6 @@ export function EligibilityForm() {
                     )}
                   </div>
 
-                  {/* Open source */}
                   <div data-field="Are you involved in any open-source projects, startups, or innovation-driven work?">
                     <FormField
                       label="Are you involved in any open-source projects, startups, or innovation-driven work?"
@@ -911,7 +1008,6 @@ export function EligibilityForm() {
                     )}
                   </div>
 
-                  {/* International Clients */}
                   <div data-field="Do you currently have any international clients or collaborations?">
                     <FormField
                       label="Do you currently have any international clients or collaborations?"
