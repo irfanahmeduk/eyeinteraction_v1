@@ -124,7 +124,7 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* ── Compact Hero ─────────────────────────────── */}
-      <div className="bg-gradient-blue text-white pt-20 pb-14">
+      <div className="bg-gradient-blue text-white  pt-24 pb-14">
         <div className="container-custom">
           <nav className="flex items-center gap-1.5 text-xs text-blue-200/80 mb-4">
             <Link href="/" className="hover:text-white transition-colors">
