@@ -85,9 +85,8 @@ export function ServicesSection() {
                 delay: i * 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className={`card p-7 group relative overflow-hidden ${
-                service.featured ? "ring-2 ring-brand-500 ring-offset-2" : ""
-              }`}
+              className={`card p-7 group relative overflow-hidden ${service.featured ? "ring-2 ring-brand-500 ring-offset-2" : ""
+                }`}
             >
               {/* Popular badge */}
               {service.featured && (
@@ -142,12 +141,7 @@ export function ServicesSection() {
           <div>
             <h4 className="text-brand-700 font-semibold mb-1.5">Important Note</h4>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Eye Interaction provides professional profile development, document
-              organisation, editing and evidence-presentation support. We do not provide
-              immigration advice, determine visa eligibility, complete visa applications
-              or represent clients before the Home Office. Immigration advice and visa
-              application support must be obtained from an appropriately regulated
-              professional.
+              Eye Interaction supports researchers, innovators and digital technology professionals in developing professional profiles, organising evidence and presenting technical achievements. We do not provide immigration advice or visa application services.
             </p>
           </div>
         </div>
