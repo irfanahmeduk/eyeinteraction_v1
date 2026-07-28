@@ -11,10 +11,10 @@ export function FooterNewsletter() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
           <div>
             <h3 className="text-base font-semibold text-white mb-1">
-            Stay Ahead with UK Global Talent Updates
+            Stay Ahead in Research, Technology & Innovation
             </h3>
             <p className="text-sm text-slate-400">
-            Get expert insights, Home Office updates, endorsement guidance, and practical application tips delivered straight to your inbox.
+            Receive practical insights on professional profile development, research communication, digital technology, innovation and career growth.
             </p>
           </div>
           <form

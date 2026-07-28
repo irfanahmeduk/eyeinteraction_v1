@@ -18,24 +18,24 @@ import {
 
 const FAQS = [
   {
-    question: "Is the eligibility check really free?",
+    question: "Who can use Eye Interaction’s services?",
     answer:
-      "Yes. Our initial eligibility assessment is completely free with no obligation. You receive a personalised report from our experts within 24 hours.",
+      "We support researchers, technology professionals, startup founders, academics and innovators who want to strengthen how they present their work, achievements and professional impact.",
   },
   {
-    question: "How long does the visa process usually take?",
+    question: "What research support do you provide?",
     answer:
-      "Timelines vary by route and country. Most skilled worker and talent visa endorsements are completed within 2–6 weeks once documents are ready. We give you a clear timeline at the start.",
+      "We provide support with research-profile development, publication planning, document structure, academic presentation, conference materials and the clear communication of research contributions. We do not guarantee publication or acceptance.",
   },
   {
-    question: "What documents will I need?",
+    question: "How do you support technology professionals and founders?",
     answer:
-      "Requirements depend on your visa category. After your eligibility check, your case manager provides a tailored checklist — passport, employment proof, qualifications, and any route-specific forms.",
+      "We help professionals and founders present technical projects, product development, innovation, leadership, industry contributions and measurable impact in a clear and well-structured professional profile.",
   },
   {
-    question: "Can you help if I was refused before?",
+    question: "What documents can your team review?",
     answer:
-      "In many cases, yes. We review previous refusals, identify gaps, and advise on the strongest route forward. Share your history during the eligibility assessment for honest guidance.",
+      "We can review CVs, professional biographies, personal statements, research summaries, publication records, project descriptions, achievement portfolios and supporting evidence for clarity, consistency, structure and presentation.",
   },
 ];
 
@@ -59,13 +59,12 @@ export function FAQSection() {
               </span>
 
               <h2 className="text-display-md font-display font-bold text-slate-900 mb-4 leading-tight">
-                Good to Know{" "}
-                <span className="heading-gradient">Before You Apply</span>
+                Supporting Research, Innovation
+                <span className="heading-gradient"> & Digital Talent</span>
               </h2>
 
               <p className="text-slate-500 text-base leading-relaxed mb-8">
-                Clear answers to what applicants ask most — so you can move
-                forward with confidence.
+                Clear answers about our professional profile, research, technology and document-support services.
               </p>
 
               {/* Help Card */}

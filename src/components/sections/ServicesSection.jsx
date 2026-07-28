@@ -2,28 +2,32 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Briefcase, Globe, Users, ArrowRight, CheckCircle } from "lucide-react";
+import { FileText, Search, Users, ArrowRight, CheckCircle, ShieldCheck } from "lucide-react";
 
 const SERVICES = [
   {
-    icon: Briefcase,
-    title: "UK Global Talent Profile Development",
+    icon: FileText,
+    title: "Professional Profile Development",
     description:
-      "Build a compelling UK Global Talent Visa profile from the ground up with expert guidance tailored to your achievements and career goals.",
-    features: ["Complete profile strategy", "Evidence planning & positioning", "Personal statement guidance"],
+      "We help you build a clear, well-structured profile that highlights your experience, achievements, and professional journey.",
+    features: [
+      "Profile structuring & career storytelling",
+      "Evidence organisation & presentation",
+      "Personal statement development",
+    ],
     color: "from-brand-400 to-brand-600",
     href: "/eligibility",
     featured: false,
   },
   {
-    icon: Globe,
-    title: "Document Assessment & AI Detection",
+    icon: Search,
+    title: "Document Review & Support",
     description:
-      "Ensure your UK Global Talent Visa documents are accurate, compliant, and AI-safe with a comprehensive expert review and authenticity analysis.",
+      "We review and refine your documents to improve clarity, consistency, and the overall presentation of your evidence.",
     features: [
-      "Expert document assessment",
-      "AI content detection",
-      "Improvement recommendations",
+      "Document structure & formatting review",
+      "Clarity, consistency & quality check",
+      "Presentation improvement suggestions",
     ],
     color: "from-brand-600 to-brand-800",
     href: "/eligibility",
@@ -31,10 +35,14 @@ const SERVICES = [
   },
   {
     icon: Users,
-    title: "1-to-1 Mentoring with Irfan Ahmed",
+    title: "1-to-1 Mentoring Sessions",
     description:
-      "Book a paid strategy session with Senior Mentor Irfan Ahmed for personalized guidance, application planning, and expert answers to your questions.",
-    features: ["Live consultation session", "Personalized visa roadmap", "Expert application advice"],
+      "Book a paid session with our senior mentor for personalised guidance on your profile and professional growth.",
+    features: [
+      "Live mentoring session",
+      "Personalised feedback & strategy",
+      "Answers to your specific questions",
+    ],
     color: "from-brand-700 to-brand-950",
     href: "/eligibility",
     button: "Book a session",
@@ -53,11 +61,14 @@ export function ServicesSection() {
             Our Services
           </span>
           <h2 className="text-display-md font-display font-bold text-slate-900 mb-4">
-            Expert UK Global {' '}
-            <span className="heading-gradient">Talent Visa Services</span>
+            Professional Support {" "}
+            <span className="heading-gradient">for a Stronger</span> <br />
+            <span className="text-brand-600">Global Talent Profile</span>
           </h2>
           <p className="text-slate-500 text-lg leading-relaxed">
-          Everything you need for a successful UK Global Talent Visa application, from profile building and document assessment to one-to-one mentoring with industry experts.
+            We help professionals, founders, and researchers present their achievements
+            with clarity and impact through expert profile development, document support,
+            and personalised mentoring.
           </p>
         </div>
 
@@ -113,7 +124,7 @@ export function ServicesSection() {
                 href={service.href}
                 className="flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:text-brand-700 transition-colors"
               >
-                {service.button || 'Learn more '}
+                {service.button || "Learn more"}
                 <ArrowRight
                   size={14}
                   className="group-hover:translate-x-1 transition-transform"
@@ -121,6 +132,24 @@ export function ServicesSection() {
               </Link>
             </motion.div>
           ))}
+        </div>
+
+        {/* Important Note */}
+        <div className="mt-10 flex items-start gap-4 rounded-2xl border border-brand-100 bg-brand-50/60 p-6">
+          <div className="w-11 h-11 shrink-0 rounded-full bg-brand-100 flex items-center justify-center">
+            <ShieldCheck size={20} className="text-brand-600" />
+          </div>
+          <div>
+            <h4 className="text-brand-700 font-semibold mb-1.5">Important Note</h4>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Eye Interaction provides professional profile development, document
+              organisation, editing and evidence-presentation support. We do not provide
+              immigration advice, determine visa eligibility, complete visa applications
+              or represent clients before the Home Office. Immigration advice and visa
+              application support must be obtained from an appropriately regulated
+              professional.
+            </p>
+          </div>
         </div>
 
       </div>

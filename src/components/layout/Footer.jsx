@@ -44,9 +44,9 @@ const SOCIAL_LINKS = [
 ];
 
 const TRUST_BADGES = [
-  "500+ Profiles Reviewed",
-  "Expert-Led Guidance",
-  "UK Global Talent Specialists",
+  "Research & Academic Support",
+  "Technology Profile Development",
+  "Founder & Innovation Support",
 ];
 
 export function Footer() {
@@ -64,10 +64,10 @@ export function Footer() {
                 Start Today
               </p>
               <h2 className="text-3xl md:text-4xl font-display font-bold text-white leading-tight mb-3">
-              Ready to Secure Your UK Global Talent Visa?
+                Ready to Strengthen Your Professional Profile?
               </h2>
               <p className="text-slate-400 text-base leading-relaxed">
-              Build a stronger application with expert profile development, document assessment, and personalized guidance from experienced UK Global Talent Visa specialists.
+                Present your research, technology experience, innovation and professional achievements with clarity through profile development, document review and personalised mentoring.
               </p>
 
               <div className="flex flex-wrap gap-x-5 gap-y-2 mt-5">
@@ -88,13 +88,13 @@ export function Footer() {
                 href="/eligibility"
                 className="btn btn-primary text-sm px-6 py-3 shadow-lg shadow-brand-900/40"
               >
-                Check Eligibility
+                Request a Profile Review
               </Link>
               <Link
                 href="/contact"
                 className="flex items-center justify-center gap-1.5 px-6 py-3 rounded-lg text-sm font-semibold text-white border border-slate-600 hover:border-slate-400 hover:bg-slate-800 transition-all duration-200"
               >
-                Book a Consultation
+                Book a Mentoring Session
                 <ArrowUpRight size={15} />
               </Link>
             </div>
@@ -121,7 +121,7 @@ export function Footer() {
             </Link>
 
             <p className="text-slate-400 text-sm leading-relaxed mb-7 max-w-xs">
-            Eye Interaction specializes in UK Global Talent Visa (GTV) support, offering profile development, evidence strategy, document assessment, AI detection, and one-to-one mentoring to help exceptional professionals strengthen their endorsement applications.
+              Eye Interaction specializes in UK Global Talent Visa (GTV) support, offering profile development, evidence strategy, document assessment, AI detection, and one-to-one mentoring to help exceptional professionals strengthen their endorsement applications.
             </p>
 
             <ul className="space-y-3">

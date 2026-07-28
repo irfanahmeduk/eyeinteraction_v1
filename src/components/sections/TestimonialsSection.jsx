@@ -10,27 +10,27 @@ const TESTIMONIALS = [
     role: "Business Analyst",
     country: "Pakistan → UK",
     quote:
-      "Outstanding support from Irfan and the Eye Interaction Limited team. Their expertise, professionalism, and guidance made my UK Global Talent Visa application smooth and successful. Highly recommended!",
+      "The Eye Interaction team provided clear and professional support in organising my achievements and improving the presentation of my documents. Their feedback helped me communicate my experience with greater clarity and confidence.",
     rating: 5,
-    visa: "Global Talent Visa",
+    visa: "Profile Development",
   },
   {
     name: "Mr. Fawaz Ahmed Dar",
     role: "Senior Developer",
     country: "Pakistan → UK",
     quote:
-      "Eye Interaction provided exceptional support throughout my Global Talent Visa journey. Noor-e-Zehra was always helpful, and Mr. Irfan's mentorship on career growth and the AI industry was invaluable. Highly recommended!",
+      "Eye Interaction supported me with structured profile feedback and practical mentoring. Noor-e-Zehra was responsive throughout, and Irfan’s guidance on professional growth and the AI industry was particularly valuable.",
     rating: 5,
-    visa: "Global Talent Visa",
+    visa: "Mentoring Support",
   },
   {
     name: "Mr. Faizan Ahmed",
     role: "Software Engineer",
     country: "India → UK",
     quote:
-      "Everything is handled professionally and efficiently. The process is smooth, well managed, and the team is always responsive and helpful.",
+      "The service was professional, organised and efficient. Communication was clear, the process was well managed, and the team was responsive whenever I needed support.",
     rating: 5,
-    visa: "Global Talent Visa",
+    visa: "Document Support",
   },
 ];
 
@@ -49,7 +49,7 @@ export function TestimonialsSection() {
             <span className="heading-gradient">Real Results</span>
           </h2>
           <p className="text-slate-500 text-lg">
-            Join thousands who&apos;ve successfully navigated their visa journey with us.
+          Real feedback from professionals supported by our team.
           </p>
         </div>
 

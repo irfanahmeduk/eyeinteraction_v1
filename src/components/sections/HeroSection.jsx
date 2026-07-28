@@ -267,7 +267,7 @@ export function HeroSection() {
               <div className="inline-flex items-center gap-2 glass-light rounded-full px-4 py-2 mb-6">
                 <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="text-slate-600 text-xs font-medium tracking-wide">
-                  Now accepting applications for {new Date().getFullYear()}
+                  Now accepting professional profile review enquiries for {new Date().getFullYear()}
                 </span>
               </div>
             </motion.div>
@@ -277,9 +277,9 @@ export function HeroSection() {
               className="text-display-xl lg:text-display-2xl font-display font-bold text-slate-900 leading-[1.08] mb-6"
             >
 
-              Your <br/>
+              Build a <br/>
               <span className="relative inline-block">
-                <span className="heading-gradient-accent">Global Visa Success</span>
+                <span className="heading-gradient-accent">Stronger <br /> Global Talent</span>
                 <svg
                   className="absolute -bottom-2 left-0 w-full"
                   viewBox="0 0 300 12"
@@ -294,14 +294,15 @@ export function HeroSection() {
                   />
                 </svg>
               </span>{" "}
-              Starts Here
+              Profile
             </motion.h1>
 
             <motion.p
               variants={HERO_ANIMATIONS.item}
               className="text-lg text-slate-600 leading-relaxed mb-8 max-w-lg"
             >
-              Navigate your visa journey with confidence. From eligibility assessment to expert guidance and application support, we help professionals, founders, and global talent move forward faster.
+              Present your professional achievements with clarity and confidence. We support technology professionals, founders and researchers with profile development, document organisation, editing and evidence presentation.
+
             </motion.p>
 
             <motion.div variants={HERO_ANIMATIONS.item} className="flex flex-wrap gap-3 mb-9">
@@ -318,7 +319,7 @@ export function HeroSection() {
 
             <motion.div variants={HERO_ANIMATIONS.item} className="flex flex-col sm:flex-row gap-3.5">
               <Link href="/eligibility" className="btn btn-primary text-sm px-7 py-3.5">
-                Check Your Eligibility
+              Request a Profile Review.
                 <ArrowRight size={16} />
               </Link>
               <Link href="/success-stories" className="btn btn-outline text-sm px-7 py-3.5 gap-2 bg-white/60 hover:bg-white">
