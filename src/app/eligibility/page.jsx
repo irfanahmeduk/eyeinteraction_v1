@@ -13,13 +13,13 @@ export default function EligibilityPage() {
       <div className="bg-gradient-blue text-white pt-28 pb-14 border-b border-blue-950/20">
         <div className="container-custom text-center max-w-3xl mx-auto">
           <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-200 mb-3 px-3.5 py-1 glass-dark rounded-full">
-            UK Global Talent Visa Assessment
+          GLOBAL TALENT PROFILE REVIEW
           </span>
           <h1 className="text-display-md md:text-display-lg font-display font-bold mb-4 leading-tight">
-            Check Your Eligibility for the UK Global Talent Visa
+          Understand and Strengthen Your Professional Profile
           </h1>
           <p className="text-blue-100/90 text-base md:text-lg leading-relaxed">
-            Wondering whether you qualify and how close you are to endorsement? Fill out our free eligibility assessment to receive a quick expert evaluation and discover your next steps.
+          Share your background, achievements and supporting materials to receive a non-legal review focused on profile structure, document presentation and areas for improvement.
           </p>
         </div>
       </div>
