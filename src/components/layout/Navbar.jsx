@@ -136,7 +136,7 @@ export function Navbar() {
               href="/eligibility"
               className="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 text-brand-700 hover:bg-brand-50"
             >
-              Check Eligibility
+              Book an Initial Review
             </Link>
             <Link
               href="/contact"
