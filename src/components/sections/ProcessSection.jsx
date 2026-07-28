@@ -49,7 +49,7 @@ export function ProcessSection() {
                 </div>
 
                 {/* Steps */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
                     {STEPS.map((step, i) => (
                         <motion.div
                             key={step.step}
@@ -57,14 +57,14 @@ export function ProcessSection() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-60px" }}
                             transition={{ duration: 0.5, delay: i * 0.1 }}
-                            className="relative"
+                            className="relative h-full"
                         >
                             {/* Connector line between cards (desktop only) */}
                             {i < STEPS.length - 1 && (
                                 <div className="hidden lg:block absolute top-7 left-full w-full h-px bg-gradient-to-r from-brand-200 to-brand-100 z-0" />
                             )}
 
-                            <div className="card p-6 relative z-10 bg-white">
+                            <div className="card p-6 relative z-10 bg-white h-full flex flex-col">
                                 {/* Icon + Step number */}
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="w-12 h-12 rounded-2xl bg-gradient-blue flex items-center justify-center shadow-blue-sm">
@@ -76,7 +76,7 @@ export function ProcessSection() {
                                 </div>
 
                                 <h3 className="font-semibold text-slate-900 mb-2">{step.title}</h3>
-                                <p className="text-sm text-slate-500 leading-relaxed">{step.desc}</p>
+                                <p className="text-sm text-slate-500 leading-relaxed flex-grow">{step.desc}</p>
                             </div>
                         </motion.div>
                     ))}

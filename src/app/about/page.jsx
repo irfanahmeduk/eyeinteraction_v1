@@ -1,4 +1,15 @@
-import { CheckCircle2, Shield, Globe, Users } from "lucide-react";
+import {
+  CheckCircle2,
+  Shield,
+  Globe,
+  Users,
+  User,
+  FileText,
+  Lock,
+  Tag,
+  Target,
+  Sparkles,
+} from "lucide-react";
 
 export const metadata = {
   title: "About Us",
@@ -19,6 +30,12 @@ const VALUES = [
     description:
       "A personal case manager guides you from eligibility check through to visa approval.",
   },
+  {
+    icon: Users,
+    title: "Research & Technology Expertise",
+    description:
+      "Specialist support for research communication, academic profiles, technical projects, innovation evidence and professional impact.",
+  },
 ];
 
 const MILESTONES = [
@@ -28,10 +45,40 @@ const MILESTONES = [
   { value: "14d", label: "Avg. Timeline" },
 ];
 
+// "Why clients choose us" card content
 const WHY_US = [
-  "Personalised eligibility assessment",
-  "End-to-end document & submission support",
-  "Transparent timelines and pricing",
+  {
+    icon: User,
+    title: "Personalised support",
+    description:
+      "We understand your background and goals to provide support that is tailored to you.",
+  },
+  {
+    icon: FileText,
+    title: "End-to-end document & profile support",
+    description:
+      "From structuring your profile to refining your documents, we help you present your best.",
+  },
+  {
+    icon: Lock,
+    title: "Expert guidance",
+    description:
+      "Benefit from experienced mentors and reviewers who help strengthen your impact and credibility.",
+  },
+  {
+    icon: Tag,
+    title: "Transparent process & pricing",
+    description:
+      "Clear timelines, honest communication and upfront pricing — no hidden costs, no surprises.",
+  },
+];
+
+// Small icon row shown under the mission paragraph
+const CORE_PRINCIPLES = [
+  { icon: Users, label: "People First Approach" },
+  { icon: Shield, label: "Confidential & Secure" },
+  { icon: Target, label: "Clarity with Impact" },
+  { icon: Sparkles, label: "Commitment to Excellence" },
 ];
 
 export default function AboutPage() {
@@ -44,11 +91,10 @@ export default function AboutPage() {
             About Eye Interaction
           </span>
           <h1 className="text-display-lg font-display font-bold mb-4">
-            Your Trusted Visa Partner
+            Your Partner in Research, Technology & Professional Growth
           </h1>
           <p className="text-blue-100/80 text-lg max-w-2xl mx-auto">
-            We help professionals and families navigate visa endorsement with clarity,
-            expertise, and a proven track record — so you can focus on your next chapter.
+          We support researchers, technology professionals and founders in presenting their achievements with clarity, impact and confidence.
           </p>
         </div>
       </div>
@@ -62,29 +108,49 @@ export default function AboutPage() {
                 Our Mission
               </span>
               <h2 className="text-display-md font-display font-bold text-slate-900 mb-4">
-                Making Immigration{" "}
-                <span className="heading-gradient">Clear & Achievable</span>
+              Empowering Professionals to Present, {" "}
+                <span className="heading-gradient">Publish & Make an Impact</span>
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed mb-4">
-                Eye Interaction was founded to remove the confusion from visa endorsement.
-                We combine deep regulatory knowledge with a human-first approach — every
-                applicant deserves a clear path forward.
+              Eye Interaction was founded to help professionals and researchers communicate their work more effectively. We combine industry experience with a human-first approach—because every profile, document and achievement deserves to be clearly presented and understood.
               </p>
-              <p className="text-slate-500 leading-relaxed">
-                From your first eligibility check to final approval, our team stays with
-                you at every milestone — with honest guidance and no hidden surprises.
+              <p className="text-slate-500 leading-relaxed mb-8">
+              From your first step to your next professional milestone, our team supports you with honest guidance, careful attention to detail and complete confidentiality.
               </p>
+
+              {/* Core principles row */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-slate-200 border-t border-slate-100 pt-8">
+                {CORE_PRINCIPLES.map(({ icon: Icon, label }) => (
+                  <div
+                    key={label}
+                    className="flex flex-col items-center text-center gap-3 px-3"
+                  >
+                    <Icon size={28} strokeWidth={2} className="text-brand-600" />
+                    <span className="text-sm font-semibold text-slate-700 leading-snug">
+                      {label}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="card p-8 bg-slate-50/80" data-animate data-animate-delay="2">
-              <h3 className="text-lg font-semibold text-slate-900 mb-5">
+              <h3 className="text-lg font-semibold text-slate-900 mb-1.5">
                 Why clients choose us
               </h3>
-              <ul className="space-y-4">
-                {WHY_US.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm text-slate-600">
-                    <CheckCircle2 size={16} className="text-brand-600 shrink-0 mt-0.5" />
-                    {item}
+              <div className="w-8 h-1 rounded-full bg-brand-600 mb-6" />
+              <ul className="divide-y divide-slate-200">
+                {WHY_US.map(({ icon: Icon, title, description }) => (
+                  <li key={title} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
+                    <div className="w-11 h-11 shrink-0 rounded-full bg-brand-100 flex items-center justify-center">
+                      <Icon size={20} className="text-brand-600" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-slate-900">{title}</p>
+                      <p className="text-sm text-slate-500 mt-1 leading-relaxed">
+                        {description}
+                      </p>
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -124,14 +190,14 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6 items-stretch">
             {VALUES.map(({ icon: Icon, title, description }) => (
-              <div key={title} className="card p-7 bg-white" data-animate>
+              <div key={title} className="card p-7 bg-white h-full flex flex-col" data-animate>
                 <div className="w-12 h-12 rounded-2xl bg-gradient-blue flex items-center justify-center mb-5 shadow-blue-sm">
                   <Icon size={22} className="text-white" />
                 </div>
                 <h3 className="text-lg font-semibold text-slate-900 mb-2.5">{title}</h3>
-                <p className="text-sm text-slate-500 leading-relaxed">{description}</p>
+                <p className="text-sm text-slate-500 leading-relaxed flex-grow">{description}</p>
               </div>
             ))}
           </div>
