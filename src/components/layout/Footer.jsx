@@ -121,7 +121,7 @@ export function Footer() {
             </Link>
 
             <p className="text-slate-400 text-sm leading-relaxed mb-7 max-w-xs">
-              Eye Interaction specializes in UK Global Talent Visa (GTV) support, offering profile development, evidence strategy, document assessment, AI detection, and one-to-one mentoring to help exceptional professionals strengthen their endorsement applications.
+            Eye Interaction is a professional support platform for researchers, founders and digital technology professionals. We provide profile development, document organisation, editing, research communication and one-to-one mentoring to help clients present their work with clarity and impact.
             </p>
 
             <ul className="space-y-3">
