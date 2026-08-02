@@ -2,8 +2,19 @@
 
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Play, ShieldCheck, Sparkles, Volume2, VolumeX, Star } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Play,
+  ShieldCheck,
+  Sparkles,
+  Award,
+  Globe,
+  FileCheck,
+  TrendingUp,
+  Users,
+} from "lucide-react";
+import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
 
 const TRUST_BADGES = [
   // "98% Success Rate",
@@ -26,14 +37,18 @@ const HERO_ANIMATIONS = {
 };
 
 /* ─────────────────────────────────────────────────
-   THUMBNAIL FALLBACK — pure CSS/Tailwind, no image file
-   Shown when posterSrc is missing or fails to load, so the
-   hero never breaks or shows an empty box.
+   VIDEO SHOWCASE — TEMPORARILY DISABLED
+   Kept here so it can be restored later. To bring the
+   video back: uncomment this block + ThumbnailFallback
+   below, re-add Volume2/VolumeX/Star to the lucide-react
+   import, and swap <GlobalTalentVisual /> back to
+   <VideoShowcase .../> in HeroSection().
 ───────────────────────────────────────────────── */
+
+/*
 function ThumbnailFallback() {
   return (
     <div className="absolute inset-0 w-full h-full bg-[linear-gradient(135deg,var(--color-secondary)_0%,var(--color-primary)_60%,var(--color-accent)_100%)]">
-      {/* Dot grid texture */}
       <div
         className="absolute inset-0 opacity-[0.18]"
         style={{
@@ -42,11 +57,8 @@ function ThumbnailFallback() {
           backgroundSize: "22px 22px",
         }}
       />
-      {/* Soft glow accents */}
       <div className="absolute -top-16 -left-10 w-56 h-56 rounded-full bg-white/10 blur-[60px]" />
       <div className="absolute -bottom-20 -right-16 w-72 h-72 rounded-full bg-white/10 blur-[70px]" />
-
-      {/* Center mark */}
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
         <span className="flex items-center justify-center w-14 h-14 rounded-2xl bg-white/15 border border-white/25 backdrop-blur-sm">
           <Sparkles size={22} className="text-white" />
@@ -62,9 +74,6 @@ function ThumbnailFallback() {
   );
 }
 
-/* ─────────────────────────────────────────────────
-   VIDEO SHOWCASE — landscape (16:9), video-only focus
-───────────────────────────────────────────────── */
 function VideoShowcase({
   posterSrc = "",
   videoSrc = "/videos/success-story.mp4",
@@ -99,7 +108,6 @@ function VideoShowcase({
       >
         <AnimatePresence initial={false} mode="wait">
           {!isPlaying ? (
-            /* ── Poster state ── */
             <motion.button
               key="poster"
               type="button"
@@ -121,10 +129,7 @@ function VideoShowcase({
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               )}
-              {/* Readability gradient — strengthened so bottom caption row is always legible */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/10 to-slate-900/30" />
-
-              {/* Play button */}
               <span className="absolute inset-0 flex items-center justify-center">
                 <motion.span
                   className="flex items-center justify-center w-16 h-16 rounded-full bg-white/95 shadow-blue-xl"
@@ -135,20 +140,14 @@ function VideoShowcase({
                   <Play size={22} fill="currentColor" className="text-brand-600 ml-1" />
                 </motion.span>
               </span>
-
-              {/* Top-left: verified badge (now has real copy) */}
               <span className="absolute top-3.5 left-3.5 inline-flex items-center gap-1.5 bg-black/40 backdrop-blur-sm text-white text-xs font-medium rounded-full px-3 py-1.5">
                 <ShieldCheck size={12} className="text-emerald-400" />
                 Verified client story
               </span>
-
-              {/* Top-right: 5-star rating chip — adds social proof to the empty corner */}
               <span className="absolute top-3.5 right-3.5 inline-flex items-center gap-1 bg-black/40 backdrop-blur-sm text-white text-xs font-medium rounded-full px-2.5 py-1.5">
                 <Star size={11} className="text-amber-400" fill="currentColor" />
                 5.0
               </span>
-
-              {/* Bottom meta row — client name + outcome instead of empty spans */}
               <span className="absolute inset-x-0 bottom-0 flex items-end justify-between px-4 py-3.5 text-left">
                 <span className="flex flex-col">
                   <span className="text-white text-sm font-semibold leading-tight">
@@ -164,7 +163,6 @@ function VideoShowcase({
               </span>
             </motion.button>
           ) : (
-            /* ── Video state (only mounts on demand) ── */
             <motion.div
               key="video"
               className="absolute inset-0 w-full h-full"
@@ -196,31 +194,256 @@ function VideoShowcase({
           )}
         </AnimatePresence>
       </motion.div>
+    </div>
+  );
+}
+*/
 
-      {/* Caption row below the video — fills the remaining whitespace with
-          real trust signal instead of leaving it empty */}
-      {/* <div className="flex items-center justify-between mt-3.5 px-1">
-        <div className="flex items-center gap-2.5">
-          <div className="flex -space-x-2">
-            {["#2563b8", "#5b94d0", "#173a66", "#3b7fc9"].map((c, i) => (
-              <span
-                key={i}
-                className="w-6 h-6 rounded-full border-2 border-white shadow-sm"
-                style={{ background: c }}
-              />
-            ))}
+/* ─────────────────────────────────────────────────
+   GLOBAL TALENT VISUAL — replaces the video for now.
+   A profile-card illustration (skeleton CV + strength
+   meter) orbited by floating credibility badges, built
+   entirely from the existing brand tokens (glass-light,
+   shadow-blue-xl, brand-100/600, gradient hero colors).
+───────────────────────────────────────────────── */
+/* Abstract "global network" node graph — sits inside the gradient
+   panel as a low-opacity texture layer, two nodes gently pulse. */
+function NetworkMesh() {
+  const nodes = [
+    [40, 60], [130, 30], [230, 70], [330, 45],
+    [70, 150], [190, 130], [300, 165], [150, 220], [260, 235],
+  ];
+  const edges = [
+    [0, 1], [1, 2], [2, 3], [1, 4], [1, 5], [2, 5],
+    [5, 6], [4, 7], [5, 7], [5, 8], [6, 8],
+  ];
+  const pulseIdx = [1, 5];
+
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full opacity-40"
+      viewBox="0 0 360 260"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+    >
+      {edges.map(([a, b], i) => (
+        <line
+          key={i}
+          x1={nodes[a][0]} y1={nodes[a][1]}
+          x2={nodes[b][0]} y2={nodes[b][1]}
+          stroke="white" strokeWidth="1" strokeOpacity="0.35"
+        />
+      ))}
+      {nodes.map(([x, y], i) => (
+        <motion.circle
+          key={i}
+          cx={x} cy={y}
+          r={pulseIdx.includes(i) ? 3.5 : 2.5}
+          fill="white"
+          fillOpacity="0.7"
+          animate={
+            pulseIdx.includes(i)
+              ? { scale: [1, 1.6, 1], opacity: [0.6, 1, 0.6] }
+              : {}
+          }
+          transition={{ duration: 2.4, repeat: Infinity, delay: i * 0.3, ease: "easeInOut" }}
+        />
+      ))}
+    </svg>
+  );
+}
+
+function GlobalTalentVisual() {
+  const highlights = [
+    { icon: Award, label: "International Recognition", className: "top-1 -left-3 sm:top-3 sm:-left-8" },
+    { icon: Globe, label: "Global Network", className: "top-10 -right-3 sm:top-14 sm:-right-9" },
+    { icon: FileCheck, label: "Evidence Reviewed", className: "bottom-20 -left-4 sm:bottom-24 sm:-left-11" },
+    { icon: Users, label: "Dedicated Case Manager", className: "top-1/2 -translate-y-1/2 -right-4 sm:-right-12" },
+    { icon: TrendingUp, label: "Career Growth", className: "bottom-1 -right-1 sm:bottom-3 sm:-right-4" },
+  ];
+
+  const tags = ["Media", "Awards", "Judging", "Leadership"];
+
+  // Subtle mouse-tilt on the profile card for a bit of life on hover
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const rotateX = useTransform(py, [-60, 60], [7, -7]);
+  const rotateY = useTransform(px, [-60, 60], [-7, 7]);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    px.set(e.clientX - rect.left - rect.width / 2);
+    py.set(e.clientY - rect.top - rect.height / 2);
+  };
+  const handleMouseLeave = () => {
+    px.set(0);
+    py.set(0);
+  };
+
+  return (
+    <div>
+      <div className="relative w-full aspect-[4/3] sm:aspect-[5/4]">
+        {/* Slow-rotating orbit ring — echoes "global" without being literal */}
+        <motion.svg
+          className="absolute inset-0 w-full h-full opacity-25 pointer-events-none hidden sm:block"
+          viewBox="0 0 400 400"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+          aria-hidden="true"
+        >
+          <circle
+            cx="200" cy="200" r="182"
+            fill="none" stroke="var(--color-primary)" strokeWidth="1.5"
+            strokeDasharray="2 11" strokeLinecap="round"
+          />
+        </motion.svg>
+
+        {/* Ambient sparkle particles in the outer gutter — desktop only */}
+        {[
+          { top: "6%", left: "10%", size: 5, delay: 0 },
+          { top: "18%", right: "6%", size: 4, delay: 0.6 },
+          { bottom: "10%", left: "4%", size: 3.5, delay: 1.1 },
+        ].map((p, i) => (
+          <motion.span
+            key={i}
+            className="absolute rounded-full bg-[var(--color-accent)] hidden sm:block pointer-events-none"
+            style={{ width: p.size, height: p.size, top: p.top, left: p.left, right: p.right, bottom: p.bottom }}
+            animate={{ opacity: [0.25, 0.85, 0.25], scale: [1, 1.3, 1] }}
+            transition={{ duration: 2.8, repeat: Infinity, delay: p.delay, ease: "easeInOut" }}
+          />
+        ))}
+
+        {/* Gradient panel */}
+        <motion.div
+          className="absolute inset-3 sm:inset-7 rounded-[2rem] overflow-hidden shadow-blue-xl border border-white/40"
+          whileHover={{ y: -3 }}
+          transition={{ type: "spring", stiffness: 300, damping: 22 }}
+        >
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,var(--color-secondary)_0%,var(--color-primary)_55%,var(--color-accent)_100%)]" />
+          <div
+            className="absolute inset-0 opacity-[0.15]"
+            style={{
+              backgroundImage: "radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)",
+              backgroundSize: "20px 20px",
+            }}
+          />
+          <NetworkMesh />
+          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/10 blur-[50px]" />
+          <div className="absolute -bottom-14 -left-10 w-52 h-52 rounded-full bg-white/10 blur-[60px]" />
+
+          <span className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 inline-flex items-center gap-1.5 bg-black/30 backdrop-blur-sm text-white text-[11px] font-medium rounded-full px-3 py-1.5">
+            <ShieldCheck size={12} className="text-emerald-400" />
+            Guided profile review
+          </span>
+
+          {/* Center: profile / CV card mockup, stacked for depth */}
+          <div
+            className="absolute inset-0 flex items-center justify-center p-6"
+            style={{ perspective: 800 }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
+            {/* Back card — suggests a stack of organised documents */}
+            <div className="absolute w-[76%] max-w-[266px] h-[78%] max-h-[300px] bg-white/35 rounded-2xl rotate-[-9deg] translate-y-2 -translate-x-2 backdrop-blur-sm border border-white/40" />
+            <div className="absolute w-[78%] max-w-[272px] h-[80%] max-h-[308px] bg-white/55 rounded-2xl rotate-[5deg] translate-y-1 translate-x-1 backdrop-blur-sm border border-white/40" />
+
+            <motion.div
+              style={{ rotateX, rotateY }}
+              initial={{ rotate: -1 }}
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="relative w-[80%] max-w-[280px] bg-white/95 rounded-2xl shadow-blue-xl p-5"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <span className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center shrink-0">
+                  <Sparkles size={16} className="text-brand-600" />
+                </span>
+                <div className="flex-1">
+                  <div className="h-2.5 w-24 rounded-full bg-slate-200 mb-1.5" />
+                  <div className="h-2 w-16 rounded-full bg-slate-100" />
+                </div>
+                <span className="text-[9px] font-bold tracking-wide text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-full px-2 py-1 shrink-0">
+                  ON TRACK
+                </span>
+              </div>
+
+              <div className="space-y-2.5 mb-3.5">
+                {[0, 1, 2].map((i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <CheckCircle2 size={13} className="text-emerald-500 shrink-0" />
+                    <div
+                      className="h-2 rounded-full bg-slate-100"
+                      style={{ width: `${70 - i * 12}%` }}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[9.5px] font-semibold text-brand-600 bg-brand-100 border border-brand-200/60 rounded-full px-2 py-1"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <div className="pt-3 border-t border-slate-100">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[10px] font-semibold text-slate-500 tracking-wide uppercase">
+                    Profile Strength
+                  </span>
+                  <ShieldCheck size={13} className="text-brand-600" />
+                </div>
+                <div className="h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
+                  <motion.div
+                    initial={{ width: "0%" }}
+                    animate={{ width: "88%" }}
+                    transition={{ duration: 1.2, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    className="h-full rounded-full bg-[linear-gradient(90deg,var(--color-primary),var(--color-accent))]"
+                  />
+                </div>
+              </div>
+            </motion.div>
           </div>
-          <p className="text-xs text-slate-500">
-            <span className="font-semibold text-slate-700">5,000+</span> applicants guided
-          </p>
-        </div>
-        <div className="flex items-center gap-1">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} size={12} className="text-amber-400" fill="currentColor" />
-          ))}
-          <span className="text-xs text-slate-500 ml-1">4.9/5</span>
-        </div>
-      </div> */}
+        </motion.div>
+
+        {/* Floating credibility badges */}
+        {highlights.map(({ icon: Icon, label, className }, i) => (
+          <motion.div
+            key={label}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: [0, -6, 0] }}
+            transition={{
+              opacity: { duration: 0.5, delay: 0.3 + i * 0.15 },
+              y: { duration: 3 + i * 0.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 },
+            }}
+            className={`absolute z-10 flex items-center gap-2 glass-light rounded-full pl-2 pr-3.5 py-2 ${className}`}
+          >
+            <span className="w-6 h-6 rounded-full bg-brand-100 flex items-center justify-center shrink-0">
+              <Icon size={12} className="text-brand-600" />
+            </span>
+            <span className="text-slate-700 text-xs font-semibold whitespace-nowrap">{label}</span>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Caption strip beneath the visual — fills the remaining whitespace
+          with real value signals instead of leaving it empty */}
+      <div className="flex items-center justify-center sm:justify-start flex-wrap gap-x-5 gap-y-2 mt-6 px-1">
+        {[
+          { icon: FileCheck, label: "Documents organised" },
+          { icon: Award, label: "Evidence mapped to criteria" },
+          { icon: ShieldCheck, label: "Endorsement-ready file" },
+        ].map(({ icon: Icon, label }) => (
+          <div key={label} className="flex items-center gap-1.5">
+            <Icon size={13} className="text-brand-600 shrink-0" />
+            <span className="text-xs text-slate-500 font-medium">{label}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -331,20 +554,14 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right: Video showcase — landscape, sits beside the text */}
+          {/* Right: Global Talent visual — video temporarily disabled, see commented VideoShowcase above */}
           <motion.div
             initial={{ opacity: 0, x: 32, scale: 0.98 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.75, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="w-full"
           >
-            <VideoShowcase
-              posterSrc="/images/hero/video-poster.png"
-              videoSrc="/videos/success-story.mp4"
-              duration="1:42"
-              clientName="Mr. Irfan Ahmed"
-              clientOutcome="Endorsement approved in 6 months"
-            />
+            <GlobalTalentVisual />
           </motion.div>
         </motion.div>
       </div>
