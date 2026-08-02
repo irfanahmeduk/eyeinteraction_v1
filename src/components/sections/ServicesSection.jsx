@@ -7,45 +7,47 @@ import { FileText, Search, Users, ArrowRight, CheckCircle, ShieldCheck } from "l
 const SERVICES = [
   {
     icon: FileText,
-    title: "Professional Profile Development",
+    title: "Professional Profile & Evidence Development",
     description:
-      "We help you build a clear, well-structured profile that highlights your experience, achievements, and professional journey.",
+      "We help technology professionals, founders and researchers build clear, credible profiles that communicate their experience, achievements and professional impact.",
     features: [
-      "Profile structuring & career storytelling",
-      "Evidence organisation & presentation",
-      "Personal statement development",
+      "Profile structuring and professional storytelling",
+      "Evidence organisation and presentation",
+      "Research, innovation and leadership positioning",
     ],
     color: "from-brand-400 to-brand-600",
     href: "/eligibility",
+    button: "Explore Profile Support",
     featured: false,
   },
   {
     icon: Search,
-    title: "Document Review & Support",
+    title: "Research, Conferences & Global Opportunities",
     description:
-      "We review and refine your documents to improve clarity, consistency, and the overall presentation of your evidence.",
+      "We support clients in preparing research papers, abstracts, presentations and professional materials for journals, conferences, exhibitions and international opportunities across Europe and beyond.",
     features: [
-      "Document structure & formatting review",
-      "Clarity, consistency & quality check",
-      "Presentation improvement suggestions",
+      "Research paper and abstract review",
+      "Conference presentation preparation",
+      "Startup competitions and opportunity support",
     ],
     color: "from-brand-600 to-brand-800",
     href: "/eligibility",
+    button: "Explore Research Support",
     featured: false,
   },
   {
     icon: Users,
-    title: "1-to-1 Mentoring Sessions",
+    title: "Personalised Mentoring & Growth Strategy",
     description:
-      "Book a paid session with our senior mentor for personalised guidance on your profile and professional growth.",
+      "Work directly with an experienced mentor to strengthen your professional direction, improve how you communicate your achievements and identify meaningful next steps.",
     features: [
-      "Live mentoring session",
-      "Personalised feedback & strategy",
-      "Answers to your specific questions",
+      "One-to-one mentoring sessions",
+      "Personalised profile and career feedback",
+      "Research, technology and innovation guidance",
     ],
     color: "from-brand-700 to-brand-950",
     href: "/eligibility",
-    button: "Book a session",
+    button: "Book a Mentoring Session",
     featured: true,
   },
 ];
@@ -61,14 +63,12 @@ export function ServicesSection() {
             Our Services
           </span>
           <h2 className="text-display-md font-display font-bold text-slate-900 mb-4">
-            Professional Support {" "}
-            <span className="heading-gradient">for a Stronger</span> <br />
-            <span className="text-brand-600">Global Talent Profile</span>
+          Profile Development, Research {" "}
+            <span className="heading-gradient">& Innovation Support</span> <br />
+            {/* <span className="text-brand-600">Global Talent Profile</span> */}
           </h2>
           <p className="text-slate-500 text-lg leading-relaxed">
-            We help professionals, founders, and researchers present their achievements
-            with clarity and impact through expert profile development, document support,
-            and personalised mentoring.
+          From research communication and conference submissions to startup competitions and evidence presentation, we help clients build and communicate meaningful professional achievements.
           </p>
         </div>
 

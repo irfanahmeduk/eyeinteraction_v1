@@ -26,10 +26,10 @@ export function contactUserTemplate({ name }) {
                 <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
                   <tr>
                     <td valign="middle" style="width:64px;">
-                      <img src="https://eyeinteraction.com/assets/logo-CMgOn3p4.png" alt="Eye Interaction" width="56" style="display:block; border:0;" />
+                      <img src="https://eyeinteraction.com/public/logo.png" alt="Eye Interaction" width="56" style="display:block; border:0;" />
                     </td>
                     <td valign="middle" style="padding-left:16px;">
-                      <p style="margin:0; color:#173a66; font-size:19px; font-weight:700; font-family: Georgia, 'Times New Roman', serif;">Eye Interaction</p>
+                      <p style="margin:0; color:#173a66; font-size:19px; font-weight:700; font-family: Georgia, 'Times New Roman', serif;">Eye Interaction Ltd</p>
                       <p style="margin:2px 0 0 0; color:#64748b; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; font-family: Arial, sans-serif;">Enquiry Confirmation</p>
                     </td>
                   </tr>
@@ -63,7 +63,7 @@ export function contactUserTemplate({ name }) {
                   Thank you for reaching out to Eye Interaction. This email confirms that we have successfully received your enquiry.
                 </p>
                 <p style="margin:0 0 24px 0; color:#1e293b; font-size:14px; line-height:1.8;">
-                  A member of our team will review your message and respond within <strong>24 business hours</strong>. If your enquiry requires urgent attention, please reply directly to this email.
+                  A member of our team will review your message and respond within <strong>24 business hours</strong>. If your enquiry requires urgent attention, please reply directly to <a href="mailto:noor@eyeinteraction.com">noor@eyeinteraction.com</a>
                 </p>
               </td>
             </tr>

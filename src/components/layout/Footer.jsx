@@ -19,7 +19,7 @@ const FOOTER_LINKS = {
     { label: "Document Assessment", href: "#" },
     { label: "AI Detection & Content Review", href: "#" },
     { label: "Expert Mentoring Sessions", href: "#" },
-    { label: "UK Global Talent Visa Guidance", href: "#" },
+    { label: "UK Global Talent Guidance", href: "#" },
   ],
   company: [
     { label: "About Us", href: "/about" },

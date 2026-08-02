@@ -7,26 +7,26 @@ const STEPS = [
     {
         icon: Search,
         step: "01",
-        title: "Submit Your Information",
-        desc: "Share your details and materials through our simple intake form. This helps us understand your background and goals.",
+        title: "Profile & Gap Review",
+        desc: "We review your background to identify missing recognition, awards, impact, evidence and professional visibility.",
     },
     {
         icon: FileCheck,
         step: "02",
-        title: "We Review & Plan Support",
-        desc: "Our team reviews your materials and creates a personalised support plan tailored to your needs.",
+        title: "Personalised Growth Plan",
+        desc: "We create a clear timeline with practical goals for research, speaking, mentoring, competitions and industry engagement.",
     },
     {
         icon: Award,
         step: "03",
-        title: "Profile & Document Development",
-        desc: "We help you strengthen your documents, organise evidence, and improve the overall presentation.",
+        title: "Achievement Development Support",
+        desc: "We help you pursue relevant opportunities, strengthen your professional contributions and document measurable impact.",
     },
     {
         icon: Plane,
         step: "04",
-        title: "Final Review & Delivery",
-        desc: "We review the final documents with you and deliver the updated files, ready for your use.",
+        title: "Evidence & Profile Presentation",
+        desc: "We organise your achievements into a clear, credible and professionally presented profile.",
     },
 ];
 
@@ -41,7 +41,7 @@ export function ProcessSection() {
                         HOW WE WORK
                     </span>
                     <h2 className="text-display-md font-display font-bold text-slate-900 mb-4">
-                        Our 4-Step <span className="heading-gradient">Support Process</span>
+                    Our 4-Step Profile <span className="heading-gradient">Growth Process</span>
                     </h2>
                     <p className="text-slate-500 text-lg">
                         A clear and straightforward process to help you build a stronger, well-presented professional profile.

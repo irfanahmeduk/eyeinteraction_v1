@@ -27,10 +27,10 @@ export function eligibilityUserTemplate({ name }) {
               <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td valign="middle" style="width:64px;">
-                    <img src="https://eyeinteraction.com/assets/logo-CMgOn3p4.png" alt="Eye Interaction" width="56" style="display:block; border:0;" />
+                    <img src="https://eyeinteraction.com/public/logo.png" alt="Eye Interaction" width="56" style="display:block; border:0;" />
                   </td>
                   <td valign="middle" style="padding-left:16px;">
-                    <p style="margin:0; color:#173a66; font-size:19px; font-weight:700; font-family: Georgia, 'Times New Roman', serif;">Eye Interaction</p>
+                    <p style="margin:0; color:#173a66; font-size:19px; font-weight:700; font-family: Georgia, 'Times New Roman', serif;">Eye Interaction Ltd</p>
                     <p style="margin:2px 0 0 0; color:#64748b; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; font-family: Arial, sans-serif;">Global Talent Visa Journey</p>
                   </td>
                 </tr>
@@ -73,7 +73,7 @@ export function eligibilityUserTemplate({ name }) {
               </p>
               <p style="margin:0 0 8px 0; color:#1e293b; font-size:14px; line-height:1.8;">
                 <strong>Our availability is as follows:</strong><br/>
-                Monday to Friday: 01:00 PM till 03:00 PM (UK Time)<br/>
+                Monday to Friday: 09:00 AM till 05:00 PM (UK Time)<br/>
                 Saturday and Sunday: 10:00 AM till 03:00 PM (UK Time)
               </p>
               <p style="margin:0 0 24px 0; color:#1e293b; font-size:14px; line-height:1.8;">

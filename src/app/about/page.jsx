@@ -20,9 +20,9 @@ export const metadata = {
 const VALUES = [
   {
     icon: Globe,
-    title: "Global Reach",
+    title: "Global Professional Community",
     description:
-      "Endorsement support across 50+ countries for skilled workers, talent visas, and family routes.",
+      "Supporting researchers, founders and technology professionals worldwide through professional profile development, document presentation and mentoring.",
   },
   {
     icon: Users,
@@ -41,8 +41,8 @@ const VALUES = [
 const MILESTONES = [
   { value: "98%", label: "Success Rate" },
   { value: "5,000+", label: "Applicants Helped" },
-  { value: "50+", label: "Countries" },
-  { value: "14d", label: "Avg. Timeline" },
+  { value: "10+", label: "Countries" },
+  { value: "3-6", label: "Avg. Timeline Months" },
 ];
 
 // "Why clients choose us" card content
@@ -112,7 +112,7 @@ export default function AboutPage() {
                 <span className="heading-gradient">Publish & Make an Impact</span>
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed mb-4">
-              Eye Interaction was founded to help professionals and researchers communicate their work more effectively. We combine industry experience with a human-first approach—because every profile, document and achievement deserves to be clearly presented and understood.
+              Eye Interaction was founded to help professionals and researchers communicate their work more effectively. We combine industry experience with a human-first approach, because every profile, document and achievement deserves to be clearly presented and understood.
               </p>
               <p className="text-slate-500 leading-relaxed mb-8">
               From your first step to your next professional milestone, our team supports you with honest guidance, careful attention to detail and complete confidentiality.

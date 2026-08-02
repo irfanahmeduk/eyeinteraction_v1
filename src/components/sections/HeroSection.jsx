@@ -255,11 +255,11 @@ function NetworkMesh() {
 
 function GlobalTalentVisual() {
   const highlights = [
-    { icon: Award, label: "International Recognition", className: "top-1 -left-3 sm:top-3 sm:-left-8" },
-    { icon: Globe, label: "Global Network", className: "top-10 -right-3 sm:top-14 sm:-right-9" },
-    { icon: FileCheck, label: "Evidence Reviewed", className: "bottom-20 -left-4 sm:bottom-24 sm:-left-11" },
-    { icon: Users, label: "Dedicated Case Manager", className: "top-1/2 -translate-y-1/2 -right-4 sm:-right-12" },
-    { icon: TrendingUp, label: "Career Growth", className: "bottom-1 -right-1 sm:bottom-3 sm:-right-4" },
+    { icon: Award, label: "UK Global Talent Profile Support", className: "top-1 -left-3 sm:top-3 sm:-left-8" },
+    { icon: Globe, label: "Evidence Presentation", className: "top-10 -right-3 sm:top-14 sm:-right-9" },
+    { icon: FileCheck, label: "Professional Profile Review", className: "bottom-20 -left-4 sm:bottom-24 sm:-left-11" },
+    { icon: Users, label: "Research & Technology Focus", className: "top-1/2 -translate-y-1/2 -right-4 sm:-right-12" },
+    { icon: TrendingUp, label: "Client-Led Submission", className: "bottom-1 -right-1 sm:bottom-3 sm:-right-4" },
   ];
 
   const tags = ["Media", "Awards", "Judging", "Leadership"];
@@ -500,9 +500,10 @@ export function HeroSection() {
               className="text-display-xl lg:text-display-2xl font-display font-bold text-slate-900 leading-[1.08] mb-6"
             >
 
-              Build a <br/>
+              Build a
+              <br />
               <span className="relative inline-block">
-                <span className="heading-gradient-accent">Stronger <br /> Global Talent</span>
+                <span className="heading-gradient-accent">Stronger Profile</span>
                 <svg
                   className="absolute -bottom-2 left-0 w-full"
                   viewBox="0 0 300 12"
@@ -517,14 +518,14 @@ export function HeroSection() {
                   />
                 </svg>
               </span>{" "}
-              Profile
+              for the UK Global Talent Visa
             </motion.h1>
 
             <motion.p
               variants={HERO_ANIMATIONS.item}
               className="text-lg text-slate-600 leading-relaxed mb-8 max-w-lg"
             >
-              Present your professional achievements with clarity and confidence. We support technology professionals, founders and researchers with profile development, document organisation, editing and evidence presentation.
+              We help technology professionals, founders and researchers present their achievements for professional recognition, including the UK Global Talent Route.
 
             </motion.p>
 
@@ -542,7 +543,7 @@ export function HeroSection() {
 
             <motion.div variants={HERO_ANIMATIONS.item} className="flex flex-col sm:flex-row gap-3.5">
               <Link href="/eligibility" className="btn btn-primary text-sm px-7 py-3.5">
-              Request a Profile Review.
+                Request a Profile Review.
                 <ArrowRight size={16} />
               </Link>
               <Link href="/success-stories" className="btn btn-outline text-sm px-7 py-3.5 gap-2 bg-white/60 hover:bg-white">
