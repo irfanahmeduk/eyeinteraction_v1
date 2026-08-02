@@ -1,6 +1,8 @@
+import path from "path";
+
 export function contactUserTemplate({ name }) {
     return {
-      subject: "We've received your enquiry — Eye Interaction",
+      subject: "We've received your enquiry — Eye Interaction Ltd",
       html: `
   <!DOCTYPE html>
   <html lang="en">
@@ -26,7 +28,7 @@ export function contactUserTemplate({ name }) {
                 <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
                   <tr>
                     <td valign="middle" style="width:64px;">
-                      <img src="https://eyeinteraction.com/public/logo.png" alt="Eye Interaction" width="56" style="display:block; border:0;" />
+                      <img src="https://eyeinteraction.com/logo.png" alt="Eye Interaction Ltd" height="36" style="display:block; border:0; height:36px; width:auto;" />
                     </td>
                     <td valign="middle" style="padding-left:16px;">
                       <p style="margin:0; color:#173a66; font-size:19px; font-weight:700; font-family: Georgia, 'Times New Roman', serif;">Eye Interaction Ltd</p>
@@ -60,7 +62,7 @@ export function contactUserTemplate({ name }) {
                   Dear <strong>${name}</strong>,
                 </p>
                 <p style="margin:0 0 16px 0; color:#1e293b; font-size:14px; line-height:1.8;">
-                  Thank you for reaching out to Eye Interaction. This email confirms that we have successfully received your enquiry.
+                  Thank you for reaching out to Eye Interaction Ltd. This email confirms that we have successfully received your enquiry.
                 </p>
                 <p style="margin:0 0 24px 0; color:#1e293b; font-size:14px; line-height:1.8;">
                   A member of our team will review your message and respond within <strong>24 business hours</strong>. If your enquiry requires urgent attention, please reply directly to <a href="mailto:noor@eyeinteraction.com">noor@eyeinteraction.com</a>
@@ -92,8 +94,8 @@ export function contactUserTemplate({ name }) {
             <tr>
               <td style="padding:32px 40px 8px 40px; font-family: Arial, sans-serif;">
                 <p style="margin:0; color:#1e293b; font-size:14px; line-height:1.8;">
-                  Regards,<br />
-                  <strong>Eye Interaction Team</strong>
+                  Warm regards,<br />
+                  <img src="cid:signatureImage" alt="Signature" style="margin-top:8px; max-width:220px; display:block;" />
                 </p>
               </td>
             </tr>
@@ -103,8 +105,8 @@ export function contactUserTemplate({ name }) {
               <td style="padding:32px 40px 32px 40px;">
                 <hr style="border:none; border-top:1px solid #e2e7ee; margin:0 0 16px 0;" />
                 <p style="margin:0; color:#94a3b8; font-size:11px; line-height:1.7; font-family: Arial, sans-serif;">
-                  This is an automated message from Eye Interaction. Please do not reply if you did not submit this enquiry.<br />
-                  © ${new Date().getFullYear()} Eye Interaction. All rights reserved.
+                  This is an automated message from Eye Interaction Ltd. Please do not reply if you did not submit this enquiry.<br />
+                  © ${new Date().getFullYear()} Eye Interaction Ltd. All rights reserved.
                 </p>
               </td>
             </tr>
@@ -120,5 +122,12 @@ export function contactUserTemplate({ name }) {
   </body>
   </html>
       `,
+      attachments: [
+        {
+          filename: "signature.png",
+          path: path.join(process.cwd(), "public", "images", "mail", "signature.png"),
+          cid: "signatureImage",
+        },
+      ],
     };
   }

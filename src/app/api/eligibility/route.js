@@ -4,6 +4,8 @@ import { sendEmail } from "@/lib/mail";
 import { eligibilityAdminTemplate } from "@/lib/mail/templates/eligibility-admin";
 import { eligibilityUserTemplate } from "@/lib/mail/templates/eligibility-user";
 import path from 'path';
+import { env } from "@/lib/config/env";
+
 
 
 export async function POST(req) {
@@ -39,10 +41,10 @@ export async function POST(req) {
     const userEmail = body["Email Address"] || body["email"];
     
     // 2. Email notification to Admin using template
-    if (process.env.CONTACT_EMAIL) {
+    if (env.CONTACT_EMAILS) {
       try {
         await sendEmail({
-          to: process.env.CONTACT_EMAIL,
+          to: env.CONTACT_EMAILS,
           ...eligibilityAdminTemplate(formDataWithTime),
         });
       } catch (adminMailErr) {
@@ -56,13 +58,6 @@ export async function POST(req) {
         await sendEmail({
           to: userEmail,
           ...eligibilityUserTemplate({ name: userName }),
-          attachments: [
-            {
-              filename: "signature.png",
-              path: path.join(process.cwd(), "public", "mail", "signature.png"),
-              cid: "signatureImage",
-            },
-          ],
         });
       } catch (userMailErr) {
         console.error("User confirmation email error:", userMailErr);

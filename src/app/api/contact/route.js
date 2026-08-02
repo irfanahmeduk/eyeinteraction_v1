@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { sendEmail } from "@/lib/mail";
 import { contactAdminTemplate } from "@/lib/mail/templates/contact-admin";
 import { contactUserTemplate } from "@/lib/mail/templates/contact-user";
+import { env } from "@/lib/config/env";
 
 export async function POST(req) {
   try {
@@ -10,7 +11,7 @@ export async function POST(req) {
 
     // Send notification to company
     await sendEmail({
-      to: process.env.CONTACT_EMAIL,
+      to: env.CONTACT_EMAILS,
       ...contactAdminTemplate(body),
     });
 

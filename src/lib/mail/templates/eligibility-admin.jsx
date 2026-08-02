@@ -41,10 +41,10 @@ export function eligibilityAdminTemplate(data) {
               <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td valign="middle" style="width:64px;">
-                    <img src="https://eyeinteraction.com/assets/logo-CMgOn3p4.png" alt="Eye Interaction" width="56" style="display:block; border:0;" />
+                    <img src="https://eyeinteraction.com/logo.png" alt="Eye Interaction Ltd" height="36" style="display:block; border:0; height:36px; width:auto;" />
                   </td>
                   <td valign="middle" style="padding-left:16px;">
-                    <p style="margin:0; color:#173a66; font-size:19px; font-weight:700; font-family: Georgia, 'Times New Roman', serif;">Eye Interaction</p>
+                    <p style="margin:0; color:#173a66; font-size:19px; font-weight:700; font-family: Georgia, 'Times New Roman', serif;">Eye Interaction Ltd</p>
                     <p style="margin:2px 0 0 0; color:#64748b; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; font-family: Arial, sans-serif;">Global Talent Notification</p>
                   </td>
                 </tr>
@@ -146,7 +146,7 @@ export function eligibilityAdminTemplate(data) {
               <hr style="border:none; border-top:1px solid #e2e7ee; margin:0 0 16px 0;" />
               <p style="margin:0; color:#94a3b8; font-size:11px; line-height:1.7; font-family: Arial, sans-serif;">
                 Full submission responses are logged automatically in your Google Sheet.<br />
-                © ${new Date().getFullYear()} Eye Interaction. All rights reserved.
+                © ${new Date().getFullYear()} Eye Interaction Ltd. All rights reserved.
               </p>
             </td>
           </tr>

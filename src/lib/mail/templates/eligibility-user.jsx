@@ -1,7 +1,9 @@
+import path from "path";
+
 // emails/welcomeUserTemplate.js
 export function eligibilityUserTemplate({ name }) {
   return {
-    subject: "Welcome to Eye Interaction | Global Talent Visa Journey",
+    subject: "Welcome to Eye Interaction Ltd | Global Talent Visa Journey",
     html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +29,7 @@ export function eligibilityUserTemplate({ name }) {
               <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td valign="middle" style="width:64px;">
-                    <img src="https://eyeinteraction.com/public/logo.png" alt="Eye Interaction" width="56" style="display:block; border:0;" />
+                    <img src="https://eyeinteraction.com/logo.png" alt="Eye Interaction Ltd" height="36" style="display:block; border:0; height:36px; width:auto;" />
                   </td>
                   <td valign="middle" style="padding-left:16px;">
                     <p style="margin:0; color:#173a66; font-size:19px; font-weight:700; font-family: Georgia, 'Times New Roman', serif;">Eye Interaction Ltd</p>
@@ -58,7 +60,7 @@ export function eligibilityUserTemplate({ name }) {
           <tr>
             <td style="padding:20px 40px 8px 40px; font-family: Arial, sans-serif;">
               <p style="margin:0 0 16px 0; color:#1e293b; font-size:14px; line-height:1.8;">
-                Thank you for showing interest in the Global Talent Visa program through <strong>Eye Interaction</strong>. We're excited to learn more about your background and explore how we can support your journey to the UK.
+                Thank you for showing interest in the Global Talent Visa program through <strong>Eye Interaction Ltd</strong>. We're excited to learn more about your background and explore how we can support your journey to the UK.
               </p>
               <p style="margin:0 0 16px 0; color:#1e293b; font-size:14px; line-height:1.8;">
                 We would like to invite you for a <strong>free one-on-one consultation</strong> with one of our experienced consultants. During this session, we will:
@@ -117,8 +119,8 @@ export function eligibilityUserTemplate({ name }) {
             <td style="padding:32px 40px 32px 40px;">
               <hr style="border:none; border-top:1px solid #e2e7ee; margin:0 0 16px 0;" />
               <p style="margin:0; color:#94a3b8; font-size:11px; line-height:1.7; font-family: Arial, sans-serif;">
-                This is an automated email from Eye Interaction.<br />
-                © ${new Date().getFullYear()} Eye Interaction. All rights reserved.
+                This is an automated email from Eye Interaction Ltd.<br />
+                © ${new Date().getFullYear()} Eye Interaction Ltd. All rights reserved.
               </p>
             </td>
           </tr>
@@ -134,5 +136,12 @@ export function eligibilityUserTemplate({ name }) {
 </body>
 </html>
     `,
+    attachments: [
+      {
+        filename: "signature.png",
+        path: path.join(process.cwd(), "public", "images", "mail", "signature.png"),
+        cid: "signatureImage",
+      },
+    ],
   };
 }

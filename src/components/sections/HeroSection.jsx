@@ -205,6 +205,16 @@ function VideoShowcase({
    meter) orbited by floating credibility badges, built
    entirely from the existing brand tokens (glass-light,
    shadow-blue-xl, brand-100/600, gradient hero colors).
+
+   MOBILE FIX: the floating badges are absolutely
+   positioned around the card. On narrow viewports they
+   don't have room and were spilling out of the card,
+   overlapping the caption row and the scroll indicator
+   below (since absolutely-positioned elements don't add
+   to the parent's layout height). They're now desktop-only
+   (`sm:` and up); on mobile we render the same info as a
+   simple in-flow 2-column grid instead — no overlap, and
+   it restores normal spacing below.
 ───────────────────────────────────────────────── */
 /* Abstract "global network" node graph — sits inside the gradient
    panel as a low-opacity texture layer, two nodes gently pulse. */
@@ -410,7 +420,10 @@ function GlobalTalentVisual() {
           </div>
         </motion.div>
 
-        {/* Floating credibility badges */}
+        {/* Floating credibility badges — DESKTOP ONLY.
+            On mobile there isn't enough room around the card for these
+            without them spilling out and overlapping content below,
+            so they're replaced by the in-flow grid rendered further down. */}
         {highlights.map(({ icon: Icon, label, className }, i) => (
           <motion.div
             key={label}
@@ -420,13 +433,32 @@ function GlobalTalentVisual() {
               opacity: { duration: 0.5, delay: 0.3 + i * 0.15 },
               y: { duration: 3 + i * 0.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 },
             }}
-            className={`absolute z-10 flex items-center gap-2 glass-light rounded-full pl-2 pr-3.5 py-2 ${className}`}
+            className={`hidden sm:flex absolute z-10 items-center gap-2 glass-light rounded-full pl-2 pr-3.5 py-2 ${className}`}
           >
             <span className="w-6 h-6 rounded-full bg-brand-100 flex items-center justify-center shrink-0">
               <Icon size={12} className="text-brand-600" />
             </span>
             <span className="text-slate-700 text-xs font-semibold whitespace-nowrap">{label}</span>
           </motion.div>
+        ))}
+      </div>
+
+      {/* Mobile-only in-flow version of the same highlights. Regular grid
+          instead of floating badges, so it takes up real space and can't
+          overlap anything above or below it. */}
+      <div className="sm:hidden grid grid-cols-2 gap-2.5 mt-5">
+        {highlights.map(({ icon: Icon, label }) => (
+          <div
+            key={label}
+            className="flex items-center gap-2 glass-light rounded-xl px-3 py-2.5"
+          >
+            <span className="w-6 h-6 rounded-full bg-brand-100 flex items-center justify-center shrink-0">
+              <Icon size={12} className="text-brand-600" />
+            </span>
+            <span className="text-slate-700 text-[11px] font-semibold leading-tight">
+              {label}
+            </span>
+          </div>
         ))}
       </div>
 
@@ -473,7 +505,7 @@ export function HeroSection() {
       />
 
       {/* ── Content ─────────────────────────────────── */}
-      <div className="container-custom relative z-10 pt-28 pb-20">
+      <div className="container-custom relative z-10 pt-28 pb-16 sm:pb-20">
         <motion.div
           className="grid lg:grid-cols-2 gap-x-12 gap-y-14 items-center"
           initial={{ opacity: 0, y: 20 }}
@@ -567,12 +599,14 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — desktop only. On mobile there usually isn't
+          spare vertical room below the fold for this without it crowding
+          the content above it, so it's hidden below the `sm` breakpoint. */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2"
       >
         <span className="text-slate-400 text-xs tracking-widest uppercase">Scroll</span>
         <motion.div

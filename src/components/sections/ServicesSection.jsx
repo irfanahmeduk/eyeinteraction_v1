@@ -73,7 +73,7 @@ export function ServicesSection() {
         </div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-6 items-stretch">
           {SERVICES.map((service, i) => (
             <motion.div
               key={service.title}
@@ -85,7 +85,7 @@ export function ServicesSection() {
                 delay: i * 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className={`card p-7 group relative overflow-hidden ${service.featured ? "ring-2 ring-brand-500 ring-offset-2" : ""
+              className={`card p-7 group relative overflow-hidden h-full flex flex-col ${service.featured ? "ring-2 ring-brand-500 ring-offset-2" : ""
                 }`}
             >
               {/* Popular badge */}
@@ -110,7 +110,7 @@ export function ServicesSection() {
               </p>
 
               {/* Features */}
-              <ul className="space-y-2 mb-6">
+              <ul className="space-y-2 mb-6 flex-1">
                 {service.features.map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-slate-600">
                     <CheckCircle size={14} className="text-brand-500 shrink-0" />
@@ -121,7 +121,7 @@ export function ServicesSection() {
 
               <Link
                 href={service.href}
-                className="flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:text-brand-700 transition-colors"
+                className="flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:text-brand-700 transition-colors mt-auto"
               >
                 {service.button || "Learn more"}
                 <ArrowRight
