@@ -239,14 +239,14 @@ export function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className="btn btn-outline w-full justify-center text-sm"
               >
-                Check Eligibility
+                Book an Initial Review
               </Link>
               <Link
                 href="/contact"
                 onClick={() => setMobileOpen(false)}
                 className="btn btn-primary w-full justify-center text-sm"
               >
-                Get Started Free
+                Get Started
               </Link>
             </div>
           </div>
