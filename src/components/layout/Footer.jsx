@@ -120,8 +120,9 @@ export function Footer() {
               />
             </Link>
 
-            <p className="text-slate-400 text-sm leading-relaxed mb-7 max-w-xs">
-            Eye Interaction is a professional support platform for researchers, founders and digital technology professionals. We provide profile development, document organisation, editing, research communication and one-to-one mentoring to help clients present their work with clarity and impact.
+            <p className="text-slate-400 text-sm leading-relaxed mb-7 max-w-xs ">
+           Eye Interaction provides educational resources, professional mentoring, and portfolio development support. We do not provide immigration advice, determine visa eligibility, prepare immigration applications. Information about the UK Global Talent route is provided for educational purposes 
+           and should not be considered legal or immigration advice.
             </p>
 
             <ul className="space-y-3">
