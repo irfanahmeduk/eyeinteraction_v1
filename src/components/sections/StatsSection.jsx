@@ -15,7 +15,7 @@ const STATS = [
     value: 5000,
     suffix: "+",
     label: "Applicants Helped",
-    desc: "Across all visa categories",
+    desc: "Across all profile categories",
   },
   {
     value: 50,

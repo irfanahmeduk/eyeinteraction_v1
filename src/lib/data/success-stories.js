@@ -8,7 +8,7 @@ export const successStories = {
     "irfan-ahmed": {
       slug: "irfan-ahmed",
       name: "Irfan Ahmed",
-      role: "Global Talent Visa Recipient",
+      role: "Global Talent Profile Endorsed",
       field: "Computer Vision & AI Integration",
       outcome: "Endorsement Approved",
       duration: "8 Months",
@@ -23,7 +23,7 @@ export const successStories = {
       intro:
         "Irfan came to Eye Interaction with strong research credentials but no clear way to present them. Six months later, his endorsement was approved on the strength of a publication record, recommendation letters and a personal statement built specifically for the Global Talent criteria.",
       quote:
-        "Eye Interaction didn't just guide me, they believed in my potential. The mentorship was personal, structured, and outcome driven. I'm proud to have achieved my Global Talent Visa through their support.",
+        "Eye Interaction didn't just guide me, they believed in my potential. The mentorship was personal, structured, and outcome driven. I'm proud to have achieved my Global Talent endorsement through their support.",
       highlights: [
         "One-to-one mentorship mapped to Global Talent evidence criteria",
         "Research paper finalised and positioned for publication",
@@ -58,8 +58,8 @@ export const successStories = {
         },
         {
           date: "June 2025",
-          title: "Global Talent Visa Granted",
-          description: "Visa issued — the goal Irfan set out with in November.",
+          title: "Global Talent Endorsement Granted",
+          description: "Endorsement issued — the goal Irfan set out with in November.",
           flag: "/images/uk-flag.png",
           highlight: true,
         },

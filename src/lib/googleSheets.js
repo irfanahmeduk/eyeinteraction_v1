@@ -35,11 +35,11 @@ export async function appendToGoogleSheet(data, sheetName = "Form Responses 1") 
       data["Nationality"] || "",
       data["Linkedin_profile"] || "",
       data["Status"] || "",
-      Array.isArray(data["Why are you considering a Global Talent Visa? (Select all that apply)"])
-        ? data["Why are you considering a Global Talent Visa? (Select all that apply)"].join(", ")
-        : data["Why are you considering a Global Talent Visa? (Select all that apply)"] || "",
-      data["Have you applied for any visa to this country before?"] || "",
-      data["If yes, please describe the visa type and outcome."] || "",
+      Array.isArray(data["Why are you considering Global Talent Endorsement? (Select all that apply)"])
+        ? data["Why are you considering Global Talent Endorsement? (Select all that apply)"].join(", ")
+        : data["Why are you considering Global Talent Endorsement? (Select all that apply)"] || "",
+      data["Have you applied for endorsement to this country before?"] || "",
+      data["If yes, please describe the application type and outcome."] || "",
       data["Current Job Title"] || "",
       data["Industry/Sector (e.g., Software, Design, Research, Media, etc.)"] || "",
       data["linkedin_profile"] || "",
@@ -55,8 +55,8 @@ export async function appendToGoogleSheet(data, sheetName = "Form Responses 1") 
       data["If yes,  Describe your role and achievements in that work."] || "",
       data["Do you currently have any international clients or collaborations?"] || "",
       data["Describe the international work or clients you’ve been involved with."] || "",
-      data["When are you planning to apply for the Global Talent Visa?"] || "",
-      data["Have you already prepared any documents for a Global Talent Visa application?"] || "",
+      data["When are you planning to apply for Global Talent Endorsement?"] || "",
+      data["Have you already prepared any documents for a Global Talent Endorsement application?"] || "",
       data["If yes, Please list any documents you've already prepared (e.g., reference letters, CV, evidence)"] || "",
       data["Any questions or comments you'd like to share? (Optional)"] || "",
       data["Do you consent to us contacting you via WhatsApp or email for the next steps?"] || "",

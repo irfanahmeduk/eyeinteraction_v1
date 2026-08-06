@@ -47,11 +47,11 @@ const eligibilitySchema = z.object({
   Country: z.string().min(1, "Please select current country"),
   Nationality: z.string().min(1, "Please select nationality"),
 
-  "Why are you considering a Global Talent Visa? (Select all that apply)": z
+  "Why are you considering Global Talent Endorsement? (Select all that apply)": z
     .array(z.string())
     .min(1, "Select at least one reason"),
-  "Have you applied for any visa to this country before?": z.string().min(1, "Please make a selection"),
-  "If yes, please describe the visa type and outcome.": z.string().optional(),
+  "Have you applied for endorsement to this country before?": z.string().min(1, "Please make a selection"),
+  "If yes, please describe the application type and outcome.": z.string().optional(),
   "Preferred Endorsement": z.string().optional(),
 
   "Current Job Title": z.string().min(2, "Job title is required"),
@@ -77,8 +77,8 @@ const eligibilitySchema = z.object({
   "Do you currently have any international clients or collaborations?": z.string().min(1, "Select Yes or No"),
   "Describe the international work or clients you’ve been involved with.": z.string().optional(),
 
-  "When are you planning to apply for the Global Talent Visa?": z.string().min(1, "Select timeline"),
-  "Have you already prepared any documents for a Global Talent Visa application?": z.string().min(1, "Select Yes or No"),
+  "When are you planning to apply for Global Talent Endorsement?": z.string().min(1, "Select timeline"),
+  "Have you already prepared any documents for a Global Talent Endorsement application?": z.string().min(1, "Select Yes or No"),
   "If yes, Please list any documents you've already prepared (e.g., reference letters, CV, evidence)": z.string().optional(),
   "Any questions or comments you'd like to share? (Optional)": z.string().optional(),
   "Do you consent to us contacting you via WhatsApp or email for the next steps?": z.string().min(1, "Consent is required"),
@@ -95,12 +95,12 @@ const STEPS = [
   },
   {
     id: 2,
-    title: "Visa & Motivation",
-    description: "Your reasons and visa history",
+    title: "Endorsement & Motivation",
+    description: "Your reasons and application history",
     icon: FileText,
     fields: [
-      "Why are you considering a Global Talent Visa? (Select all that apply)",
-      "Have you applied for any visa to this country before?",
+      "Why are you considering Global Talent Endorsement? (Select all that apply)",
+      "Have you applied for endorsement to this country before?",
       "Preferred Endorsement",
     ],
   },
@@ -136,8 +136,8 @@ const STEPS = [
     description: "Application timeline and contact permission",
     icon: CalendarCheck,
     fields: [
-      "When are you planning to apply for the Global Talent Visa?",
-      "Have you already prepared any documents for a Global Talent Visa application?",
+      "When are you planning to apply for Global Talent Endorsement?",
+      "Have you already prepared any documents for a Global Talent Endorsement application?",
       "Do you consent to us contacting you via WhatsApp or email for the next steps?",
     ],
   },
@@ -474,9 +474,9 @@ export function EligibilityForm() {
       phoneCountryCode: "+44",
       Country: "",
       Nationality: "",
-      "Why are you considering a Global Talent Visa? (Select all that apply)": [],
-      "Have you applied for any visa to this country before?": "",
-      "If yes, please describe the visa type and outcome.": "",
+      "Why are you considering Global Talent Endorsement? (Select all that apply)": [],
+      "Have you applied for endorsement to this country before?": "",
+      "If yes, please describe the application type and outcome.": "",
       "Preferred Endorsement": "",
       "Current Job Title": "",
       "Industry/Sector (e.g., Software, Design, Research, Media, etc.)": "",
@@ -493,8 +493,8 @@ export function EligibilityForm() {
       "If yes,  Describe your role and achievements in that work.": "",
       "Do you currently have any international clients or collaborations?": "",
       "Describe the international work or clients you’ve been involved with.": "",
-      "When are you planning to apply for the Global Talent Visa?": "",
-      "Have you already prepared any documents for a Global Talent Visa application?": "",
+      "When are you planning to apply for Global Talent Endorsement?": "",
+      "Have you already prepared any documents for a Global Talent Endorsement application?": "",
       "If yes, Please list any documents you've already prepared (e.g., reference letters, CV, evidence)": "",
       "Any questions or comments you'd like to share? (Optional)": "",
       "Do you consent to us contacting you via WhatsApp or email for the next steps?": "",
@@ -504,12 +504,12 @@ export function EligibilityForm() {
 
   const w = watch();
 
-  const handleReasonToggle = (reason) => {
-    const current = w["Why are you considering a Global Talent Visa? (Select all that apply)"] || [];
+  const toggleWhy = (reason) => {
+    const current = w["Why are you considering Global Talent Endorsement? (Select all that apply)"] || [];
     const next = current.includes(reason)
       ? current.filter((r) => r !== reason)
       : [...current, reason];
-    setValue("Why are you considering a Global Talent Visa? (Select all that apply)", next, { shouldValidate: true });
+    setValue("Why are you considering Global Talent Endorsement? (Select all that apply)", next, { shouldValidate: true });
   };
 
   const scrollToFirstError = (currentFields) => {
@@ -612,7 +612,7 @@ export function EligibilityForm() {
           Assessment Received!
         </h2>
         <p className="text-slate-600 text-sm leading-relaxed mb-6">
-          Thank you for completing your UK Global Talent Visa eligibility check. Our visa specialists are currently evaluating your profile details.
+          Thank you for completing your UK Global Talent endorsement eligibility check. Our profile specialists are currently evaluating your profile details.
         </p>
 
         <div className="p-5 rounded-xl bg-brand-50/70 border border-brand-100 text-left mb-8 space-y-2">
@@ -621,7 +621,7 @@ export function EligibilityForm() {
             Book your 1-on-1 Consultation Session
           </h4>
           <p className="text-xs text-slate-600 leading-relaxed">
-            Reserve a 1-on-1 Zoom meeting with our senior Global Talent Visa advisor to discuss your endorsement pathway and evidence strategy.
+            Reserve a 1-on-1 Zoom meeting with our senior Global Talent advisor to discuss your endorsement pathway and evidence strategy.
           </p>
         </div>
 
@@ -719,20 +719,20 @@ export function EligibilityForm() {
               {currentStep === 2 && (
                 <div className="space-y-6">
                   <FormField
-                    label="Why are you considering a Global Talent Visa? (Select all that apply)"
-                    error={errors["Why are you considering a Global Talent Visa? (Select all that apply)"]?.message}
+                    label="Why are you considering Global Talent Endorsement? (Select all that apply)"
+                    error={errors["Why are you considering Global Talent Endorsement? (Select all that apply)"]?.message}
                     required
-                    fieldName="Why are you considering a Global Talent Visa? (Select all that apply)"
+                    fieldName="Why are you considering Global Talent Endorsement? (Select all that apply)"
                   >
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                       {REASONS.map((reason) => {
                         const checked = (
-                          w["Why are you considering a Global Talent Visa? (Select all that apply)"] || []
+                          w["Why are you considering Global Talent Endorsement? (Select all that apply)"] || []
                         ).includes(reason);
                         return (
                           <label
                             key={reason}
-                            onClick={() => handleReasonToggle(reason)}
+                            onClick={() => toggleWhy(reason)}
                             className={cn(
                               "flex items-center gap-3 p-3.5 rounded-lg border cursor-pointer transition-all text-xs font-medium select-none",
                               checked
@@ -740,7 +740,7 @@ export function EligibilityForm() {
                                 : "border-slate-200 hover:border-slate-300 bg-white text-slate-700"
                             )}
                           >
-                            <Checkbox checked={checked} onCheckedChange={() => handleReasonToggle(reason)} />
+                            <Checkbox checked={checked} onCheckedChange={() => toggleWhy(reason)} />
                             <span>{reason}</span>
                           </label>
                         );
@@ -749,31 +749,31 @@ export function EligibilityForm() {
                   </FormField>
 
                   <FormField
-                    label="Have you applied for any visa to this country before?"
-                    error={errors["Have you applied for any visa to this country before?"]?.message}
+                    label="Have you applied for endorsement to this country before?"
+                    error={errors["Have you applied for endorsement to this country before?"]?.message}
                     required
-                    fieldName="Have you applied for any visa to this country before?"
+                    fieldName="Have you applied for endorsement to this country before?"
                   >
                     <Controller
                       control={control}
-                      name="Have you applied for any visa to this country before?"
+                      name="Have you applied for endorsement to this country before?"
                       render={({ field }) => (
                         <YesNoRadio
                           value={field.value}
                           onChange={field.onChange}
                           disabled={isSubmitting}
-                          hasError={!!errors["Have you applied for any visa to this country before?"]}
+                          hasError={!!errors["Have you applied for endorsement to this country before?"]}
                         />
                       )}
                     />
                   </FormField>
 
-                  {w["Have you applied for any visa to this country before?"] === "Yes" && (
+                  {w["Have you applied for endorsement to this country before?"] === "Yes" && (
                     <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}>
-                      <FormField label="If yes, please describe the visa type and outcome.">
+                      <FormField label="If yes, please describe the application type and outcome.">
                         <Input
-                          placeholder="e.g. Skilled Worker Visa - Granted / Refused in 2022"
-                          {...register("If yes, please describe the visa type and outcome.")}
+                          placeholder="e.g. Skilled Worker - Granted / Refused in 2022"
+                          {...register("If yes, please describe the application type and outcome.")}
                         />
                       </FormField>
                     </motion.div>
@@ -1042,51 +1042,51 @@ export function EligibilityForm() {
               {currentStep === 5 && (
                 <div className="space-y-6">
                   <FormField
-                    label="When are you planning to apply for the Global Talent Visa?"
-                    error={errors["When are you planning to apply for the Global Talent Visa?"]?.message}
+                    label="When are you planning to apply for Global Talent Endorsement?"
+                    error={errors["When are you planning to apply for Global Talent Endorsement?"]?.message}
                     required
-                    fieldName="When are you planning to apply for the Global Talent Visa?"
+                    fieldName="When are you planning to apply for Global Talent Endorsement?"
                   >
                     <Controller
                       control={control}
-                      name="When are you planning to apply for the Global Talent Visa?"
+                      name="When are you planning to apply for Global Talent Endorsement?"
                       render={({ field }) => (
                         <CustomRadioGroup
                           options={TIMELINE_OPTIONS}
                           value={field.value}
                           onChange={field.onChange}
                           disabled={isSubmitting}
-                          hasError={!!errors["When are you planning to apply for the Global Talent Visa?"]}
+                          hasError={!!errors["When are you planning to apply for Global Talent Endorsement?"]}
                         />
                       )}
                     />
                   </FormField>
 
-                  <div data-field="Have you already prepared any documents for a Global Talent Visa application?">
+                  <div data-field="Have you already prepared any documents for a Global Talent Endorsement application?">
                     <FormField
-                      label="Have you already prepared any documents for a Global Talent Visa application?"
+                      label="Have you already prepared any documents for a Global Talent Endorsement application?"
                       error={
                         errors[
-                          "Have you already prepared any documents for a Global Talent Visa application?"
+                          "Have you already prepared any documents for a Global Talent Endorsement application?"
                         ]?.message
                       }
                       required
                     >
                       <Controller
                         control={control}
-                        name="Have you already prepared any documents for a Global Talent Visa application?"
+                        name="Have you already prepared any documents for a Global Talent Endorsement application?"
                         render={({ field }) => (
                           <YesNoRadio
                             value={field.value}
                             onChange={field.onChange}
                             hasError={
-                              !!errors["Have you already prepared any documents for a Global Talent Visa application?"]
+                              !!errors["Have you already prepared any documents for a Global Talent Endorsement application?"]
                             }
                           />
                         )}
                       />
                     </FormField>
-                    {w["Have you already prepared any documents for a Global Talent Visa application?"] === "Yes" && (
+                    {w["Have you already prepared any documents for a Global Talent Endorsement application?"] === "Yes" && (
                       <div className="mt-3">
                         <Textarea
                           rows={2}

@@ -20,22 +20,27 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: {
-    default: "Eye Interaction | Global Visa Endorsement Platform",
+    default: "Eye Interaction | Global Profile & Endorsement Platform",
     template: "%s | Eye Interaction",
   },
   description:
-    "Expert visa endorsement services with industry-leading success rates. Navigate your immigration journey with confidence.",
+    "Expert profile & endorsement services with industry-leading success rates. Navigate your professional journey with confidence.",
   keywords: [
-    "visa endorsement",
-    "immigration services",
-    "visa application",
-    "global talent visa",
-    "work permit",
+    "profile endorsement",
+    "endorsement services",
+    "global talent profile",
+    "profile evaluation",
+    "professional mentorship",
   ],
+  icons: {
+    icon: "/logoFav.png",
+    shortcut: "/logoFav.png",
+    apple: "/logoFav.png",
+  },
   openGraph: {
-    title: "Eye Interaction | Global Visa Endorsement Platform",
+    title: "Eye Interaction | Global Profile & Endorsement Platform",
     description:
-      "Expert visa endorsement services with industry-leading success rates.",
+      "Expert profile & endorsement services with industry-leading success rates.",
     url: "https://eyeinteraction.com",
     siteName: "Eye Interaction",
     type: "website",
@@ -43,9 +48,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Eye Interaction | Global Visa Endorsement Platform",
+    title: "Eye Interaction | Global Profile & Endorsement Platform",
     description:
-      "Expert visa endorsement services with industry-leading success rates.",
+      "Expert profile & endorsement services with industry-leading success rates.",
   },
   robots: {
     index: true,

@@ -3,7 +3,7 @@ import path from "path";
 // emails/welcomeUserTemplate.js
 export function eligibilityUserTemplate({ name }) {
   return {
-    subject: "Welcome to Eye Interaction Ltd | Global Talent Visa Journey",
+    subject: "Welcome to Eye Interaction Ltd | Global Talent Journey",
     html: `
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ export function eligibilityUserTemplate({ name }) {
                   </td>
                   <td valign="middle" style="padding-left:16px;">
                     <p style="margin:0; color:#173a66; font-size:19px; font-weight:700; font-family: Georgia, 'Times New Roman', serif;">Eye Interaction Ltd</p>
-                    <p style="margin:2px 0 0 0; color:#64748b; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; font-family: Arial, sans-serif;">Global Talent Visa Journey</p>
+                    <p style="margin:2px 0 0 0; color:#64748b; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; font-family: Arial, sans-serif;">Global Talent Journey</p>
                   </td>
                 </tr>
               </table>
@@ -60,14 +60,14 @@ export function eligibilityUserTemplate({ name }) {
           <tr>
             <td style="padding:20px 40px 8px 40px; font-family: Arial, sans-serif;">
               <p style="margin:0 0 16px 0; color:#1e293b; font-size:14px; line-height:1.8;">
-                Thank you for showing interest in the Global Talent Visa program through <strong>Eye Interaction Ltd</strong>. We're excited to learn more about your background and explore how we can support your journey to the UK.
+                Thank you for showing interest in the Global Talent program through <strong>Eye Interaction Ltd</strong>. We're excited to learn more about your background and explore how we can support your journey to the UK.
               </p>
               <p style="margin:0 0 16px 0; color:#1e293b; font-size:14px; line-height:1.8;">
                 We would like to invite you for a <strong>free one-on-one consultation</strong> with one of our experienced consultants. During this session, we will:
               </p>
               <ul style="margin:0 0 16px 0; padding-left:20px; color:#1e293b; font-size:14px; line-height:1.8;">
                 <li>Review your profile in detail</li>
-                <li>Assess your eligibility for the Global Talent Visa</li>
+                <li>Assess your eligibility for Global Talent Endorsement</li>
                 <li>Guide you on the next steps in the process</li>
               </ul>
               <p style="margin:0 0 16px 0; color:#1e293b; font-size:14px; line-height:1.8;">

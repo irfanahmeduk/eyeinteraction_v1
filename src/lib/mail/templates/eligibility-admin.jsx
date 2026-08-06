@@ -9,10 +9,10 @@ export function eligibilityAdminTemplate(data) {
   const linkedin = data["linkedin_profile"] || "—";
   const experience = data["Years of Professional Experience"] || "—";
   const qualification = data["What is your highest academic qualification?"] || "—";
-  const timeline = data["When are you planning to apply for the Global Talent Visa?"] || "—";
-  const reasons = Array.isArray(data["Why are you considering a Global Talent Visa? (Select all that apply)"])
-    ? data["Why are you considering a Global Talent Visa? (Select all that apply)"].join(", ")
-    : data["Why are you considering a Global Talent Visa? (Select all that apply)"] || "—";
+  const timeline = data["When are you planning to apply for Global Talent Endorsement?"] || "—";
+  const reasons = Array.isArray(data["Why are you considering Global Talent Endorsement? (Select all that apply)"])
+    ? data["Why are you considering Global Talent Endorsement? (Select all that apply)"].join(", ")
+    : data["Why are you considering Global Talent Endorsement? (Select all that apply)"] || "—";
 
   return {
     subject: `New Global Talent Assessment — ${name}`,

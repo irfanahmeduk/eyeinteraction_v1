@@ -6,9 +6,9 @@ import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { FAQSection } from "@/components/sections/FAQSection";
 
 export const metadata = {
-  title: "Eye Interaction | Global Visa Endorsement Platform",
+  title: "Eye Interaction",
   description:
-    "Expert visa endorsement with 98% success rate. Navigate your immigration journey with confidence.",
+    "Expert profile endorsement with 98% success rate. Navigate your professional journey with confidence.",
 };
 
 export default function HomePage() {

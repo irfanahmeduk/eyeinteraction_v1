@@ -236,7 +236,7 @@ export function Footer() {
           <p>© {new Date().getFullYear()} Eye Interaction Ltd. All rights reserved.</p>
           <p className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-500 inline-block" />
-            Supporting professionals worldwide on their UK Global Talent Visa journey.
+            Supporting professionals worldwide on their UK Global Talent journey.
           </p>
         </div>
       </div>

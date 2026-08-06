@@ -215,7 +215,7 @@ export default async function SuccessStoryPage({ params }) {
                   <Fact label="Field" value={story.field} />
                   <Fact label="Duration" value={story.duration} />
                   <Fact label="Endorsed" value={story.approvedDate} />
-                  <Fact label="Visa Granted" value={story.grantedDate} />
+                  <Fact label="Endorsement Granted" value={story.grantedDate} />
                   <div className="flex items-center justify-between pt-1">
                     <dt className="text-slate-500">Status</dt>
                     <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50 border-0">

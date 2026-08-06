@@ -1,9 +1,9 @@
 import { EligibilityForm } from "@/components/forms/EligibilityForm";
 
 export const metadata = {
-  title: "Check UK Global Talent Visa Eligibility | Eye Interaction",
+  title: "Check UK Global Talent Eligibility | Eye Interaction",
   description:
-    "Evaluate your eligibility for the UK Global Talent Visa. Complete our quick assessment for an expert evaluation and personalized endorsement roadmap.",
+    "Evaluate your eligibility for Global Talent Endorsement. Complete our quick assessment for an expert evaluation and personalized endorsement roadmap.",
 };
 
 export default function EligibilityPage() {

@@ -14,7 +14,7 @@ import {
 export const metadata = {
   title: "About Us",
   description:
-    "Learn about Eye Interaction — Global talent visa endorsement experts with industry-leading success rates across 50+ countries.",
+    "Learn about Eye Interaction — Global talent profile endorsement experts with industry-leading success rates across 50+ countries.",
 };
 
 const VALUES = [
@@ -28,7 +28,7 @@ const VALUES = [
     icon: Users,
     title: "Dedicated Support",
     description:
-      "A personal case manager guides you from eligibility check through to visa approval.",
+      "A personal case manager guides you from eligibility check through to profile endorsement.",
   },
   {
     icon: Users,

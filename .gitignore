@@ -20,6 +20,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+index.html
+
 # env files
 # .env
 .env.local
