@@ -550,7 +550,7 @@ export function HeroSection() {
                   />
                 </svg>
               </span>{" "}
-              for UK Global Talent Endorsement
+              For UK Global Talent Endorsement
             </motion.h1>
 
             <motion.p
