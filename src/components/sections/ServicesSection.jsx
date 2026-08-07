@@ -134,17 +134,7 @@ export function ServicesSection() {
         </div>
 
         {/* Important Note */}
-        <div className="mt-10 flex items-start gap-4 rounded-2xl border border-brand-100 bg-brand-50/60 p-6">
-          <div className="w-11 h-11 shrink-0 rounded-full bg-brand-100 flex items-center justify-center">
-            <ShieldCheck size={20} className="text-brand-600" />
-          </div>
-          <div>
-            <h4 className="text-brand-700 font-semibold mb-1.5">Important Note</h4>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              Eye Interaction supports researchers, innovators and digital technology professionals in developing professional profiles, organising evidence and presenting technical achievements. We do not provide immigration advice or visa application services.
-            </p>
-          </div>
-        </div>
+    
 
       </div>
     </section>
