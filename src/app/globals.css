@@ -103,8 +103,10 @@ body {
 /* ─────────────────────────────────────────────────
    CUSTOM CURSOR
 ───────────────────────────────────────────────── */
+/* Pages without the CustomCursor component (the user dashboard) add
+   .native-cursor to <html> to keep the normal mouse pointer. */
 @media (pointer: fine) {
-  * { cursor: none !important; }
+  html:not(.native-cursor) * { cursor: none !important; }
 }
 
 .cursor-dot {
