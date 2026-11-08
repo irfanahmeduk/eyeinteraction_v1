@@ -33,7 +33,7 @@ export const opportunityDestinations = [
     categoriesDescription:
       "Select a category below to explore tailored guides, opportunities and resources.",
     categories: [
-      createCategory("global-talent", "Global Talent", "Explore the UK Global Talent route, eligibility and profile-building tips.", "blue", "certificate"),
+      createCategory("global-talent", "Verixa", "Build your profile with Verixa.", "blue", "certificate"),
       createCategory("jobs-careers", "Jobs & Careers", "Discover UK jobs, career guidance and CV tips.", "purple", "briefcase"),
       createCategory("research-academia", "Research & Academia", "Explore research, PhD opportunities and academic resources.", "green", "book"),
       createCategory("startups-innovation", "Startups & Innovation", "Discover startups, accelerators, funding and innovation programmes.", "amber", "bulb"),
