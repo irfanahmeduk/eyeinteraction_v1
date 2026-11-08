@@ -1,0 +1,792 @@
+/* ==========================================================================
+   Website Manager — redesign
+   Tokens map to the admin's ThemeProvider vars so light/dark switch works.
+   ========================================================================== */
+
+.wm {
+    /* --- map to the admin's live CSS vars (set by ThemeProvider/TokenSync) --- */
+    --wm-primary:      var(--color-primary, #4f46e5);
+    --wm-primary-soft: color-mix(in srgb, var(--wm-primary) 10%, transparent);
+    --wm-primary-ring: color-mix(in srgb, var(--wm-primary) 30%, transparent);
+
+    /* --text / --surface / --muted / --line are written by TokenSync before   */
+    /* the first paint, so there is no flash even without the fallbacks.         */
+    --wm-text:    var(--text,    #0f172a);
+    --wm-muted:   var(--muted,   #64748b);
+    --wm-surface: var(--surface, #ffffff);
+    --wm-canvas:  var(--canvas,  #f8fafc);
+    --wm-line:    var(--line,    #e2e8f0);
+
+    /* sunken = a very subtle tint darker than surface */
+    --wm-sunken: color-mix(in srgb, var(--wm-text) 4%, var(--wm-surface));
+    --wm-border: var(--wm-line);
+
+    /* radius scale — concentric: 16 outer → 8 inner (8px padding) */
+    --wm-r-lg: 16px;
+    --wm-r-md: 12px;
+    --wm-r-sm: 8px;
+
+    /* shadows — use alpha so they disappear naturally in dark mode */
+    --wm-shadow-1: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 1px rgba(15, 23, 42, 0.04);
+    --wm-shadow-2: 0 1px 2px rgba(15, 23, 42, 0.08), 0 6px 16px rgba(15, 23, 42, 0.12),
+        0 18px 40px -10px rgba(15, 23, 42, 0.28);
+    --wm-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    color: var(--wm-text);
+    font-size: 14px;
+}
+
+/* ── Dark-mode overrides ────────────────────────────────────────────────── */
+/* Only the values that can't be computed from the tokens above need a rule. */
+
+[data-theme="dark"] .wm {
+    /* Shadows become glow-less in dark; keep them subtle */
+    --wm-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.35);
+    --wm-shadow-2: 0 2px 4px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Status pills — text colours readable on both backgrounds */
+[data-theme="dark"] .wm-pill.is-live {
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.12);
+    border-color: rgba(74, 222, 128, 0.25);
+}
+
+[data-theme="dark"] .wm-pill.is-draft {
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.12);
+    border-color: rgba(251, 191, 36, 0.25);
+}
+
+/* Dock — keep it dark-on-dark by flipping to a light surface */
+[data-theme="dark"] .wm-dock {
+    background: #1e293b;
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.08), var(--wm-shadow-2);
+}
+
+[data-theme="dark"] .wm-dock .ant-btn-default {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .wm-dock .ant-btn-default:hover {
+    background: rgba(255, 255, 255, 0.18) !important;
+    color: #fff !important;
+}
+
+
+/* ---------- Toolbar (status + mode) ------------------------------------- */
+
+.wm-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.wm-status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+}
+
+.wm-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 28px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--wm-border);
+    background: var(--wm-sunken);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.wm-pill i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.wm-pill.is-live {
+    color: #15803d;
+    background: rgba(22, 163, 74, 0.1);
+    border-color: rgba(22, 163, 74, 0.22);
+}
+
+.wm-pill.is-draft {
+    color: #b45309;
+    background: rgba(217, 119, 6, 0.1);
+    border-color: rgba(217, 119, 6, 0.24);
+}
+
+.wm-pill.is-dirty {
+    color: var(--wm-primary);
+    background: var(--wm-primary-soft);
+    border-color: var(--wm-primary-ring);
+}
+
+.wm-muted {
+    color: var(--wm-muted);
+    font-size: 12px;
+}
+
+.wm-seg {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 4px;
+}
+
+/* ---------- Shell: nav rail + main -------------------------------------- */
+
+.wm-shell {
+    display: grid;
+    grid-template-columns: 264px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.wm-nav {
+    position: sticky;
+    top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px;
+    background: var(--wm-surface);
+    border: 1px solid var(--wm-border);
+    border-radius: var(--wm-r-lg);
+    box-shadow: var(--wm-shadow-1);
+}
+
+.wm-nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.wm-nav-title {
+    padding: 8px 12px 4px;
+    color: var(--wm-muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.wm-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 8px;
+    border: 0;
+    border-radius: var(--wm-r-sm);
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background 150ms var(--wm-ease), transform 80ms var(--wm-ease);
+}
+
+.wm-nav-item:hover {
+    background: var(--wm-sunken);
+}
+
+.wm-nav-item:active {
+    transform: scale(0.985);
+}
+
+.wm-nav-item:focus-visible {
+    outline: 2px solid var(--wm-primary);
+    outline-offset: 2px;
+}
+
+.wm-nav-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: var(--wm-sunken);
+    border: 1px solid var(--wm-border);
+    color: var(--wm-muted);
+    font-size: 15px;
+    transition: background 150ms var(--wm-ease), color 150ms var(--wm-ease),
+        border-color 150ms var(--wm-ease);
+}
+
+.wm-nav-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.3;
+}
+
+.wm-nav-text strong {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.wm-nav-text small {
+    color: var(--wm-muted);
+    font-size: 12px;
+}
+
+.wm-nav-item.is-active {
+    background: var(--wm-primary-soft);
+}
+
+.wm-nav-item.is-active .wm-nav-icon {
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--wm-primary) 92%, white), var(--wm-primary));
+    border-color: transparent;
+    color: #fff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(15, 23, 42, 0.2);
+}
+
+.wm-nav-item.is-active strong {
+    color: var(--wm-primary);
+}
+
+.wm-main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+}
+
+/* thin progress bar while a heavy tab mounts (useTransition) */
+.wm-main::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, var(--wm-primary), transparent) no-repeat;
+    background-size: 40% 100%;
+    opacity: 0;
+    transition: opacity 150ms;
+    pointer-events: none;
+}
+
+.wm-main[data-pending="true"]::before {
+    opacity: 1;
+    animation: wm-slide 900ms linear infinite;
+}
+
+@keyframes wm-slide {
+    from {
+        background-position: -40% 0;
+    }
+
+    to {
+        background-position: 140% 0;
+    }
+}
+
+.wm-panel-head h2 {
+    margin: 0;
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+}
+
+.wm-panel-head p {
+    max-width: 62ch;
+    margin: 4px 0 0;
+    color: var(--wm-muted);
+    text-wrap: pretty;
+}
+
+.wm-panel {
+    animation: wm-in 180ms var(--wm-ease);
+}
+
+.wm-panel[hidden] {
+    display: none;
+}
+
+@keyframes wm-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ---------- Cards -------------------------------------------------------- */
+
+.wm-card {
+    padding: 24px;
+    background: var(--wm-surface);
+    border: 1px solid var(--wm-border);
+    border-radius: var(--wm-r-lg);
+    box-shadow: var(--wm-shadow-1);
+}
+
+.wm-card>.ant-alert {
+    margin-bottom: 24px;
+    border-radius: var(--wm-r-md);
+}
+
+/* ---------- Fields ------------------------------------------------------- */
+
+.wm-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 16px 24px;
+}
+
+.is-wide {
+    grid-column: 1 / -1;
+}
+
+.wm-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.wm-label {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.wm-hint {
+    color: var(--wm-muted);
+    font-size: 12px;
+}
+
+.wm-field.is-inline {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px;
+    background: var(--wm-sunken);
+    border: 1px solid var(--wm-border);
+    border-radius: var(--wm-r-md);
+    cursor: pointer;
+    transition: border-color 150ms var(--wm-ease);
+}
+
+.wm-field.is-inline:hover {
+    border-color: var(--wm-primary-ring);
+}
+
+.wm .ant-input,
+.wm .ant-input-number,
+.wm .ant-color-picker-trigger {
+    border-radius: var(--wm-r-sm);
+}
+
+.wm input.ant-input {
+    height: 40px;
+}
+
+.wm .ant-input-number {
+    width: 100%;
+    height: 40px;
+}
+
+.wm .ant-input-number-input {
+    height: 38px;
+}
+
+.wm .ant-color-picker-trigger {
+    width: 100%;
+    min-height: 40px;
+    justify-content: flex-start;
+}
+
+/* nested object → common region */
+.wm-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    background: var(--wm-sunken);
+    border: 1px solid var(--wm-border);
+    border-radius: var(--wm-r-md);
+}
+
+.wm-group .wm-group {
+    background: var(--wm-surface);
+}
+
+.wm-group-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+/* array of objects */
+.wm-list-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.wm-count {
+    color: var(--wm-muted);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+.wm-collapse.ant-collapse {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: transparent;
+}
+
+.wm-collapse .ant-collapse-item {
+    overflow: hidden;
+    background: var(--wm-surface);
+    border: 1px solid var(--wm-border) !important;
+    border-radius: var(--wm-r-md) !important;
+    transition: border-color 150ms var(--wm-ease), box-shadow 150ms var(--wm-ease);
+}
+
+.wm-collapse .ant-collapse-item:hover {
+    border-color: var(--wm-primary-ring) !important;
+}
+
+.wm-collapse .ant-collapse-item-active {
+    box-shadow: var(--wm-shadow-1);
+}
+
+.wm-collapse .ant-collapse-header {
+    align-items: center !important;
+    padding: 8px 12px 8px 16px !important;
+    font-weight: 600;
+}
+
+.wm-collapse .ant-collapse-content {
+    background: var(--wm-sunken) !important;
+    border-top: 1px solid var(--wm-border) !important;
+}
+
+.wm-collapse .ant-collapse-content-box {
+    padding: 16px !important;
+}
+
+.wm-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+/* ---------- Home: section rail + editor --------------------------------- */
+
+.wm-home {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.wm-rail {
+    position: sticky;
+    top: 16px;
+    padding: 8px;
+}
+
+.wm-rail-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 8px 12px;
+    font-weight: 650;
+}
+
+.wm-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: var(--wm-r-sm);
+    cursor: pointer;
+    transition: background 150ms var(--wm-ease), box-shadow 150ms var(--wm-ease);
+}
+
+.wm-row+.wm-row {
+    margin-top: 2px;
+}
+
+.wm-row:hover {
+    background: var(--wm-sunken);
+}
+
+.wm-row:focus-visible {
+    outline: 2px solid var(--wm-primary);
+    outline-offset: 2px;
+}
+
+.wm-row.is-selected {
+    background: var(--wm-primary-soft);
+    box-shadow: inset 0 0 0 1px var(--wm-primary-ring);
+}
+
+.wm-row-index {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: var(--wm-sunken);
+    border: 1px solid var(--wm-border);
+    color: var(--wm-muted);
+    font-size: 12px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.wm-row.is-selected .wm-row-index {
+    background: var(--wm-primary);
+    border-color: transparent;
+    color: #fff;
+}
+
+.wm-row-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.3;
+    transition: opacity 150ms;
+}
+
+.wm-row-text strong {
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.wm-row-text small {
+    color: var(--wm-muted);
+    font-size: 12px;
+}
+
+.wm-row.is-off .wm-row-text {
+    opacity: 0.5;
+}
+
+.wm-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: auto;
+}
+
+.wm-row-move {
+    display: flex;
+    opacity: 0;
+    transition: opacity 150ms var(--wm-ease);
+}
+
+.wm-row:hover .wm-row-move,
+.wm-row:focus-within .wm-row-move,
+.wm-row.is-selected .wm-row-move {
+    opacity: 1;
+}
+
+@media (hover: none) {
+    .wm-row-move {
+        opacity: 1;
+    }
+}
+
+.wm-editor-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: -8px 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--wm-border);
+}
+
+.wm-editor-icon {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--wm-r-sm);
+    background: var(--wm-primary-soft);
+    color: var(--wm-primary);
+    font-size: 16px;
+}
+
+.wm-editor-title {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.3;
+}
+
+.wm-editor-title strong {
+    font-size: 15px;
+    font-weight: 650;
+}
+
+.wm-editor-title small {
+    color: var(--wm-muted);
+    font-size: 12px;
+}
+
+.wm-editor-vis {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    color: var(--wm-muted);
+    font-size: 12px;
+}
+
+/* ---------- Unsaved-changes dock ---------------------------------------- */
+
+.wm-dock {
+    position: sticky;
+    bottom: 16px;
+    z-index: 20;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 8px 8px 16px;
+    border-radius: 14px;
+    background: #0f172a;
+    color: #e2e8f0;
+    font-size: 13px;
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.1), var(--wm-shadow-2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px);
+    transition: transform 220ms var(--wm-ease), opacity 220ms var(--wm-ease),
+        visibility 0s linear 220ms;
+}
+
+.wm-dock[data-visible="true"] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: transform 220ms var(--wm-ease), opacity 220ms var(--wm-ease), visibility 0s;
+}
+
+.wm-dock-dot {
+    width: 8px;
+    height: 8px;
+    margin-right: 4px;
+    border-radius: 50%;
+    background: #fbbf24;
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.2);
+}
+
+.wm-dock .ant-btn-text {
+    color: #cbd5e1;
+}
+
+.wm-dock .ant-btn-text:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+}
+
+.wm-dock .ant-btn-default {
+    background: #fff;
+    border-color: transparent;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.wm-dock .ant-btn-default:hover {
+    background: #e2e8f0 !important;
+    color: #0f172a !important;
+}
+
+.wm-kbd {
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+/* ---------- Responsive --------------------------------------------------- */
+
+@media (max-width: 1100px) {
+    .wm-home {
+        grid-template-columns: 1fr;
+    }
+
+    .wm-rail {
+        position: static;
+    }
+}
+
+@media (max-width: 860px) {
+    .wm-shell {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .wm-nav {
+        position: static;
+        flex-direction: row;
+        gap: 8px;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .wm-nav-group {
+        flex-direction: row;
+    }
+
+    .wm-nav-title,
+    .wm-nav-text small {
+        display: none;
+    }
+
+    .wm-nav-item {
+        width: auto;
+        white-space: nowrap;
+    }
+
+    .wm-card {
+        padding: 16px;
+    }
+
+    .wm-kbd {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .wm *,
+    .wm *::before {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

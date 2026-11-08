@@ -1,0 +1,275 @@
+Yeh tumhari Eye Interaction template ka official spacing & typography guide hai — jo project mein already use ho raha hai, wahi follow karo. Random numbers mat daalna.
+
+Golden rule (sab se pehle)
+Sirf in values ka scale use karo: Tailwind ka 4, 6, 8, 10, 14, 16, 20, 24, 28 + project ki classes (section-padding, container-custom).
+
+Kabhi mat karo: p-[13px], mt-[37px], text-[22px] — yeh professional look kharab karta hai.
+
+1. Page layout (har nayi page par)
+Cheez	Class	Value
+Content width
+container-custom
+max 1280px, side padding 24px
+Navbar ke neeche space
+pt-28
+~112px (fixed nav overlap)
+Normal page bottom
+pb-14 ya pb-20
+56px / 80px
+Full section vertical
+section-padding
+96px up/down
+Choti band (stats jaisi)
+section-padding-sm
+64px up/down
+Page background
+bg-slate-50
+light gray
+Inner sections alternate
+bg-white / bg-slate-50
+zebra pattern
+Page shell template:
+
+<div className="min-h-screen bg-slate-50">
+  <motion.div className="bg-gradient-blue-light pt-28 pb-14 border-b border-slate-200">
+    <motion.div className="container-custom text-center">...</motion.div>
+  </motion.div>
+  <section className="section-padding">
+    <motion.div className="container-custom">...</motion.div>
+  </section>
+</div>
+2. Spacing scale — kahan kitni
+Vertical gap (elements ke beech)
+Use case	Class	px
+Badge → heading
+mb-6
+24
+Heading → paragraph
+mb-4 ya mb-6
+16–24
+Paragraph → buttons
+mb-8 ya mb-9
+32–36
+Section title → content
+mb-14
+56
+Card ke andar title → text
+mb-2 / mb-2.5
+8–10
+Card ke andar blocks
+mb-4 / mb-5
+16–20
+Form fields row gap
+gap-5
+20
+Button group
+gap-3 ya gap-3.5
+12–14
+Grid / columns
+Use case	Class
+2-column hero
+grid lg:grid-cols-2 gap-14
+3 service cards
+grid md:grid-cols-3 gap-6
+4 stats
+grid grid-cols-2 md:grid-cols-4 gap-8
+2-col form
+grid md:grid-cols-2 gap-5
+Padding (andar ki space)
+Element	Class
+Section header area
+already section-padding
+Card small
+p-6
+Card medium (form)
+p-7 ya p-8
+Card large / CTA
+p-10 md:p-16
+Badge/chip
+px-3 py-1 ya px-4 py-2
+Button (via .btn)
+already set — extra mat do
+3. Typography — kis jagah ka size
+Headings (hamesha font-display font-bold)
+Level	Class	Kab use
+Hero main (home only)
+text-display-xl lg:text-display-2xl
+60px → 72px
+Page title (About, Eligibility)
+text-display-lg
+48px
+Section title
+text-display-md
+36px
+Card / block title
+text-lg ya text-xl font-semibold
+18–20px
+Small card label
+text-sm font-semibold
+14px
+Accent word: heading-gradient ya heading-gradient-accent (poora heading gradient mat karo).
+
+Body text
+Type	Class
+Hero / intro paragraph
+text-lg text-slate-600 leading-relaxed
+Section description
+text-slate-500 text-lg leading-relaxed
+Card body
+text-sm text-slate-500 leading-relaxed
+Normal paragraph
+text-sm text-slate-600
+Legal / footer tiny
+text-xs text-slate-500
+Labels & UI
+Type	Class
+Section eyebrow (OUR SERVICES)
+text-xs font-bold uppercase tracking-widest text-brand-500 + px-3 py-1 bg-brand-50 rounded-full border border-brand-100
+Form label
+text-sm font-medium text-slate-700
+Trust badge text
+text-xs font-medium text-slate-700
+Nav links
+text-sm font-medium
+Button text
+text-sm (.btn ke saath)
+Font families
+Headings: font-display
+Body / UI: default font-sans (body par already hai)
+Code: font-mono — sirf code blocks par
+4. Colors — sirf yeh palette
+Text
+Role	Class
+Main heading
+text-slate-900
+Body
+text-slate-600
+Muted / helper
+text-slate-500
+Brand link / accent
+text-brand-600 ya text-brand-700
+On blue bg (rare)
+text-white / text-blue-100/80
+Backgrounds
+Role	Class
+Page
+bg-slate-50
+Card
+bg-white + .card
+Soft highlight
+bg-brand-50
+Hero
+bg-gradient-hero
+Page header band
+bg-gradient-blue-light
+CTA block
+bg-gradient-cta
+Borders
+Role	Class
+Default
+border-slate-200 ya border-slate-100
+Brand subtle
+border-brand-100 / border-brand-200/60
+Focus input
+automatic via .input-base
+Don't: bg-blue-900, text-gray-400, bg-indigo-500 — brand se bahar mat jao.
+
+5. Components — copy-paste ready
+Buttons
+<Link className="btn btn-primary text-sm px-7 py-3.5">Primary</Link>
+<Link className="btn btn-outline text-sm px-7 py-3.5">Secondary</Link>
+<Link className="btn btn-ghost text-sm">Tertiary</Link>
+Cards
+<div className="card p-7">...</motion.div>
+<div className="glass-light rounded-3xl p-7 border border-slate-200/80">...</motion.div>
+Badge / chip
+<span className="inline-flex items-center gap-2 glass-light rounded-full px-4 py-2 text-xs font-medium text-slate-600">
+Section header block (har section ke top par)
+<div className="text-center max-w-2xl mx-auto mb-14" data-animate>
+  <span className="inline-block text-xs font-bold uppercase tracking-widest text-brand-500 mb-3 px-3 py-1 bg-brand-50 rounded-full border border-brand-100">
+    Label Here
+  </span>
+  <h2 className="text-display-md font-display font-bold text-slate-900 mb-4">
+    Title <span className="heading-gradient">Accent</span>
+  </h2>
+  <p className="text-slate-500 text-lg leading-relaxed">Description...</p>
+</div>
+Form field
+<div className="space-y-1.5">
+  <label className="block text-sm font-medium text-slate-700">Label *</label>
+  <input className="input-base" />
+</div>
+6. Border radius (consistent rakho)
+Element	Class
+Button, input
+rounded-lg / rounded-md (.btn, .input-base)
+Card
+rounded-xl (.card)
+Big card / hero visual
+rounded-2xl / rounded-3xl
+Pill badge
+rounded-full
+CTA section
+rounded-4xl
+Don't: ek card rounded-sm, doosri rounded-3xl bina reason ke.
+
+7. Shadows
+Use	Class
+Card default
+.card (built-in)
+Card hover emphasis
+shadow-card-hover
+Blue glow button area
+shadow-blue-sm / shadow-blue-xl
+Navbar scrolled
+shadow-sm
+Don't: shadow-2xl har jagah — sirf modals/drawers par.
+
+8. Do's ✅
+Har page container-custom ke andar content rakho
+Section start/end par section-padding use karo
+Navbar offset ke liye top content pt-28
+Headings font-display, body normal sans
+Max width long text par: max-w-lg (hero), max-w-2xl (section intro)
+Spacing 4 ke multiples: 4, 6, 8, 14, 20
+Animations scroll par data-animate, motion par framer-motion
+Forms hamesha .input-base + gap-5 grid
+Icons lucide: chote size={14}, medium size={16}, nav size={22}
+Success/trust green: text-emerald-600, bg-emerald-50
+9. Don'ts ❌
+❌ Random padding: p-11, mt-[42px]
+❌ 5+ font sizes ek screen par (max 3 levels: title, body, small)
+❌ Pure black text text-black — use text-slate-900
+❌ Dark hero backgrounds (tumhari template light hai)
+❌ text-4xl jab text-display-md already defined hai
+❌ Full-width text bina container-custom
+❌ Alag-alag button styles — hamesha .btn variants
+❌ mb-2 heading ke baad phir mb-10 paragraph — pattern follow karo (mb-6 → mb-8)
+❌ Zyada colors (red/green/purple) — sirf brand blue + slate gray + emerald success
+❌ Mobile par text-display-2xl bina responsive — hamesha text-display-md lg:text-display-lg jaisa breakpoint
+10. Quick reference card (print karke rakho)
+PAGE:     bg-slate-50 → header pt-28 pb-14 → sections section-padding
+WIDTH:    container-custom
+TITLE:    text-display-lg/md + font-display + text-slate-900
+BODY:     text-lg/slate-600 OR text-sm/slate-500
+GAP:      mb-6 headings, mb-8 before CTAs, mb-14 section tops
+GRID:     gap-6 cards, gap-14 hero, gap-5 forms
+CARD:     card p-7
+BTN:      btn btn-primary text-sm px-7 py-3.5
+INPUT:    input-base
+BADGE:    text-xs + glass-light rounded-full px-4 py-2
+11. Section type → exact combo
+Section type	Spacing + type
+Hero
+min-h-screen, pt-28 pb-20, text-display-xl lg:text-display-2xl, gap-14 grid
+Page header (inner)
+pt-28 pb-14, text-display-lg, container-custom
+Content section
+section-padding, title text-display-md, mb-14 header
+Stats strip
+section-padding-sm, numbers text-4xl md:text-5xl font-display text-brand-600
+Form page
+header + container-custom py-14, form max-w-3xl mx-auto, card p-8
+Is guide ko follow karoge to nayi pages Hero / Eligibility / Services jaisi lagen gi — alag project nahi.
+
+Agar chaho to agle message mein ek blank about/page.jsx skeleton bhi de sakta hoon jisme yeh saari classes already likhi hon — copy-paste se start ho jao.
