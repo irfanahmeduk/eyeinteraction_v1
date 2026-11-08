@@ -23,7 +23,7 @@ export default function VerixaPage() {
 
         <div className="mt-[26px] flex flex-wrap items-center justify-center gap-[13px]">
           <Link
-            href="#"
+            href="/verixa/blueprint"
             className="btn btn-primary h-[46px] rounded-[12px] px-5 text-[14px] leading-5 sm:w-[167px]"
           >
             Build My Blueprint
